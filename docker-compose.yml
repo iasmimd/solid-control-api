@@ -1,6 +1,6 @@
 version: "3.9"
 
-services:
+services:  
   db:
     container_name: capstone-m4
     image: postgres:12
@@ -10,3 +10,10 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=capstone_api
+    volumes:
+     
+      - capstone_api:/var/lib/postgresql/data
+
+volumes:
+  capstone_api:
+    driver: local

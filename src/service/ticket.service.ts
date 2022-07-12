@@ -2,7 +2,7 @@ import { AppDataSource } from '../data-source';
 import { Ticket } from '../entities/ticket.entity';
 
 class TicketService {
-  static async create(user_id: string) {
+  static async createTicket(user_id: string) {
     const ticketRepository = AppDataSource.getRepository(User);
 
     const findUser = await ticketRepository.findOne({

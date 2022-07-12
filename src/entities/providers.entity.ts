@@ -24,11 +24,14 @@ export class Providers {
   @Column()
   number: number;
 
-  @Column("varchar", { length: 256 })
+  @Column("varchar", { length: 256, nullable: true })
   complement: string;
 
   @Column("varchar", { length: 256, nullable: false })
   district: string;
+
+  @Column("varchar", { length: 256, nullable: false })
+  city: string;
 
   @Column("varchar", { length: 2, nullable: false })
   state: string;

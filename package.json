@@ -7,10 +7,12 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
+    "build": "tsc",
     "typeorm": "typeorm-ts-node-commonjs",
     "test": "NODE_ENV=test jest"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^18.0.3",

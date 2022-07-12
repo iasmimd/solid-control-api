@@ -1,3 +1,4 @@
+
 export interface IUser {
     id: string
     name: string
@@ -17,4 +18,10 @@ export interface IUserCreate {
 export interface IUserLogin {
     email: string
     password: string
+
+export interface IAdminUser {
+  name: string,
+  email: string,
+  password: string,
+  isAdm: boolean
 }

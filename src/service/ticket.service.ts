@@ -21,6 +21,14 @@ class TicketService {
 
     return ticket;
   }
+
+  static async readTicket() {
+    const ticketRepository = AppDataSource.getRepository(Ticket);
+
+    const ticketList = await ticketRepository.find();
+
+    return ticketList;
+  }
 }
 
 export default TicketService;

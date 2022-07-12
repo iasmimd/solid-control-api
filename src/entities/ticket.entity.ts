@@ -1,5 +1,4 @@
-import { Entity, ManyToOne, JoinTable, PrimaryGeneratedColumn } from 'typeorm';
-import { v4 as uuid } from 'uuid';
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Ticket {

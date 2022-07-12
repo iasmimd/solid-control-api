@@ -1,5 +1,6 @@
 version: "3.9"
-services:  
+services:
+  
   db:
     container_name: capstone-m4
     image: postgres:12

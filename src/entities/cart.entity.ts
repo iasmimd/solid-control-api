@@ -1,6 +1,6 @@
-import { Column, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
-
+@Entity()
 export class Cart {
 
     @PrimaryGeneratedColumn("uuid")

@@ -27,10 +27,18 @@ class AdressService {
     return newAdress;
   }
 
-  static async readAdress() {
+  static async readAdress(id: string) {
     const userRepository = AppDataSource.getRepository(Adress);
 
-    const adress = userRepository.find();
+    const adress = await userRepository.findOne({
+        where: {
+          id: id
+        }
+      });
+
+      if(!adress){
+        throw new Error("User not found")
+      }
 
     return adress;
   }

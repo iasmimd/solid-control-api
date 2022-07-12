@@ -9,13 +9,13 @@ class AdminUser {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column("varchar", { length: 128, nullable: false})
   name: string;
 
-  @Column()
+  @Column("varchar", { length: 256, nullable: false})
   email: string;
 
-  @Column()
+  @Column("varchar", { length: 256, nullable: false})
   password: string;
 
   @Column()

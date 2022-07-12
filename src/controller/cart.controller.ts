@@ -6,9 +6,9 @@ export class CartController {
   static async  create (req:Request,res:Response){
         const {product_id} = req.params
        
-        const {userEmail} = req
+        const userEmail ='req'
 
-        const cart = await CartService.addCartService(product_id,userEmail)
+        const cart = await CartService.addCartService({product_id,userEmail})
         return res.status(201).json(cart)
     }
 
@@ -18,7 +18,7 @@ export class CartController {
    
     const {userEmail} = req
 
-    const cart = await CartService.DeleteCartItem(product_id,userEmail)
+    const cart = await CartService.DeleteCartItem({product_id,userEmail})
     return res.status(204)
 }
 }

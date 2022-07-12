@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
 import 'dotenv/config';
+import "reflect-metadata";
 
 export const AppDataSource =
   process.env.NODE_ENV === 'test'

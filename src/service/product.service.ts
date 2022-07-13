@@ -10,12 +10,12 @@ class ProductService {
     const productRepository = AppDataSource.getRepository(Product);
 
     const products = await productRepository.find();
-    const productAvaibility = products.find((product) => (product.name = name));
+    const productAvailability = products.find((product) => (product.name = name));
 
     if (!supplies || !name || !price || !img) {
       throw new AppError(400, "Error in your request");
     }
-    if (productAvaibility) {
+    if (productAvailability) {
       throw new AppError(409, "product already exists");
     }
     const newProduct = productRepository.create({

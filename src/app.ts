@@ -8,6 +8,6 @@ app.use(express.json());
 
 appRoutes(app)
 
-app.use(handleError());
+
 
 export default app;

@@ -1,6 +1,6 @@
 import { AppDataSource } from "../data-source";
 import { Adress } from "../entities/adress.entity";
-import { IAdressCreate, IAdressUpdate } from "../interfaces/user/adress";
+import { IAdressCreate, IAdressUpdate } from "../interfaces/adress";
 
 class AdressService {
   static async createAdress({
@@ -30,15 +30,7 @@ class AdressService {
   static async readAdress(id: string) {
     const userRepository = AppDataSource.getRepository(Adress);
 
-    const adress = await userRepository.findOne({
-        where: {
-          id: id
-        }
-      });
-
-      if(!adress){
-        throw new Error("User not found")
-      }
+    const adress = userRepository.find();
 
     return adress;
   }

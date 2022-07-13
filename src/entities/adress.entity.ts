@@ -30,9 +30,9 @@ import {
     @Column("varchar", { length: 2, nullable: false})
     country: string;
 
-    @ManyToMany(() => Users)
-    @JoinTable()
-    user_id: Users[]
+    // @ManyToMany(() => Users)
+    // @JoinTable()
+    // user_id: Users[]
     
     constructor() {
       if ("this.id") {

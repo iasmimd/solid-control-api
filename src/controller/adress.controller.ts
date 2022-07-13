@@ -26,39 +26,52 @@ class AdressController {
 
   static async read(req: Request, res: Response) {
     try {
-        const {id} = req.params
-        const user = await AdressService.readAdress(id);
-    
-        return res.status(201).json(user);
-      } catch (err) {
-        if (err instanceof Error) {
-          return res.status(401).send({
-            error: err.name,
-            message: err.message,
-          });
-        }
+      const { id } = req.params;
+      const user = await AdressService.readAdress(id);
+
+      return res.status(201).json(user);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(401).send({
+          error: err.name,
+          message: err.message,
+        });
       }
+    }
   }
 
-  static async update() {
+  static async update(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const data = req.body;
 
+      const address = await AdressService.updateAdress(data, id);
+
+      return res.json(address);
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(401).send({
+          error: err.name,
+          message: err.message,
+        });
+      }
+    }
   }
 
   static async delete(req: Request, res: Response) {
     try {
-        const {id} = req.params
+      const { id } = req.params;
 
-        const adress = await AdressService.deleteAdress(id);
+      const adress = await AdressService.deleteAdress(id);
 
-        return res.status(200).json({ message: "Adress deleted" })
-
-    } catch(err){
-        if (err instanceof Error) {
-            return res.status(401).send({
-              error: err.name,
-              message: err.message,
-            });
-          }
+      return res.status(200).json({ message: "Adress deleted" });
+    } catch (err) {
+      if (err instanceof Error) {
+        return res.status(401).send({
+          error: err.name,
+          message: err.message,
+        });
+      }
     }
   }
 }

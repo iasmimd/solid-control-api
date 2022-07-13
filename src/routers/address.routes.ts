@@ -11,4 +11,5 @@ export const addressRoutes = () => {
   routes.patch("/address/:id", AddressController.update);
 
   routes.delete("/address/:id", AddressController.delete);
+  
 };

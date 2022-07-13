@@ -1,5 +1,6 @@
 import { AppDataSource } from "../data-source";
 import { Providers } from "../entities/providers.entity";
+import { AppError } from '../errors/AppError';
 import { IProviderCreate, IProviderUpdate } from "../interfaces/provider";
 
 class ProviderService {
@@ -26,7 +27,7 @@ class ProviderService {
     );
 
     if (cnpjAlreadyExist) {
-      throw new Error("This CNPJ already exist");
+      throw new AppError(422,"This CNPJ already exist");
     }
 
     const provider = new Providers();

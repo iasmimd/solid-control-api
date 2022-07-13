@@ -1,96 +1,43 @@
-import { Request, Response } from "express";
-import UserService from "../service/userAdmin.service";
+import { Request, Response } from 'express';
+import UserService from '../service/userAdmin.service';
 
 class UserController {
-
   static async createAdmin(req: Request, res: Response) {
-    try {
+    const { name, email, password, isAdm } = req.body;
 
-      const { name, email, password, isAdm } = req.body
-      
-      await UserService.createUserAdmin({ name, email, password, isAdm });
+    await UserService.createUserAdmin({ name, email, password, isAdm });
 
-      return res.status(201).json({ name, email, password });
-
-    } catch (error) {
-      
-      if ( error instanceof Error) {
-
-        return res.status(400).json({
-          message: error.message,
-        })
-      }
-    }
+    return res.status(201).json({ name, email, password });
   }
 
-  static async listUsers (req: Request, res: Response) {
-    try {
-      const users = await UserService.readUsersService();
+  static async listUsers(req: Request, res: Response) {
+    const users = await UserService.readUsersService();
 
-      return res.status(200).json(users);
-
-    } catch (error) {
-      if (error instanceof Error) {
-
-        return res.status(400).json({
-          message: error.message
-        })
-      }
-    }
+    return res.status(200).json(users);
   }
 
-  static async listOneUser (req: Request, res: Response) {
-    try {
-      const { id } = req.params;
+  static async listOneUser(req: Request, res: Response) {
+    const { id } = req.params;
 
-      const user = await UserService.readOneUserService(id);
-  
-      return res.status(200).json(user);
+    const user = await UserService.readOneUserService(id);
 
-    } catch (error) {
-      if (error instanceof Error) {
-
-        return res.status(400).json({
-          message: error.message
-        })
-      }
-    }
+    return res.status(200).json(user);
   }
 
-  static async update (req: Request, res: Response) {
-    try {
-      const { id } = req.params;
+  static async update(req: Request, res: Response) {
+    const { id } = req.params;
 
-      const updatedUser = await UserService.updateUserService(id, req.body);
-  
-      return res.status(200).json({ message: 'User updated' });
+    const updatedUser = await UserService.updateUserService(id, req.body);
 
-    } catch (error) {
-      if (error instanceof Error) {
-        
-        return res.status(400).json({
-          message: error.message
-        })
-      }
-    }
+    return res.status(200).json({ message: 'User updated' });
   }
 
-  static async delete (req: Request, res: Response) {
-    try {
-      const { id } = req.params;
+  static async delete(req: Request, res: Response) {
+    const { id } = req.params;
 
-      const user = await UserService.deleteUserService(id);
-  
-      return res.status(200).json({ message: 'User deleted with success!' });
+    const user = await UserService.deleteUserService(id);
 
-    } catch (error) {
-      if (error instanceof Error) {
-
-        return res.status(400).json({
-          message: error.message
-        })
-      }
-    }
+    return res.status(200).json({ message: 'User deleted with success!' });
   }
 }
 

@@ -1,5 +1,6 @@
 import { AppDataSource } from '../data-source';
 import { Ticket } from '../entities/ticket.entity';
+import { AppError } from '../errors/AppError';
 
 class TicketService {
   static async createTicket(user_id: string) {
@@ -10,7 +11,7 @@ class TicketService {
     });
 
     if (!findUser) {
-      throw new Error('User not found');
+      throw new AppError(404, 'User not found');
     }
 
     const ticket = new Ticket();

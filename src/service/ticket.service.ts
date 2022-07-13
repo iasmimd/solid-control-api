@@ -1,12 +1,13 @@
 import { AppDataSource } from '../data-source';
 import { Ticket } from '../entities/ticket.entity';
+import { User } from '../entities/user.entity';
 
 class TicketService {
   static async createTicket(user_id: string) {
     const ticketRepository = AppDataSource.getRepository(User);
 
     const findUser = await ticketRepository.findOne({
-      where: { user_id },
+      where: { id:user_id },
     });
 
     if (!findUser) {

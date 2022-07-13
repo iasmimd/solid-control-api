@@ -2,7 +2,7 @@ import { AppDataSource } from "../data-source";
 import { User } from "../entities/user.entity";
 import { AppError } from "../errors/AppError";
 
-export class PaymentService {
+ class PaymentService {
   static async createPaymentService(
     user_id: string,
     email: string,
@@ -33,3 +33,4 @@ export class PaymentService {
     return item;
   }
 }
+export default PaymentService

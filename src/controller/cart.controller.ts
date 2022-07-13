@@ -8,7 +8,7 @@ export class CartController {
        
         const {userEmail} = req
 
-        const cart = await CartService.addCartService({product_id,userEmail})
+        const cart = await CartService.addCartService(product_id,userEmail)
         return res.status(201).json(cart)
     }
 

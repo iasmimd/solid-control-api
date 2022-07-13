@@ -1,6 +1,5 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from "express";
 import { appRoutes } from "./routers";
-import { AppError, handleError } from "./errors/AppError";
 import cors from "cors"
 import * as path from "path"
 const engines = require("consolidate");
@@ -15,6 +14,6 @@ app.set("views", path.join(__dirname, "./src/views"));
 app.set("view engine", "ejs");
 appRoutes(app)
 
-// app.use(handleError());
+app.use(errorMiddleware);
 
 export default app;

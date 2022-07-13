@@ -75,5 +75,18 @@ class UsersControllers {
         }
     }
 
+    static listUsersController = async (req: Request, res: Response) => {
+        try {
+            const users = await UsersServices.listUsersService();
+
+            return res.status(200).json(instanceToPlain(users))
+
+        } catch (error) {
+            if (error instanceof AppError) {
+                handleError(error, res)
+            }
+        }
+    }
+
 }
 export default UsersControllers;

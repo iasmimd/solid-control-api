@@ -97,5 +97,12 @@ class UsersServices {
 
         await usersRepository.delete(userFound!.id)
     }
+
+    static listUsersService = async (): Promise<User[]> => {
+        const usersRepository = AppDataSource.getRepository(User);
+        const users = await usersRepository.find();
+
+        return users
+    }
 }
 export default UsersServices;

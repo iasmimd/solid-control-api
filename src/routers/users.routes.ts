@@ -10,4 +10,6 @@ export const userRoutes = () => {
   routes.patch("/users/:id", UsersControllers.update);
   routes.delete("/users/:id", UsersControllers.delete);
   routes.get("/users", UsersControllers.list);
+
+  return routes
 };

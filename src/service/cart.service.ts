@@ -1,5 +1,7 @@
 import { AppDataSource } from "../data-source";
 import { Cart } from "../entities/cart.entity";
+import { User } from "../entities/user.entity";
+import { AppError } from "../errors/AppError";
 import { ICart } from "../interfaces/cart";
 import { fixedFloat } from "../utils";
 
@@ -7,15 +9,15 @@ export class CartService {
   static async addCartService({ product_id, userEmail }: ICart) {
     const cartRepository = AppDataSource.getRepository(Cart);
     // const productRepository = AppDataSource.getRepository(Product);
-    // const userRepository = AppDataSource.getRepository(User);
+    const userRepository = AppDataSource.getRepository(User);
 
-    // const user = userRepository.findOne({ where: { email: userEmail } });
+    const user = await userRepository.findOne({ where: { email: userEmail } });
 
-    // if (!user) {
-    //   throw new Error("User  not found", 404);
-    // }
+    if (!user) {
+      throw new AppError( 404,"User  not found");
+    }
 
-    //const cart = cartRepository.findOne({ where: { id: user?.cart.id } });
+    // const cart = cartRepository.findOne({ where: { id: user?.cart.id } });
 
     // if (!cart) {
     //   throw new Error("User cart not found", 404);

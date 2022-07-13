@@ -33,10 +33,10 @@ class UsersControllers {
         }
     }
 
-    static listUserRetrieveController = async (req: Request, res: Response) => {
+    static retrieveUserController = async (req: Request, res: Response) => {
         try {
             const id = req.params.id;
-            const user = await UsersServices.listUserRetrieveService(id);
+            const user = await UsersServices.retrieveUserService(id);
 
             return res.status(200).json(user)
 

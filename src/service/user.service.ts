@@ -58,7 +58,7 @@ class UsersServices {
         return token
     }
 
-    static listUserRetrieveService = async (id: string) => {
+    static retrieveUserService = async (id: string) => {
         const usersRepository = AppDataSource.getRepository(User);
         const users = await usersRepository.find();
         const userFound = users.find(el => el.id === id);

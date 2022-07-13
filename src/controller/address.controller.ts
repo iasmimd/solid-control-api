@@ -12,6 +12,7 @@ class AddressController {
       zip_code,
       country,
     });
+    
     return res.status(201).send(newAddress);
   }
 

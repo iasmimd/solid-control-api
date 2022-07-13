@@ -1,9 +1,9 @@
-import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm";
-import { v4 as uuid } from "uuid";
+import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 
 @Entity()
 export class Stock {
-  @PrimaryColumn("uuid")
+  @PrimaryColumn('uuid')
   readonly id: string;
 
   @Column()

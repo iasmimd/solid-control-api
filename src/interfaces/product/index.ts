@@ -1,5 +1,3 @@
-
-
 export interface IProduct {
   id?:string
   supplies?: any;

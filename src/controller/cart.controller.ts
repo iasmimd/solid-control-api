@@ -1,24 +1,24 @@
-import { Request, Response } from "express";
-import { CartService } from "../service/cart.service";
+import { Request, Response } from 'express';
+import { CartService } from '../service/cart.service';
 
 export class CartController {
+  static async create(req: Request, res: Response) {
+    const { product_id } = req.params;
 
-  static async  create (req:Request,res:Response){
-        const {product_id} = req.params
-       
-        const {userEmail} = req
+    const { userEmail } = req;
 
-        const cart = await CartService.addCartService(product_id,userEmail)
-        return res.status(201).json(cart)
-    }
+    const cart = await CartService.addCartService(product_id, userEmail);
 
-    
-  static async  delete (req:Request,res:Response){
-    const {product_id} = req.params
-   
-    const {userEmail} = req
+    return res.status(201).json(cart);
+  }
 
-    const cart = await CartService.DeleteCartItem({product_id,userEmail})
-    return res.status(204)
-}
+  static async delete(req: Request, res: Response) {
+    const { product_id } = req.params;
+
+    const { userEmail } = req;
+
+    const cart = await CartService.DeleteCartItem({ product_id, userEmail });
+
+    return res.status(204);
+  }
 }

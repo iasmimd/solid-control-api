@@ -5,14 +5,16 @@ import { providerRoutes } from './provider.routes';
 import { userRoutes } from './users.routes';
 import { addressRoutes } from './address.routes';
 import { cartRoutes } from './cart.routes';
+import { stockRoutes } from './stock.routes';
 
 export const appRoutes = (app: Express) => {
-  app.use('', userRoutes())
-  app.use('/address', addressRoutes())
-  app.use('/tickets', ticketRoutes());
+  app.use('', userRoutes());
+  app.use('/address', addressRoutes());
+  app.use('/', ticketRoutes());
   app.use('/products', productRouter());
   app.use('/provider', providerRoutes());
-  app.use("/cart",cartRoutes())
+  app.use('/cart', cartRoutes());
+  app.use('/stock', stockRoutes());
 };
 
 export default appRoutes;

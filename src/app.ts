@@ -1,5 +1,5 @@
-import express from 'express';
-import { appRoutes } from './routers';
+import express from "express";
+import { appRoutes } from "./routers";
 import errorMiddleware from './middleware/error.middleware';
 
 const app = express();

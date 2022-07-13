@@ -20,7 +20,7 @@ class ProductController {
     return res.status(200).json(response);
   }
 
-  static async list(req: Request, res: Response) {
+  static async read(req: Request, res: Response) {
     const response = await ProductService.listProductsService();
     return res.status(200).json(response);
   }

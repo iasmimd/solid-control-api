@@ -1,13 +1,13 @@
-import express, { Request, Response, NextFunction } from 'express';
-import { appRoutes } from "./routers";
-import { AppError, handleError } from "./errors/AppError";
+import express from 'express';
+import { appRoutes } from './routers';
+import errorMiddleware from './middleware/error.middleware';
 
 const app = express();
 
 app.use(express.json());
 
-appRoutes(app)
+appRoutes(app);
 
-app.use(handleError());
+app.use(errorMiddleware);
 
 export default app;

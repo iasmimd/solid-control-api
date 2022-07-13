@@ -6,9 +6,10 @@ import {
     JoinTable
   } from "typeorm";
   import { v4 as uuid } from "uuid";
+import { User } from "./user.entity";
   
   @Entity()
-  export class Adress {
+  export class Address {
     @PrimaryColumn("uuid")
     readonly id: string;
   
@@ -30,9 +31,9 @@ import {
     @Column("varchar", { length: 2, nullable: false})
     country: string;
 
-    @ManyToMany(() => Users)
+    @ManyToMany(() => User)
     @JoinTable()
-    user_id: Users[]
+    user_id: User[]
     
     constructor() {
       if ("this.id") {

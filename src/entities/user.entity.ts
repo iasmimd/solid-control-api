@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, Unique, OneToOne, ManyToMany, JoinColumn, JoinTable } from "typeorm";
+import { Exclude } from "class-transformer";
 import { Address } from "./address.entity";
 import { Cart } from "./cart.entity";
 import { Ticket } from "./ticket.entity";
@@ -19,10 +20,11 @@ class User {
     email: string
 
     @Column({length: 128, nullable: false})
+    @Exclude()
     password: string
 
     @Column({default: false})
-    adm: boolean
+    isAdm: boolean
 
     /* MUITOS User PODEM TER MUITOS Address*/
     @ManyToMany(() => Address, {eager: true})

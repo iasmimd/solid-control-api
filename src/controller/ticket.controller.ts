@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { AppError, handleError } from '../errors/AppError';
 import TicketService from '../service/ticket.service';
 
 class TicketController {

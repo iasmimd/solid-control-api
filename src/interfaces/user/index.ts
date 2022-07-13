@@ -19,7 +19,6 @@ export interface IUserLogin {
     email: string
     password: string
 }
-
 export interface IAdminUser {
   name: string,
   email: string,

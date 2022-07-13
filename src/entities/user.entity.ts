@@ -1,7 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, Unique, OneToOne, ManyToMany, JoinColumn, JoinTable } from "typeorm";
-import { Address } from "./address.entity.ts";
-import { Cart } from "./cart.entity.ts";
-import { Tickets } from "./tickets.entity.ts";
+import { Address } from "./address.entity";
+import { Cart } from "./cart.entity";
+import { Ticket } from "./ticket.entity";
+
+
 
 @Entity("users")
 @Unique(["email"])
@@ -29,15 +31,15 @@ class User {
     
 
     /* CADA User SÓ TEM UM Cart (1:1)*/
-    @Column((type) => Cart, {eager: true})
+    @OneToOne(() => Cart,{eager: true})
     @JoinColumn()
-    cart: Cart[]
+    cart: Cart
     
 
     /* */
-    @ManyToMany(() => Tickets, {eager: true})
+    @ManyToMany(() => Ticket, {eager: true})
     @JoinTable()
-    tickets: Tickets[]
+    tickets: Ticket[]
     
 
 }

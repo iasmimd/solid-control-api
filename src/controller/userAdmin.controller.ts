@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import UserService from "../service/user.service";
+import UserService from "../service/userAdmin.service";
 
 class UserController {
 
@@ -25,7 +25,7 @@ class UserController {
 
   static async listUsers (req: Request, res: Response) {
     try {
-      const users = await UserService.listUsersService();
+      const users = await UserService.readUsersService();
 
       return res.status(200).json(users);
 
@@ -43,7 +43,7 @@ class UserController {
     try {
       const { id } = req.params;
 
-      const user = await UserService.listOneUserService(id);
+      const user = await UserService.readOneUserService(id);
   
       return res.status(200).json(user);
 

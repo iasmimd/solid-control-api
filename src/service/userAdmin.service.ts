@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 class UserService {
 
-  static createUserAdmin = async ({ name, email, password, isAdm = true }: IAdminUser ): Promise<AdminUser> => {
+  static async createUserAdmin ({ name, email, password, isAdm = true }: IAdminUser ): Promise<AdminUser> {
 
     const userRepository = AppDataSource.getRepository(AdminUser);
 
@@ -25,7 +25,7 @@ class UserService {
     return newAdmin;
   }
 
-  static async listUsersService(): Promise<AdminUser[]> {
+  static async readUsersService(): Promise<AdminUser[]> {
 
     const userRepository = AppDataSource.getRepository(AdminUser);
   
@@ -34,7 +34,7 @@ class UserService {
     return users;
   }
 
-  static async listOneUserService(id: string) {
+  static async readOneUserService(id: string) {
 
     const userRepository = AppDataSource.getRepository(AdminUser);
   

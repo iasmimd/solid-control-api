@@ -4,7 +4,7 @@ export interface IUser {
     name: string
     email: string
     password: string
-    addres_id: string
+    address_id: string
     cart_id: string
 }
 

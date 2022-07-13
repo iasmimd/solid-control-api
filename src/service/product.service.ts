@@ -12,7 +12,7 @@ class ProductService {
     const products = await productRepository.find();
     const productAvaibility = products.find((product) => (product.name = name));
 
-    if(!supplies||!name||!price||!img){
+    if (!supplies || !name || !price || !img) {
       throw new AppError(400, "Error in your request");
     }
     if (productAvaibility) {
@@ -28,7 +28,7 @@ class ProductService {
     return newProduct;
   }
 
-  static async listProducts() {
+  static async listProductsService() {
     const productRepository = AppDataSource.getRepository(Product);
 
     const products = await productRepository.find();
@@ -38,11 +38,11 @@ class ProductService {
     return products;
   }
 
-  static async updateProducts(
+  static async updateProductsService(
     product_id: string,
     { img, name, price, supplies }: IProduct
   ) {
-    if(!supplies||!name||!price||!img){
+    if (!supplies || !name || !price || !img) {
       throw new AppError(400, "Error in your request");
     }
     const productRepository = AppDataSource.getRepository(Product);
@@ -56,10 +56,10 @@ class ProductService {
     }
     await productRepository.update(product_id, { name, supplies, price, img });
 
-    return true;
+    return { message: "Product updated." };
   }
 
-  static async deleteProduct(product_id: string) {
+  static async deleteProductService(product_id: string) {
     const productRepository = AppDataSource.getRepository(Product);
     const product = await productRepository.findOne({
       where: { id: product_id },
@@ -69,6 +69,7 @@ class ProductService {
       throw new AppError(404, "products not found");
     }
     await productRepository.delete(product!.id);
+    return {message:"Product as deleted"}
   }
 }
 

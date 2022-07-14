@@ -1,16 +1,15 @@
 import { AppDataSource } from "../data-source";
 import { Orders } from "../entities/orders.entity";
 import { AppError } from "../errors/AppError";
-import { IOrders } from "../interfaces/orders";
-
+import { IOrder, IOrderUpdate } from "../interfaces/orders";
 
 class OrdersService {
 
-  static async createNewOrder ({ total_price, status, supplies }: IOrders): Promise<Orders> {
+  static async createNewOrder ({ total_price, status, supplies }: IOrder): Promise<Orders> {
 
-    const orderRepository = AppDataSource.getRepository(Orders);
+    const ordersRepository = AppDataSource.getRepository(Orders);
 
-    const newOrder = orderRepository.create({
+    const newOrder = ordersRepository.create({
       total_price,
       status,
       supplies
@@ -20,7 +19,7 @@ class OrdersService {
       throw new AppError(400, "Requisition body is incomplete or empty ");
     }
 
-    await orderRepository.save(newOrder);
+    await ordersRepository.save(newOrder);
 
     return newOrder;
   }
@@ -31,6 +30,10 @@ class OrdersService {
 
     const orders = await ordersRepository.find();
 
+    if (!orders) {
+      throw new AppError(404, 'Orders not found');
+    }
+
     return orders;
   }
 
@@ -40,15 +43,43 @@ class OrdersService {
 
     const order = await ordersRepository.findOneBy({ id });
 
+    if (!order) {
+      throw new AppError(404, 'Order not found');
+    }
+
     return order;
   }
 
-  static async updateOrder () {
+  static async updateOrder (id: string, data: IOrderUpdate ) {
     
+    const ordersRepository = AppDataSource.getRepository(Orders);
+
+    const order = await ordersRepository.findOneBy({ id });
+
+    if (!order) {
+      throw new AppError(404, 'Order not found');
+    }
+
+    await ordersRepository.update(order!.id, {
+      status: data.status,
+    })
+
+    return true;
   }
 
-  static async deleteOrder () {
+  static async deleteOrder (id: string) {
     
+    const ordersRepository = AppDataSource.getRepository(Orders);
+
+    const order = await ordersRepository.findOneBy({ id });
+
+    if (!order) {
+      throw new AppError(404, 'Order not found');
+    }
+
+    await ordersRepository.delete(order!.id);
+
+    return true;
   }
 }
 

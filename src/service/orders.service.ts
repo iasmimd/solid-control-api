@@ -6,7 +6,7 @@ import { IOrders } from "../interfaces/orders";
 
 class OrdersService {
 
-  static async createNewOrder ({ total_price, status, supplies }: IOrders) {
+  static async createNewOrder ({ total_price, status, supplies }: IOrders): Promise<Orders> {
 
     const orderRepository = AppDataSource.getRepository(Orders);
 
@@ -27,10 +27,20 @@ class OrdersService {
 
   static async readAllOrders () {
     
+    const ordersRepository = AppDataSource.getRepository(Orders);
+
+    const orders = await ordersRepository.find();
+
+    return orders;
   }
 
-  static async readOneOrder () {
+  static async readOneOrder (id: string) {
     
+    const ordersRepository = AppDataSource.getRepository(Orders);
+
+    const order = await ordersRepository.findOneBy({ id });
+
+    return order;
   }
 
   static async updateOrder () {

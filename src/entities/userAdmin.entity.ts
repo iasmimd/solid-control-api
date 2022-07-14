@@ -1,21 +1,26 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Unique,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-@Entity("users")
-@Unique(["email"])
-
+@Entity('users')
+@Unique(['email'])
 class AdminUser {
-
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column("varchar", { length: 128, nullable: false})
+  @Column('varchar', { length: 128, nullable: false })
   name: string;
 
-  @Column("varchar", { length: 256, nullable: false})
+  @Column('varchar', { length: 256, nullable: false })
   email: string;
 
-  @Column("varchar", { length: 256, nullable: false})
+  @Column('varchar', { length: 256, nullable: false })
   password: string;
 
   @Column()
@@ -25,7 +30,7 @@ class AdminUser {
   created_at: Date;
 
   @UpdateDateColumn()
-  updated_at: Date
+  updated_at: Date;
 
   constructor() {
     if (!this.id) {

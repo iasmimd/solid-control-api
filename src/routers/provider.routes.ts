@@ -1,12 +1,14 @@
-import { Router } from "express";
-import ProviderController from "../controller/provider.controller";
+import { Router } from 'express';
+import ProviderController from '../controller/provider.controller';
 
-const providerRoutes = Router();
+const routes = Router();
 
-providerRoutes.post("/providers", ProviderController.create);
-providerRoutes.get("/providers", ProviderController.list);
-providerRoutes.get("/providers/:id", ProviderController.readOne);
-providerRoutes.patch("/providers/:id", ProviderController.update);
-providerRoutes.delete("/providers/:id", ProviderController.delete);
+export const providerRoutes = () => {
+  routes.post('/', ProviderController.create);
+  routes.get('/', ProviderController.list);
+  routes.get('/:id', ProviderController.readOne);
+  routes.patch('/:id', ProviderController.update);
+  routes.delete('/:id', ProviderController.delete);
 
-export default providerRoutes;
+  return routes
+};

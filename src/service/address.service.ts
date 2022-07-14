@@ -1,7 +1,7 @@
-import { AppDataSource } from "../data-source";
-import { Address } from "../entities/address.entity";
-
-import { IAddressCreate, IAddressUpdate } from "../interfaces/address/index";
+import { AppDataSource } from '../data-source';
+import { Address } from '../entities/address.entity';
+import { AppError } from '../errors/AppError';
+import { IAddressCreate, IAddressUpdate } from '../interfaces/address/index';
 
 class AddressService {
   static async createAddress({
@@ -32,14 +32,14 @@ class AddressService {
     const userRepository = AppDataSource.getRepository(Address);
 
     const address = await userRepository.findOne({
-        where: {
-          id: id
-        }
-      });
+      where: {
+        id: id,
+      },
+    });
 
-      if(!address){
-        throw new Error("User not found")
-      }
+    if (!address) {
+      throw new AppError(404, 'User not found');
+    }
 
     return address;
   }
@@ -55,7 +55,7 @@ class AddressService {
     const account = address.find((address) => address.id === id);
 
     if (!account) {
-      throw new Error("Account not found");
+      throw new AppError(404, 'Account not found');
     }
 
     Object.assign(account, {

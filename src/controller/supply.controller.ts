@@ -32,11 +32,11 @@ class SupplyController {
   }
 
   static async delete(req: Request, res: Response) {
-    const { id } = req.params;
+    const { supply_id } = req.params;
 
-    const response = await SupplyService.delete(id);
+    const response = await SupplyService.delete(supply_id);
 
-    return res.status(204);
+    return res.status(204).send();
   }
 }
 export default SupplyController;

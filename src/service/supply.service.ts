@@ -70,17 +70,18 @@ export class SupplyService {
   }
 
   static async delete(id: string) {
-    const userRepository = AppDataSource.getRepository(Supply);
-    const supplyList = await userRepository.find();
+    const supplyRepository = AppDataSource.getRepository(Supply);
+    const supplyList = await supplyRepository.find();
 
-    const supply = supplyList.find((supply) => supply.id === id);
     if (!id) {
       throw new AppError(400, "Error in your request.");
     }
+
+    const supply = supplyList.find((supply) => supply.id === id);
     if (!supply) {
       throw new AppError(404, "Supply not found.");
     }
-    await userRepository.delete(supply!.id);
+    await supplyRepository.delete(supply!.id);
 
     return true;
   }

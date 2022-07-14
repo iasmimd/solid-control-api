@@ -1,4 +1,5 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
+import StockService from '../service/stock.service';
 
 class StockController {
   static create = async (req: Request, res: Response) => {
@@ -54,7 +55,7 @@ class StockController {
 
       const updatedStock = await StockService.update(id, req.body);
 
-      return res.status(200).json({ message: "Stock updated" });
+      return res.status(200).json({ message: 'Stock updated' });
     } catch (error) {
       if (error instanceof Error) {
         return res.status(400).json({
@@ -71,7 +72,7 @@ class StockController {
 
       const stock = await StockService.delete(id);
 
-      return res.status(200).json({ message: "Stock deleted with success" });
+      return res.status(200).json({ message: 'Stock deleted with success' });
     } catch (error) {
       if (error instanceof Error) {
         return res.status(400).json({

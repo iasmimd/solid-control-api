@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import UsersServices from '../service/user.service';
 import { instanceToPlain } from 'class-transformer';
 import 'express-async-errors';
+
 class UsersControllers {
   static async create(req: Request, res: Response) {
     const { name, email, password } = req.body;

@@ -63,3 +63,5 @@ class StockService {
     return true;
   };
 }
+
+export default StockService

@@ -2,7 +2,7 @@ import { AppDataSource } from "../data-source";
 import { Providers } from "../entities/providers.entity";
 import { Supply } from "../entities/supply.entity";
 import { AppError } from "../errors/AppError";
-import { ISupply } from "../interfaces/supply";
+import { ISupply, ISupplyUpdate } from "../interfaces/supply";
 
 export class SupplyService {
   static async create({ buy_price, name, provider_id }: ISupply) {
@@ -52,11 +52,11 @@ export class SupplyService {
     return supply;
   }
 
-  static async update(supply_id: string, { buy_price, name }: ISupply) {
+  static async update(supply_id: string, { name, buy_price }: ISupplyUpdate) {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const supplyList = await supplyRepository.find();
 
-    if (!supply_id || !buy_price || !name) {
+    if (!supply_id) {
       throw new AppError(400, "Error in your request.");
     }
     const supply = supplyList.find((supply) => supply.id === supply_id);
@@ -64,7 +64,7 @@ export class SupplyService {
     if (!supply) {
       throw new AppError(404, "Supply not found.");
     }
-    await supplyRepository.update(supply!.id, { buy_price, name });
+    await supplyRepository.update(supply!.id, { name, buy_price });
 
     return true;
   }

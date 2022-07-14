@@ -21,15 +21,14 @@ export class SupplyService {
     }
     const newSupply = new Supply();
     (newSupply.name = name),
-    (newSupply.buy_price = buy_price),
-    (newSupply.provider = [provider]),
-
-    supplyRepository.create(newSupply);
+      (newSupply.buy_price = buy_price),
+      (newSupply.provider = [provider]),
+      supplyRepository.create(newSupply);
     await supplyRepository.save(newSupply);
 
     return newSupply;
   }
-  
+
   static async list() {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const supplyList = await supplyRepository.find();
@@ -45,6 +44,10 @@ export class SupplyService {
     }
 
     const supply = supplyList.find((supply) => supply.id === supply_id);
+
+    if (!supply) {
+      throw new AppError(404, "Supply not found");
+    }
 
     return supply;
   }

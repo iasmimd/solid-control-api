@@ -1,6 +1,7 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Providers } from "./providers.entity";
 import { v4 as uuid } from 'uuid';
+import { Supply } from "./supply.entity";
 
 @Entity()
 
@@ -15,19 +16,18 @@ export class Orders {
   @Column("varchar", { length: 50, nullable: false })
   status: string
 
-  @ManyToMany(() => Supply, { eager: true, nullable: false })
+  @ManyToMany(() => Supply, { eager: true })
   @JoinTable()
   supplies: Supply[]
 
-  @ManyToMany(() => Providers, { eager:true, nullable: false })
+  @ManyToMany(() => Providers, { eager:true })
   @JoinTable()
-  provider_id: Providers
+  provider: Providers
 
   constructor() {
     if (!this.id) {
       this.id = uuid();
     }
   }
-
 }
 

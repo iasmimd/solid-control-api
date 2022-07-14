@@ -1,4 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Orders } from "./orders.entity";
 import { Providers } from "./providers.entity";
 
 @Entity()
@@ -12,11 +13,11 @@ export class Supply {
   @Column({ type: "decimal", precision: 10, scale: 2 })
   buy_price: number;
 
- @ManyToMany(()=> Providers,provider => provider.id,{eager:true})
- @JoinTable()
- provider_id: Providers
+  @ManyToMany(()=> Providers, {eager:true})
+  @JoinTable()
+  provider: Providers[]
 
-//  @ManyToMany(()=> Order, order=> order.id)
-//  @JoinTable()
-//  order_id: Order
+  @ManyToMany(() => Orders )
+  @JoinTable()
+  orders: Orders[]
 }

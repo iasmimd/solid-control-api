@@ -1,27 +1,45 @@
 import { AppDataSource } from "../data-source";
 import { Orders } from "../entities/orders.entity";
+import { Providers } from "../entities/providers.entity";
+import { Supply } from "../entities/supply.entity";
 import { AppError } from "../errors/AppError";
 import { IOrder, IOrderUpdate } from "../interfaces/orders";
 
 class OrdersService {
 
-  static async createNewOrder ({ total_price, status, supplies }: IOrder): Promise<Orders> {
+  static async createNewOrder ({ supply_id, provider_id, total_price, status }: IOrder) {
 
     const ordersRepository = AppDataSource.getRepository(Orders);
+    const supplyRepository = AppDataSource.getRepository(Supply);
+    const providerRepository = AppDataSource.getRepository(Providers);
 
-    const newOrder = ordersRepository.create({
-      total_price,
-      status,
-      supplies
-    })
-
-    if (newOrder === null) {
+    if (!supply_id || !provider_id || !total_price || !status) {
       throw new AppError(400, "Requisition body is incomplete or empty ");
     }
 
-    await ordersRepository.save(newOrder);
+    const provider = await providerRepository.findOne({ 
+      where: {
+        id: provider_id,
+      } 
+    });
 
-    return newOrder;
+    const supply = await supplyRepository.findOneBy({ id: supply_id });
+
+    if (provider && supply) {
+
+      const order = new Orders()
+      order.total_price = total_price
+      order.status = status;
+      order.supplies = [supply]
+      order.provider = provider
+  
+      const newOrder = ordersRepository.create(order);
+
+      await ordersRepository.save(newOrder);
+
+  
+      return newOrder;
+    }
   }
 
   static async readAllOrders () {
@@ -29,7 +47,7 @@ class OrdersService {
     const ordersRepository = AppDataSource.getRepository(Orders);
 
     const orders = await ordersRepository.find();
-
+    
     if (!orders) {
       throw new AppError(404, 'Orders not found');
     }

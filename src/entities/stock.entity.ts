@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import { Supply } from './supply.entity';
 
 @Entity()
 export class Stock {

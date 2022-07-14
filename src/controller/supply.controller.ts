@@ -25,23 +25,21 @@ class SupplyController {
 
   static async update(req: Request, res: Response) {
    
-      const {supply_id } = req.params;
-      const data = req.body;
-      const response = await SupplyService.update(supply_id, data );
+    const {supply_id } = req.params;
+    const data = req.body;
+    const response = await SupplyService.update(supply_id, data );
 
-      return res.status(204)
+    return res.status(204)
     
   };
 
   static async delete(req: Request, res: Response) {
   
-      const { id } = req.params;
+    const { id } = req.params;
 
-      const response = await SupplyService.delete(id);
+    const response = await SupplyService.delete(id);
 
-      return res.status(204)
-  
-    
+    return res.status(204)
   };
 }
 export default SupplyController

@@ -5,14 +5,14 @@ class OrdersController {
 
   static async create (req: Request, res: Response) {
 
-    const { total_price, status, supplies } = req.body;
+    const { supply_id, provider_id, total_price, status } = req.body;
 
-    const order = await OrdersService.createNewOrder({total_price, status, supplies});
+    const order = await OrdersService.createNewOrder({ provider_id, supply_id, total_price, status});
 
     return res.status(201).json(order);
   }
 
-  static async read (res: Response) {
+  static async read (req: Request, res: Response) {
 
     const readAllOrders = await OrdersService.readAllOrders();
 

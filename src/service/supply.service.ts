@@ -5,10 +5,10 @@ import { AppError } from "../errors/AppError";
 import { ISupply } from "../interfaces/supply";
 
 export class SupplyService {
-  static async create({ buy_price, name, provider_id, order_id }: ISupply) {
+  static async create({ buy_price, name, provider_id }: ISupply) {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const providerRepository = AppDataSource.getRepository(Providers);
-    if (!buy_price || !name || !provider_id || !order_id) {
+    if (!buy_price || !name || !provider_id) {
       throw new AppError(400, "Error in your request.");
     }
 
@@ -21,12 +21,15 @@ export class SupplyService {
     }
     const newSupply = new Supply();
     (newSupply.name = name),
-      (newSupply.buy_price = buy_price),
-      newSupply.provider_id;
+    (newSupply.buy_price = buy_price),
+    (newSupply.provider = [provider]),
 
     supplyRepository.create(newSupply);
     await supplyRepository.save(newSupply);
+
+    return newSupply;
   }
+  
   static async list() {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const supplyList = await supplyRepository.find();

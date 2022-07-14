@@ -7,7 +7,7 @@ import { ICart } from "../interfaces/cart";
 import { fixedFloat } from "../utils";
 
 export class CartService {
-  static async addCartService(product_id:string, userEmail:any) {
+  static async addCartService({ product_id, userEmail }: ICart) {
     const cartRepository = AppDataSource.getRepository(Cart);
     const productRepository = AppDataSource.getRepository(Product);
     const userRepository = AppDataSource.getRepository(User);

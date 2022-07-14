@@ -1,7 +1,8 @@
 import { AppDataSource } from "../data-source";
 import { AdminUser } from "../entities/userAdmin.entity";
-import { IAdminUser } from "../interfaces/user";
+import { IAdminUser, IAdminUserUpdate } from "../interfaces/user";
 import bcrypt from "bcrypt";
+import { AppError } from '../errors/AppError';
 
 class UserService {
 
@@ -17,7 +18,7 @@ class UserService {
     })
 
     if (newAdmin === null) {
-      throw new Error("error")
+      throw new AppError(400, "Can not be empty")
     }
 
     await userRepository.save(newAdmin);
@@ -43,7 +44,7 @@ class UserService {
     return user;
   }
 
-  static async updateUserService(id: string, data: any) {
+  static async updateUserService(id: string, data: IAdminUserUpdate) {
 
     const userRepository = AppDataSource.getRepository(AdminUser);
   

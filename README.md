@@ -4,14 +4,17 @@
 
 ## Tabela de Conteúdos:
 
-- [Visão Geral](#1-visão-geral)
-- [Diagrama ER](#2-diagrama-er)
-- [Início Rápido](#3-início-rápido)
-  - [Instalando Dependências](#31-instalando-dependências)
-  - [Variáveis de Ambiente](#32-variáveis-de-ambiente)
-  - [Migrations](#33-migrations)
-- [Autenticação](#4-autenticação)
-- [Endpoints](#5-endpoints)
+- [Solid Control ⚓](#solid-control-)
+  - [Documentação da API](#documentação-da-api)
+  - [Tabela de Conteúdos:](#tabela-de-conteúdos)
+  - [1. Visão Geral](#1-visão-geral)
+  - [2. Diagrama ER](#2-diagrama-er)
+  - [3. Início Rápido](#3-início-rápido)
+    - [3.1. Instalando Dependências](#31-instalando-dependências)
+    - [3.2. Variáveis de Ambiente](#32-variáveis-de-ambiente)
+    - [3.3. Migrations](#33-migrations)
+  - [5. Endpoints](#5-endpoints)
+    - [Índice](#índice)
 
 ---
 
@@ -45,7 +48,7 @@ https://localhost:3000/
 
 Diagrama ER da API definindo bem as relações entre as tabelas do banco de dados.
 
-![DER](https://imgur.com/kf0dO2R)
+![DER](./src/image/diagrama_solid-control.png)
 
 ---
 

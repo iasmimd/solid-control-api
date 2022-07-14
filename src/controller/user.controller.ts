@@ -30,10 +30,18 @@ class UsersControllers {
   }
 
   static async update(req: Request, res: Response) {
-    const id = req.params.id;
-    const updatedUser = await UsersServices.updateUserService(id, req.body);
 
-    return res.status(200).json(instanceToPlain(updatedUser));
+    try {
+      const id = req.params.id;
+      await UsersServices.updateUserService(id, req.body);
+
+      return res.status(200).json({ message: "User updated!" });
+    } catch (error) {
+      if (error instanceof AppError) {
+        handleError(error, res);
+      }
+    }
+
   }
 
   static async delete(req: Request, res: Response) {

@@ -7,6 +7,7 @@ import { userRoutes } from './users.routes';
 import { addressRoutes } from './address.routes';
 import { cartRoutes } from './cart.routes';
 import { stockRoutes } from './stock.routes';
+import { supplyRoutes } from './supply.routes';
 
 export const appRoutes = (app: Express) => {
   app.use('', userRoutes());
@@ -16,7 +17,9 @@ export const appRoutes = (app: Express) => {
   app.use('/provider', providerRoutes());
   app.use('/cart', cartRoutes());
   app.use('/stock', stockRoutes());
+  app.use("/supply",supplyRoutes())
   app.use("/orders", orderRoutes())
+
 };
 
 export default appRoutes;

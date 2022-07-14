@@ -5,6 +5,7 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Supply } from './supply.entity';
 
 @Entity()
 export class Product {

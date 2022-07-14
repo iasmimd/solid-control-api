@@ -19,7 +19,7 @@ class TicketService {
     ticket.cart;
 
     ticketRepository.create(ticket);
-    ticketRepository.save(ticket);
+    await ticketRepository.save(ticket);
 
     return ticket;
   }

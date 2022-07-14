@@ -1,4 +1,5 @@
-import { Express } from 'express';
+import { Express } from "express";
+import { orderRoutes } from "./orders.routes";
 import { productRouter } from './product.routes';
 import { ticketRoutes } from './tickets.routes';
 import { providerRoutes } from './provider.routes';
@@ -15,6 +16,7 @@ export const appRoutes = (app: Express) => {
   app.use('/provider', providerRoutes());
   app.use('/cart', cartRoutes());
   app.use('/stock', stockRoutes());
+  app.use("/orders", orderRoutes())
 };
 
 export default appRoutes;

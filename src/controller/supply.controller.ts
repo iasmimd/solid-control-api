@@ -9,13 +9,13 @@ class SupplyController {
     return res.status(201).json(response);
   }
 
-  static list = async (req: Request, res: Response) => {
+  static async list  (req: Request, res: Response)  {
     const response = await SupplyService.list();
 
     return res.status(200).json(response);
   };
 
-  static readOne = async (req: Request, res: Response) => {
+  static  async readOne (req: Request, res: Response)  {
     const { supply_id } = req.params;
 
     const response = await SupplyService.readOne(supply_id);
@@ -23,23 +23,23 @@ class SupplyController {
     return res.status(200).json(response);
   };
 
-  static update = async (req: Request, res: Response) => {
+  static async update(req: Request, res: Response) {
    
       const {supply_id } = req.params;
       const data = req.body;
       const response = await SupplyService.update(supply_id, data );
 
-      return res.status(200).json({ message: "Stock updated" })
+      return res.status(204)
     
   };
 
-  static delete = async (req: Request, res: Response) => {
+  static async delete(req: Request, res: Response) {
   
       const { id } = req.params;
 
       const response = await SupplyService.delete(id);
 
-      return res.status(200).json({ message: "Stock deleted with success" });
+      return res.status(204)
   
     
   };

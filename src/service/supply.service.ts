@@ -27,14 +27,14 @@ export class SupplyService {
     supplyRepository.create(newSupply);
     await supplyRepository.save(newSupply);
   }
-  static list = async () => {
+  static async list() {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const supplyList = await supplyRepository.find();
 
     return supplyList;
-  };
+  }
 
-  static readOne = async (supply_id: string) => {
+  static async readOne(supply_id: string) {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const supplyList = await supplyRepository.find();
     if (!supply_id) {
@@ -44,16 +44,16 @@ export class SupplyService {
     const supply = supplyList.find((supply) => supply.id === supply_id);
 
     return supply;
-  };
+  }
 
-  static update = async (supply_id: string, { buy_price, name }: ISupply) => {
+  static async update(supply_id: string, { buy_price, name }: ISupply) {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const supplyList = await supplyRepository.find();
 
     if (!supply_id || !buy_price || !name) {
       throw new AppError(400, "Error in your request.");
     }
-    const supply =  supplyList.find((supply) => supply.id === supply_id);
+    const supply = supplyList.find((supply) => supply.id === supply_id);
 
     if (!supply) {
       throw new AppError(404, "Supply not found.");
@@ -61,9 +61,9 @@ export class SupplyService {
     await supplyRepository.update(supply!.id, { buy_price, name });
 
     return true;
-  };
+  }
 
-  static delete = async (id: string) => {
+  static async delete(id: string) {
     const userRepository = AppDataSource.getRepository(Supply);
     const supplyList = await userRepository.find();
 
@@ -77,5 +77,5 @@ export class SupplyService {
     await userRepository.delete(supply!.id);
 
     return true;
-  };
+  }
 }

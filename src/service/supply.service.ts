@@ -19,6 +19,15 @@ export class SupplyService {
     if (!provider) {
       throw new AppError(404, "Provider not found.");
     }
+
+    const supply = await supplyRepository.find();
+
+    const supplyAvailability = supply.find((supply) => (supply.name = name));
+
+    if (supplyAvailability) {
+      throw new AppError(409, "supply already exists");
+    };
+
     const newSupply = new Supply();
     (newSupply.name = name),
       (newSupply.buy_price = buy_price),

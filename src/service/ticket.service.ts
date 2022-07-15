@@ -5,15 +5,17 @@ import { AppError } from '../errors/AppError';
 
 class TicketService {
   static async createTicket(user_id: string) {
-    const ticketRepository = AppDataSource.getRepository(User);
+    const userRepository = AppDataSource.getRepository(User);
 
-    const findUser = await ticketRepository.findOne({
-      where: { id:user_id },
+    const findUser = await userRepository.findOne({
+      where: { id: user_id },
     });
 
     if (!findUser) {
       throw new AppError(404, 'User not found');
     }
+
+    const ticketRepository = AppDataSource.getRepository(Ticket);
 
     const ticket = new Ticket();
     ticket.cart;

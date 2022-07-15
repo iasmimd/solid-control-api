@@ -1,16 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import * as yup from 'yup';
 import { SchemaOf } from "yup";
-import { IUserCreate } from "../interfaces/user";
+import { IUserLogin } from "../interfaces/user";
 
-export const userCreateSchema: SchemaOf<IUserCreate> = yup.object().shape({
-  name: yup.string().required(),
+export const userLoginSchema: SchemaOf<IUserLogin> = yup.object().shape({
   email: yup.string().email().required(),
-  password: yup.string().required(),
-  isAdm: yup.boolean().required()
+  password: yup.string().required()
 });
 
-export const validateUserCreateMiddleware = (schema: SchemaOf<IUserCreate>) => async (req: Request, res: Response, next: NextFunction) => {
+export const validateUserLoginMiddleware = (schema: SchemaOf<IUserLogin>) => async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = req.body;
 
@@ -23,8 +21,7 @@ export const validateUserCreateMiddleware = (schema: SchemaOf<IUserCreate>) => a
         }
       )
 
-      req.newUser = validatedData;
-
+      req.body = validatedData;
       next();
 
     } catch (error: any) {

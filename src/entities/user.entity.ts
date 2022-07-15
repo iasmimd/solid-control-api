@@ -32,6 +32,10 @@ class User {
   @Column({ default: false })
   isAdm: boolean;
 
+  @Column({ default: true })
+  @Exclude()
+  active: boolean;
+
   /* MUITOS User PODEM TER MUITOS Address*/
   @ManyToMany(() => Address, { eager: true })
   @JoinTable()

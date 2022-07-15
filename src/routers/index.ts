@@ -10,7 +10,7 @@ import { stockRoutes } from './stock.routes';
 import { supplyRoutes } from './supply.routes';
 
 export const appRoutes = (app: Express) => {
-  app.use('', userRoutes());
+  app.use('/users', userRoutes());
   app.use('/address', addressRoutes());
   app.use('/', ticketRoutes());
   app.use('/products', productRouter());

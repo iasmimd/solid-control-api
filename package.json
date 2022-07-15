@@ -5,21 +5,43 @@
   "repository": "git@github.com:iasmimd/capstone-m4.git",
   "author": "<iasmimstuff@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+    "build": "tsc",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "test": "NODE_ENV=test jest",
+    "start": "node dist/server.js"
+  },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
+    "@types/jest": "^28.1.4",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^18.0.3",
+    "@types/supertest": "^2.0.12",
     "@types/uuid": "^8.3.4",
+    "jest": "^28.1.2",
+    "sqlite3": "^5.0.8",
+    "supertest": "^6.2.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.0.1",
+    "class-transformer": "^0.5.1",
+    "consolidate": "^0.16.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
+    "mercadopago": "^1.5.14",
     "pg": "^8.7.3",
+    "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.7",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yup": "^0.32.11"
   }
 }

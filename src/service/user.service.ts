@@ -1,13 +1,13 @@
 import { AppDataSource } from "../data-source";
 import { AppError } from "../errors/AppError";
 import { User } from "../entities/user.entity";
-import { IUserCreate, IUserLogin } from "../interfaces/user";
+import { IUserCreate, IUser, IUserLogin } from "../interfaces/user";
 import bcrypt, { compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 class UsersServices {
-  static async createUserService({ name, email, password }: IUserCreate) {
+  static async createUserService({ name, email, password }: IUserCreate): Promise<IUser> {
     const usersRepository = AppDataSource.getRepository(User);
     const users = await usersRepository.find();
     const emailExists = users.find((el) => el.email === email);
@@ -20,6 +20,7 @@ class UsersServices {
       name,
       email,
       password: bcrypt.hashSync(password, 10),
+      active: true
     });
 
     await usersRepository.save(user);
@@ -40,6 +41,10 @@ class UsersServices {
 
     if (!user) {
       throw new AppError(403, "Invalid credentials");
+    }
+
+    if (!user.active) {
+      throw new Error("Inactive user");
     }
 
     const passwordMatch = await compare(password, user.password);
@@ -98,8 +103,14 @@ class UsersServices {
     if (!userFound) {
       throw new AppError(404, "User not found");
     }
+    //await usersRepository.delete(userFound!.id);
 
-    await usersRepository.delete(userFound!.id);
+    if (!userFound.active) {
+      throw new Error("Inactivated user");
+    }
+
+    userFound.active = false
+    await usersRepository.save(userFound)
   }
 
   static async listUsersService(): Promise<User[]> {

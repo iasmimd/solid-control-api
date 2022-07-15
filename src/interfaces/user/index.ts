@@ -2,7 +2,7 @@ export interface IUser {
   id: string
   name: string
   email: string
-  isAdm: boolean
+  isAdm?: boolean
   address_id?: string
   cart_id?: string
 }

@@ -9,7 +9,7 @@ class StockService {
     const stockList = await userRepository.find();
 
     const supplyAlreadyExist = stockList.find(
-      (stock) => stock.supply_id === supply_id
+      (stock) => stock.supply_id.id === supply_id
     );
 
     if (supplyAlreadyExist) {

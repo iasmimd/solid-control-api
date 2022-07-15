@@ -3,6 +3,7 @@ export interface IUser {
   name: string
   email: string
   isAdm?: boolean
+  active?: boolean
   address_id?: string
   cart_id?: string
 }

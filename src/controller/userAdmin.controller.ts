@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import UserService from '../service/userAdmin.service';
 
-class UserController {
+class AdminController {
   static async createAdmin(req: Request, res: Response) {
     const { name, email, password, isAdm } = req.body;
 
     await UserService.createUserAdmin({ name, email, password, isAdm });
 
-    return res.status(201).json({ name, email, password });
+    return res.status(201).json({ name, email });
   }
 
   static async listUsers(req: Request, res: Response) {
@@ -41,4 +41,4 @@ class UserController {
   }
 }
 
-export default UserController;
+export default AdminController;

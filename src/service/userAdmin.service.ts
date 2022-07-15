@@ -8,20 +8,29 @@ class UserService {
 
   static async createUserAdmin ({ name, email, password, isAdm = true }: IAdminUser ): Promise<AdminUser> {
 
-    const userRepository = AppDataSource.getRepository(AdminUser);
+    if (!name || !email || !password) {
+      throw new AppError(400, "Can not be empty")
+    }
+    const adminRepository = AppDataSource.getRepository(AdminUser);
 
-    const newAdmin = userRepository.create({
+    // const adminEmail = await adminRepository.find({
+    //   where: {
+    //     email: email
+    //   }
+    // })
+
+    // if (!adminEmail) {
+    //   throw new AppError("User already exists")
+    // }
+
+    const newAdmin = adminRepository.create({
       name,
       email,
       password: bcrypt.hashSync(password, 10),
       isAdm: isAdm
     })
 
-    if (newAdmin === null) {
-      throw new AppError(400, "Can not be empty")
-    }
-
-    await userRepository.save(newAdmin);
+    await adminRepository.save(newAdmin);
 
     return newAdmin;
   }

@@ -30,7 +30,7 @@ class User {
   password: string;
 
   @Column({ default: false })
-  isAdm: boolean;
+  isAdm?: boolean;
 
   @Column({ default: true })
   @Exclude()

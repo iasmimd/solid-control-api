@@ -6,8 +6,7 @@ import { IUserCreate } from "../interfaces/user";
 export const userCreateSchema: SchemaOf<IUserCreate> = yup.object().shape({
   name: yup.string().required(),
   email: yup.string().email().required(),
-  password: yup.string().required(),
-  isAdm: yup.boolean().required()
+  password: yup.string().required()
 });
 
 export const validateUserCreateMiddleware = (schema: SchemaOf<IUserCreate>) => async (req: Request, res: Response, next: NextFunction) => {

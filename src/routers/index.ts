@@ -24,3 +24,4 @@ export const appRoutes = (app: Express) => {
 };
 
 export default appRoutes;
+

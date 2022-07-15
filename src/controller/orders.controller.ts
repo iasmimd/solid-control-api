@@ -5,16 +5,16 @@ class OrdersController {
 
   static async create (req: Request, res: Response) {
 
-    const { supply_id, provider_id, total_price, status } = req.body;
+    const { supplies, provider_id, total_price, status } = req.body;
 
-    const order = await OrdersService.createNewOrder({ provider_id, supply_id, total_price, status});
+    const order = await OrdersService.createNewOrder({ provider_id, supplies, total_price, status});
 
     return res.status(201).json(order);
   }
 
   static async read (req: Request, res: Response) {
 
-    const readAllOrders = await OrdersService.readAllOrders();
+    const readAllOrders = await OrdersService.list();
 
     return res.status(200).json(readAllOrders);
   }
@@ -23,7 +23,7 @@ class OrdersController {
     
     const { id } = req.params;
 
-    const readOrder = await OrdersService.readOneOrder(id);
+    const readOrder = await OrdersService.readOne(id);
 
     return res.status(200).json(readOrder);
   }

@@ -1,5 +1,7 @@
+import { Supply } from "../../entities/supply.entity";
+
 export interface IOrder {
-  supply_id: string;
+  supplies?: string[];
   provider_id: string;
   total_price: number;
   status: string;

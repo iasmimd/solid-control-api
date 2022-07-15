@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Providers } from "./providers.entity";
 import { v4 as uuid } from 'uuid';
 import { Supply } from "./supply.entity";
@@ -20,14 +20,9 @@ export class Orders {
   @JoinTable()
   supplies: Supply[]
 
-  @ManyToMany(() => Providers, { eager:true })
-  @JoinTable()
+  @ManyToOne(() => Providers ,{ eager:true })
+  @JoinColumn()
   provider: Providers
 
-  constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-  }
 }
 

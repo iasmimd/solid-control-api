@@ -6,6 +6,7 @@ import {
   OneToOne,
   ManyToMany,
   JoinColumn,
+  OneToMany,
   JoinTable,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
@@ -47,8 +48,7 @@ class User {
   cart: Cart;
 
   /* */
-  @ManyToMany(() => Ticket, { eager: true })
-  @JoinTable()
+  @OneToMany(() => Ticket, (ticket) => ticket.user)
   tickets: Ticket[];
 }
 export { User };

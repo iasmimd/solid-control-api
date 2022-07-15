@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -8,4 +8,7 @@ export class Ticket {
 
   @ManyToOne(() => User, (user) => user.cart)
   cart: User;
+
+  @ManyToOne(() => User, (user) => user.id, { eager: true })
+  user: User;
 }

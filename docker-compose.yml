@@ -10,13 +10,5 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=capstone_api
-    volumes:
-     
-      - capstone_api:/var/lib/postgresql/data
 
-volumes:
-  capstone_api:
-    driver: local
-
-      - POSTGRES_DB=capstone_api
 

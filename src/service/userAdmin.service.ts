@@ -1,29 +1,72 @@
 import { AppDataSource } from "../data-source";
 import { AdminUser } from "../entities/userAdmin.entity";
-import { IAdminUser, IAdminUserUpdate } from "../interfaces/user";
-import bcrypt from "bcrypt";
+import { IAdminUser, IAdminUserUpdate, IUserLogin } from "../interfaces/user";
+import bcrypt, { compare } from "bcrypt";
+import jwt from "jsonwebtoken";
 import { AppError } from '../errors/AppError';
 
-class UserService {
+class AdminService {
 
   static async createUserAdmin ({ name, email, password, isAdm = true }: IAdminUser ): Promise<AdminUser> {
 
-    const userRepository = AppDataSource.getRepository(AdminUser);
+    if (!name || !email || !password) {
+      throw new AppError(400, "Can not be empty")
+    }
+    const adminRepository = AppDataSource.getRepository(AdminUser);
 
-    const newAdmin = userRepository.create({
+    // const adminEmail = await adminRepository.find({
+    //   where: {
+    //     email: email
+    //   }
+    // })
+
+    // if (!adminEmail) {
+    //   throw new AppError("User already exists")
+    // }
+
+    const newAdmin = adminRepository.create({
       name,
       email,
       password: bcrypt.hashSync(password, 10),
       isAdm: isAdm
     })
 
-    if (newAdmin === null) {
-      throw new AppError(400, "Can not be empty")
-    }
-
-    await userRepository.save(newAdmin);
+    await adminRepository.save(newAdmin);
 
     return newAdmin;
+  }
+
+  static async loginAdminService({ email, password }: IUserLogin) {
+    const adminRepository = AppDataSource.getRepository(AdminUser);
+
+    const user = await adminRepository.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      throw new AppError(403, "Invalid credentials");
+    }
+
+    const passwordMatch = await compare(password, user.password);
+
+    if (!passwordMatch) {
+      throw new AppError(403, "Invalid credentials");
+    }
+
+    const token = jwt.sign(
+      {
+        id: user.id,
+        isAdm: user.isAdm,
+      },
+      process.env.SECRET_KEY as string,
+      {
+        expiresIn: "12h",
+      }
+    );
+
+    return token;
   }
 
   static async readUsersService(): Promise<AdminUser[]> {
@@ -71,4 +114,4 @@ class UserService {
   }
 }
 
-export default UserService;
+export default AdminService;

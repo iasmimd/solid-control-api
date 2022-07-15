@@ -120,4 +120,5 @@ class UsersServices {
     return users;
   }
 }
+
 export default UsersServices;

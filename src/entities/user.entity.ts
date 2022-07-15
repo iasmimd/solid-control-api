@@ -13,7 +13,7 @@ import { Address } from './address.entity';
 import { Cart } from './cart.entity';
 import { Ticket } from './ticket.entity';
 
-@Entity('users')
+@Entity()
 @Unique(['email'])
 class User {
   @PrimaryGeneratedColumn('uuid')

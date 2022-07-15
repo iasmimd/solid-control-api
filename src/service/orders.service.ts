@@ -23,9 +23,10 @@ class OrdersService {
 
     let allSupplies = supplies.map(async (elem) => {
       const supply = await supplyRepository.findOne({
-        where: { id: elem },
+        where: { id: elem.id },
       });
       if (supply) {
+        supply.qtd = elem.qtd
         listSupplies.push(supply);
       }
     });

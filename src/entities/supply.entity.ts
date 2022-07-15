@@ -1,4 +1,11 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Exclude } from "class-transformer";
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Orders } from "./orders.entity";
 import { Providers } from "./providers.entity";
 
@@ -13,11 +20,14 @@ export class Supply {
   @Column({ type: "decimal", precision: 10, scale: 2 })
   buy_price: number;
 
-  @ManyToMany(()=> Providers, {eager:true})
+  @Column({ default: null })
+  @Exclude()
+  qtd?: number;
+  @ManyToMany(() => Providers, { eager: true })
   @JoinTable()
-  provider: Providers[]
+  provider: Providers[];
 
-  @ManyToMany(() => Orders )
+  @ManyToMany(() => Orders)
   @JoinTable()
-  orders: Orders[]
+  orders: Orders[];
 }

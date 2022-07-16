@@ -78,7 +78,7 @@ class OrdersService {
 
     return order;
   }
-  static async updateOrder(id: string, data: IOrderUpdate) {
+  static async updateOrder(id: string, status: string) {
     const ordersRepository = AppDataSource.getRepository(Orders);
 
     const order = await ordersRepository.findOneBy({ id });
@@ -87,9 +87,17 @@ class OrdersService {
       throw new AppError(404, "Order not found");
     }
 
-    await ordersRepository.update(order!.id, {
-      status: data.status,
+    console.log(order);
+
+    await ordersRepository.update(id, {
+      status: status,
     });
+
+    // if (data?.status === "Finalizado") {
+    //   order.supplies?.forEach((supply: IStockCreate) =>
+    //     StockService.create(supply)
+    //   );
+    // }
 
     return true;
   }

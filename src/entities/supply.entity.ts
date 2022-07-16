@@ -4,10 +4,12 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Orders } from "./orders.entity";
 import { Providers } from "./providers.entity";
+import { Stock } from "./stock.entity";
 
 @Entity()
 export class Supply {
@@ -26,6 +28,9 @@ export class Supply {
   @ManyToMany(() => Providers, { eager: true })
   @JoinTable()
   provider: Providers[];
+
+  @OneToMany(() => Stock, (stock) => stock.id)
+  stock: Stock;
 
   @ManyToMany(() => Orders)
   @JoinTable()

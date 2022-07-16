@@ -5,6 +5,7 @@ import { Supply } from "../entities/supply.entity";
 import { AppError } from "../errors/AppError";
 import { IOrder, IOrderUpdate } from "../interfaces/orders";
 import { IStockCreate } from "../interfaces/stock";
+import { ISupply } from "../interfaces/supply";
 import StockService from "./stock.service";
 
 class OrdersService {
@@ -51,9 +52,11 @@ class OrdersService {
       const newOrder = ordersRepository.create(order);
       await ordersRepository.save(newOrder);
 
+      console.log(listSupplies);
+
       if (status === "Finalizado") {
-        listSupplies?.forEach((supply: IStockCreate) =>
-          StockService.create(supply)
+        listSupplies?.forEach((supply: any) =>
+          StockService.create({ qtd: supply.qtd, supply_id: supply.id })
         );
       }
 
@@ -83,21 +86,21 @@ class OrdersService {
 
     const order = await ordersRepository.findOneBy({ id });
 
+    console.log(order);
+
     if (!order) {
       throw new AppError(404, "Order not found");
     }
-
-    console.log(order);
 
     await ordersRepository.update(id, {
       status: status,
     });
 
-    // if (data?.status === "Finalizado") {
-    //   order.supplies?.forEach((supply: IStockCreate) =>
-    //     StockService.create(supply)
-    //   );
-    // }
+    if (status === "Finalizado") {
+      order.supplies?.forEach((supply: any) =>
+        StockService.create({ qtd: supply.qtd, supply_id: supply.id })
+      );
+    }
 
     return true;
   }

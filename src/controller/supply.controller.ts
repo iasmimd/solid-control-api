@@ -25,7 +25,6 @@ class SupplyController {
     return res.status(200).json(response);
   };
 
-
   static async update(req: Request, res: Response) {
     const { supply_id } = req.params;
     const data = req.body;

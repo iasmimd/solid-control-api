@@ -4,6 +4,8 @@ import { Providers } from "../entities/providers.entity";
 import { Supply } from "../entities/supply.entity";
 import { AppError } from "../errors/AppError";
 import { IOrder, IOrderUpdate } from "../interfaces/orders";
+import { IStockCreate } from "../interfaces/stock";
+import StockService from "./stock.service";
 
 class OrdersService {
   static async createNewOrder({ supplies, provider_id, status }: IOrder) {
@@ -48,6 +50,13 @@ class OrdersService {
       order.supplies = listSupplies;
       const newOrder = ordersRepository.create(order);
       await ordersRepository.save(newOrder);
+
+      if (status === "Finalizado") {
+        listSupplies?.forEach((supply: IStockCreate) =>
+          StockService.create(supply)
+        );
+      }
+
       return newOrder;
     }
   }

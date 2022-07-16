@@ -1,5 +1,6 @@
 import { AppDataSource } from "../data-source";
 import { Stock } from "../entities/stock.entity";
+import { AppError } from "../errors/AppError";
 import { IStockCreate } from "../interfaces/stock";
 
 class StockService {
@@ -13,7 +14,7 @@ class StockService {
     );
 
     if (supplyAlreadyExist) {
-      throw new Error("This item already exist"); // Usar o atualizar
+      throw new AppError(409, "This item already exist"); // Usar o atualizar
     }
 
     const stock = new Stock();
@@ -64,4 +65,4 @@ class StockService {
   };
 }
 
-export default StockService
+export default StockService;

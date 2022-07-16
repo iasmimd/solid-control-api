@@ -6,32 +6,34 @@ import { AppError } from "../errors/AppError";
 import { IOrder, IOrderUpdate } from "../interfaces/orders";
 
 class OrdersService {
-  static async createNewOrder({
-    supplies,
-    provider_id,
-    total_price,
-    status,
-  }: IOrder) {
+  static async createNewOrder({ supplies, provider_id, status }: IOrder) {
     const ordersRepository = AppDataSource.getRepository(Orders);
     const supplyRepository = AppDataSource.getRepository(Supply);
     const providerRepository = AppDataSource.getRepository(Providers);
 
-    if (!supplies || !provider_id || !total_price || !status) {
+    if (!supplies || !provider_id || !status) {
       throw new AppError(400, "Requisition body is incomplete or empty ");
     }
     const listSupplies: any = [];
+
+    //total_price
 
     let allSupplies = supplies.map(async (elem) => {
       const supply = await supplyRepository.findOne({
         where: { id: elem.id },
       });
       if (supply) {
-        supply.qtd = elem.qtd
+        supply.qtd = elem.qtd;
         listSupplies.push(supply);
       }
     });
 
     await Promise.all(allSupplies);
+
+    const total_price = listSupplies.reduce(
+      (acc: number, supply: any) => acc + supply.qtd * supply.buy_price,
+      0
+    );
 
     const provider = await providerRepository.findOne({
       where: {
@@ -40,7 +42,7 @@ class OrdersService {
     });
     if (provider) {
       const order = new Orders();
-      order.total_price = total_price;
+      order.total_price = total_price.toFixed(2);
       order.status = status;
       order.provider = provider;
       order.supplies = listSupplies;

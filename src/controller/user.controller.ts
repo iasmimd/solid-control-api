@@ -46,7 +46,7 @@ class UsersControllers {
   static async list(req: Request, res: Response) {
     const users = await UsersServices.listUsersService();
 
-    return res.status(200).json(instanceToPlain(users));
+    return res.status(200).json(users);
   }
 }
 export default UsersControllers;

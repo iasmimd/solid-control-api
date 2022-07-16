@@ -1,12 +1,12 @@
-import { Router } from 'express';
-import { CartController } from '../controller/cart.controller';
-import { authToken } from '../middleware/authToken.middleware';
+import { Router } from "express";
+import { CartController } from "../controller/cart.controller";
+import { authUser } from "../middleware/authToken.middleware";
 
 const routes = Router();
 
 export const cartRoutes = () => {
-  routes.post('/:product_id', authToken, CartController.create);
-  routes.delete('', authToken, CartController.delete);
+  routes.post("/:product_id",authUser,  CartController.create);
+  routes.delete("", authUser, CartController.delete);
 
   return routes;
 };

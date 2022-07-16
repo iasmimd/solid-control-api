@@ -19,7 +19,7 @@ class UsersControllers {
     const { email, password } = req.body;
     const token = await UsersServices.loginUserService({ email, password });
 
-    return res.status(200).json({ token });
+    return res.status(200).json(token);
   }
 
   static async retrieve(req: Request, res: Response) {

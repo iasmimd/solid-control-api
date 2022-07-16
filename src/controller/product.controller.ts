@@ -4,7 +4,7 @@ import ProductService from '../service/product.service';
 class ProductController {
   static async create(req: Request, res: Response) {
     const data = req.body;
-
+  
     const response = await ProductService.productCreateService(data);
     return res.status(201).json(response);
   }
@@ -21,6 +21,8 @@ class ProductController {
   }
 
   static async read(req: Request, res: Response) {
+    const id = req.user.id
+    console.log(id)
     const response = await ProductService.listProductsService();
     return res.status(200).json(response);
   }

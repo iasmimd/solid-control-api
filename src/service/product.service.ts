@@ -1,31 +1,54 @@
 import { AppDataSource } from "../data-source";
 import { Product } from "../entities/products.entity";
+import { Supply } from "../entities/supply.entity";
 import { AppError } from "../errors/AppError";
 import { IProduct } from "../interfaces/product";
 
 class ProductService {
   static async productCreateService({ supplies, name, price, img }: IProduct) {
-    // const supplyRepository = AppDataSource.getRepository(Supply)
-    // const stockRepository = AppDataSource.getRepository(Stock)
+    const supplyRepository = AppDataSource.getRepository(Supply);
     const productRepository = AppDataSource.getRepository(Product);
 
     const products = await productRepository.find();
-    const productAvailability = products.find((product) => (product.name = name));
+    const productAvailability = products.find(
+      (product) => (product.name = name)
+    );
 
     if (!supplies || !name || !price || !img) {
       throw new AppError(400, "Error in your request");
     }
-    if (productAvailability) {
-      throw new AppError(409, "product already exists");
-    }
-    const newProduct = productRepository.create({
-      supplies,
-      name,
-      price,
-      img,
+    const listSupplies: any = [];
+
+    let allSupplies = supplies.map(async (elem: any) => {
+      const supply = await supplyRepository.findOne({
+        where: { id: elem.id },
+      });
+
+      if (supply) {
+        supply.qtd = elem.qtd;
+        listSupplies.push(supply);
+      }
     });
-    await productRepository.save(newProduct);
-    return newProduct;
+
+    await Promise.all(allSupplies);
+   
+
+    // if (productAvailability) {
+    //   throw new AppError(409, "product already exists");
+    // }
+
+      const newProduct = new Product()
+      newProduct.supplies = listSupplies
+      newProduct.img = img
+      newProduct.name = name
+      newProduct.price = price
+
+      const productCreated = productRepository.create(newProduct)
+      await productRepository.save(newProduct);
+      return productCreated;
+    
+
+   
   }
 
   static async listProductsService() {
@@ -69,7 +92,7 @@ class ProductService {
       throw new AppError(404, "products not found");
     }
     await productRepository.delete(product!.id);
-    return {message:"Product as deleted"}
+    return { message: "Product as deleted" };
   }
 }
 

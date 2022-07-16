@@ -7,13 +7,13 @@ class SupplyController {
     const data = req.body;
     const response = await SupplyService.create(data);
 
-    return res.status(201).json(instanceToPlain(response));
+    return res.status(201).json(response);
   }
 
   static async list(req: Request, res: Response) {
     const response = await SupplyService.list();
 
-    return res.status(200).json(instanceToPlain(response));
+    return res.status(200).json(response);
   };
 
 
@@ -22,7 +22,7 @@ class SupplyController {
 
     const response = await SupplyService.readOne(supply_id);
 
-    return res.status(200).json(instanceToPlain(response));
+    return res.status(200).json(response);
   };
 
 

@@ -4,6 +4,7 @@ import { Providers } from "../entities/providers.entity";
 import { Supply } from "../entities/supply.entity";
 import { AppError } from "../errors/AppError";
 import { IOrder, IOrderUpdate } from "../interfaces/orders";
+import { SupplyService } from "./supply.service";
 
 class OrdersService {
   static async createNewOrder({
@@ -16,7 +17,7 @@ class OrdersService {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const providerRepository = AppDataSource.getRepository(Providers);
 
-    if (!supplies || !provider_id || !total_price || !status) {
+    if (!supplies || !provider_id  || !status) {
       throw new AppError(400, "Requisition body is incomplete or empty ");
     }
     const listSupplies: any = [];
@@ -27,6 +28,7 @@ class OrdersService {
       });
       if (supply) {
         supply.qtd = elem.qtd
+        await SupplyService.update(elem.id,{qtd:elem.qtd})
         listSupplies.push(supply);
       }
     });

@@ -24,12 +24,13 @@ export class SupplyService {
 
     const supplyAvailability = supply.find((supply) => (supply.name = name));
 
-    if (supplyAvailability) {
-      throw new AppError(409, "supply already exists");
-    };
+    // if (supplyAvailability) {
+    //   throw new AppError(409, "supply already exists");
+    // }
 
     const newSupply = new Supply();
     (newSupply.name = name),
+      (newSupply.qtd = 0),
       (newSupply.buy_price = buy_price),
       (newSupply.provider = [provider]),
       supplyRepository.create(newSupply);
@@ -61,7 +62,10 @@ export class SupplyService {
     return supply;
   }
 
-  static async update(supply_id: string, { name, buy_price }: ISupplyUpdate) {
+  static async update(
+    supply_id: string,
+    { name, buy_price, qtd }: ISupplyUpdate
+  ) {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const supplyList = await supplyRepository.find();
 
@@ -73,7 +77,7 @@ export class SupplyService {
     if (!supply) {
       throw new AppError(404, "Supply not found.");
     }
-    await supplyRepository.update(supply!.id, { name, buy_price });
+    await supplyRepository.update(supply!.id, { name, buy_price, qtd });
 
     return true;
   }

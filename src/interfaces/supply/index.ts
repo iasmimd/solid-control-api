@@ -9,4 +9,5 @@ export interface ISupply {
 export interface ISupplyUpdate {
   name?: string;
   buy_price?: number;
+  qtd:number
 }

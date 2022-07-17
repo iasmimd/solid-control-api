@@ -4,6 +4,9 @@ import { Providers } from "../entities/providers.entity";
 import { Supply } from "../entities/supply.entity";
 import { AppError } from "../errors/AppError";
 import { IOrder, IOrderUpdate } from "../interfaces/orders";
+import { IStockCreate } from "../interfaces/stock";
+import { ISupply } from "../interfaces/supply";
+import StockService from "./stock.service";
 
 class OrdersService {
   static async createNewOrder({ supplies, provider_id, status }: IOrder) {
@@ -48,6 +51,15 @@ class OrdersService {
       order.supplies = listSupplies;
       const newOrder = ordersRepository.create(order);
       await ordersRepository.save(newOrder);
+
+      console.log(listSupplies);
+
+      if (status === "Finalizado") {
+        listSupplies?.forEach((supply: any) =>
+          StockService.create({ qtd: supply.qtd, supply_id: supply.id })
+        );
+      }
+
       return newOrder;
     }
   }
@@ -69,18 +81,26 @@ class OrdersService {
 
     return order;
   }
-  static async updateOrder(id: string, data: IOrderUpdate) {
+  static async updateOrder(id: string, status: string) {
     const ordersRepository = AppDataSource.getRepository(Orders);
 
     const order = await ordersRepository.findOneBy({ id });
+
+    console.log(order);
 
     if (!order) {
       throw new AppError(404, "Order not found");
     }
 
-    await ordersRepository.update(order!.id, {
-      status: data.status,
+    await ordersRepository.update(id, {
+      status: status,
     });
+
+    if (status === "Finalizado") {
+      order.supplies?.forEach((supply: any) =>
+        StockService.create({ qtd: supply.qtd, supply_id: supply.id })
+      );
+    }
 
     return true;
   }

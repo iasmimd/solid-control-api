@@ -1,28 +1,35 @@
 import { AppDataSource } from "../data-source";
 import { Stock } from "../entities/stock.entity";
+import { Supply } from "../entities/supply.entity";
+import { AppError } from "../errors/AppError";
 import { IStockCreate } from "../interfaces/stock";
 
 class StockService {
   static create = async ({ qtd, supply_id }: IStockCreate) => {
     const userRepository = AppDataSource.getRepository(Stock);
+    const supplyRepository = AppDataSource.getRepository(Supply);
 
     const stockList = await userRepository.find();
+    const supply = await supplyRepository.findOne({ where: { id: supply_id } });
 
     const supplyAlreadyExist = stockList.find(
-      (stock) => stock.supply_id.id === supply_id
+      (stock) => stock.supply.id === supply_id
     );
 
     if (supplyAlreadyExist) {
-      throw new Error("This item already exist"); // Usar o atualizar
+      throw new AppError(409, "This item already exist"); // Usar o atualizar
     }
 
-    const stock = new Stock();
-    stock.qtd = qtd;
+    if (supply) {
+      const stock = new Stock();
+      stock.qtd = qtd;
+      stock.supply = supply;
 
-    userRepository.create(stock);
-    await userRepository.save(stock);
+      userRepository.create(stock);
+      await userRepository.save(stock);
 
-    return stock;
+      return stock;
+    }
   };
 
   static list = async () => {
@@ -64,4 +71,4 @@ class StockService {
   };
 }
 
-export default StockService
+export default StockService;

@@ -10,13 +10,22 @@ class ProductService {
     const productRepository = AppDataSource.getRepository(Product);
 
     const products = await productRepository.find();
-    const productAvailability = products.find(
-      (product) => (product.name = name)
-    );
+    const productAvailability = await productRepository.findOne({
+      where: { name, price, img },
+    });
+
+    if (productAvailability) {
+      throw new AppError(409, "Product already exists.");
+    }
 
     if (!supplies || !name || !price || !img) {
       throw new AppError(400, "Error in your request");
     }
+
+    if (products.length === 0) {
+      throw new AppError(400, "Product not found");
+    }
+
     const listSupplies: any = [];
 
     let allSupplies = supplies.map(async (elem: any) => {
@@ -31,24 +40,15 @@ class ProductService {
     });
 
     await Promise.all(allSupplies);
-   
 
-    // if (productAvailability) {
-    //   throw new AppError(409, "product already exists");
-    // }
+    const newProduct = new Product();
+    newProduct.supplies = listSupplies;
+    newProduct.img = img;
+    newProduct.name = name;
+    newProduct.price = price;
 
-      const newProduct = new Product()
-      newProduct.supplies = listSupplies
-      newProduct.img = img
-      newProduct.name = name
-      newProduct.price = price
-
-      const productCreated = productRepository.create(newProduct)
-      await productRepository.save(newProduct);
-      return productCreated;
-    
-
-   
+    await productRepository.save(newProduct);
+    return newProduct;
   }
 
   static async listProductsService() {
@@ -63,11 +63,8 @@ class ProductService {
 
   static async updateProductsService(
     product_id: string,
-    { img, name, price, supplies }: IProduct
+    { img, name, price }: IProduct
   ) {
-    if (!supplies || !name || !price || !img) {
-      throw new AppError(400, "Error in your request");
-    }
     const productRepository = AppDataSource.getRepository(Product);
 
     const product = await productRepository.findOne({
@@ -77,7 +74,7 @@ class ProductService {
     if (!product) {
       throw new AppError(404, "products not found");
     }
-    await productRepository.update(product_id, { name, supplies, price, img });
+    await productRepository.update(product_id, { name, price, img })
 
     return { message: "Product updated." };
   }

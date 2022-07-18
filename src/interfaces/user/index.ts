@@ -1,33 +1,33 @@
-export interface IUser {
-  id: string
-  name: string
-  email: string
-  isAdm?: boolean
-  active?: boolean
-  address_id?: string
-  cart_id?: string
-}
+
+
+
 
 export interface IUserCreate {
-  name: string
-  email: string
-  password: string
+  name: string;
+  email: string;
+  password: string;
+  street: string;
+  number: string;
+  complement?: string;
+  state: string;
+  zip_code: string;
+  country: string;
 }
 
 export interface IUserLogin {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 export interface IAdminUser {
-  name: string
-  email: string
-  password: string
-  isAdm: boolean
+  name: string;
+  email: string;
+  password: string;
+  isAdm: boolean;
 }
 
 export interface IAdminUserUpdate {
-  name?: string
-  email?: string
-  password: string
+  name?: string;
+  email?: string;
+  password: string;
 }

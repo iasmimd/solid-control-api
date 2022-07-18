@@ -1,14 +1,24 @@
 import { AppDataSource } from "../data-source";
 import { AppError } from "../errors/AppError";
 import { User } from "../entities/user.entity";
-import { IUserCreate, IUser, IUserLogin } from "../interfaces/user";
+import { IUserCreate, IUserLogin } from "../interfaces/user";
 import bcrypt, { compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { Cart } from "../entities/cart.entity";
 
 class UsersServices {
-  static async createUserService({ name, email, password }: IUserCreate) {
+  static async createUserService({
+    name,
+    email,
+    street,
+    number,
+    complement,
+    state,
+    zip_code,
+    country,
+    password,
+  }: IUserCreate) {
     const usersRepository = AppDataSource.getRepository(User);
     const cartRepository = AppDataSource.getRepository(Cart);
 
@@ -29,6 +39,13 @@ class UsersServices {
     const newUser = new User();
     newUser.name = name;
     newUser.email = email;
+    newUser.number = number ;
+
+    newUser.street = street;
+    newUser.complement = complement || "";
+    newUser.state = state;
+    newUser.zip_code = zip_code ;
+    newUser.country = country;
     newUser.password = bcrypt.hashSync(password, 10);
     newUser.cart = cart;
 
@@ -59,7 +76,7 @@ class UsersServices {
     if (!passwordMatch) {
       throw new AppError(403, "Invalid credentials");
     }
-    console.log(user)
+    console.log(user);
     const token = jwt.sign(
       {
         id: user.id,

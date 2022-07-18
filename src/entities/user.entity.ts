@@ -8,16 +8,16 @@ import {
   JoinColumn,
   OneToMany,
   JoinTable,
-} from 'typeorm';
-import { Exclude } from 'class-transformer';
-import { Address } from './address.entity';
-import { Cart } from './cart.entity';
-import { Ticket } from './ticket.entity';
+} from "typeorm";
+import { Exclude } from "class-transformer";
+
+import { Cart } from "./cart.entity";
+import { Ticket } from "./ticket.entity";
 
 @Entity()
-@Unique(['email'])
+@Unique(["email"])
 class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column({ length: 128, nullable: false })
@@ -37,16 +37,27 @@ class User {
   @Exclude()
   active: boolean;
 
+  @Column()
+  number: string;
 
-  @ManyToMany(() => Address, { eager: true })
-  @JoinTable()
-  address: Address[];
+  @Column( { length: 256, nullable: false })
+  street: string;
 
+  @Column( { length: 256 })
+  complement: string;
+
+  @Column( { length: 2, nullable: false })
+  state: string;
+
+  @Column()
+  zip_code: string;
+
+  @Column( { length: 256, nullable: false })
+  country: string;
 
   @OneToOne(() => Cart, { eager: true })
   @JoinColumn()
   cart: Cart;
-
 
   @OneToMany(() => Ticket, (ticket) => ticket.user)
   tickets: Ticket[];

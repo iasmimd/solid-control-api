@@ -1,29 +1,49 @@
-import { AppDataSource } from '../data-source';
-import { Ticket } from '../entities/ticket.entity';
-import { User } from '../entities/user.entity';
-import { AppError } from '../errors/AppError';
+import { AppDataSource } from "../data-source";
+import { Cart } from "../entities/cart.entity";
+import { Ticket } from "../entities/ticket.entity";
+import { User } from "../entities/user.entity";
+import { AppError } from "../errors/AppError";
 
 class TicketService {
   static async createTicket(user_id: string) {
     const userRepository = AppDataSource.getRepository(User);
+    const cartRepository = AppDataSource.getRepository(Cart);
+    const ticketRepository = AppDataSource.getRepository(Ticket);
 
-    const findUser = await userRepository.findOne({
+    const user = await userRepository.findOne({
       where: { id: user_id },
     });
 
-    if (!findUser) {
-      throw new AppError(404, 'User not found');
+    if (!user) {
+      throw new AppError(404, "User not found");
     }
 
-    const ticketRepository = AppDataSource.getRepository(Ticket);
+    const cart = await cartRepository.findOne({ where: { id: user?.cart.id } });
 
-    const ticket = new Ticket();
-    ticket.cart;
+    if (!cart) {
+      throw new AppError(400, "Cart is empty.");
+    }
 
-    ticketRepository.create(ticket);
-    await ticketRepository.save(ticket);
+    if (cart && user) {
+      if (cart.products.length === 0) {
+        throw new AppError(400, "Cart is empty")
+    }
 
-    return ticket;
+
+      const ticket = new Ticket();
+      ticket.user = user
+      ticket.products = cart.products
+      ticket.total = cart.subtotal
+    
+      cart.products = []
+      cart.subtotal = 0
+      await cartRepository.save(cart)
+      
+      ticketRepository.create(ticket);
+      await ticketRepository.save(ticket);
+
+      return ticket;
+    }
   }
 
   static async readTicket() {

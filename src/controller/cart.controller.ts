@@ -12,7 +12,12 @@ export class CartController {
 
     return res.status(201).json(cart);
   }
+  static async list(req: Request, res: Response){
+    const user_id = req.user.id
+    const response = await CartService.list(user_id)
 
+    return res.status(200).json(response)
+  }
   static async delete(req: Request, res: Response) {
     const { product_id } = req.params;
 

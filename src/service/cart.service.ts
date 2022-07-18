@@ -45,6 +45,16 @@ export class CartService {
       return cart;
     }
   }
+  static async list(user_id: string) {
+    const userRepository = AppDataSource.getRepository(User);
+
+    const user = await userRepository.findOne({ where: { id: user_id } });
+
+    if (!user) {
+      throw new AppError(404, "User not found");
+    }
+    return user.cart
+  }
   static async DeleteCartItem({ product_id, id }: ICart) {
     const cartRepository = AppDataSource.getRepository(Cart);
     const userRepository = AppDataSource.getRepository(User);

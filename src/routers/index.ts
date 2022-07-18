@@ -14,7 +14,7 @@ export const appRoutes = (app: Express) => {
   app.use('/admin', adminRoutes());
   app.use('/users', userRoutes());
   app.use('/address', addressRoutes());
-  app.use('/', ticketRoutes());
+  app.use('/ticket', ticketRoutes());
   app.use('/products', productRouter());
   app.use('/providers', providerRoutes());
   app.use('/cart', cartRoutes());

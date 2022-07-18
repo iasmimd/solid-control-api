@@ -8,6 +8,9 @@ import {
   JoinColumn,
   OneToMany,
   JoinTable,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Address } from './address.entity';
@@ -37,6 +40,14 @@ class User {
   @Exclude()
   active: boolean;
 
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at: Date;
 
   @ManyToMany(() => Address, { eager: true })
   @JoinTable()

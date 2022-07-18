@@ -14,16 +14,6 @@ class AdminService {
     }
     const adminRepository = AppDataSource.getRepository(AdminUser);
 
-    // const adminEmail = await adminRepository.find({
-    //   where: {
-    //     email: email
-    //   }
-    // })
-
-    // if (!adminEmail) {
-    //   throw new AppError("User already exists")
-    // }
-
     const newAdmin = adminRepository.create({
       name,
       email,

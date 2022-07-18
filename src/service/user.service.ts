@@ -5,39 +5,32 @@ import { IUserCreate, IUser, IUserLogin } from "../interfaces/user";
 import bcrypt, { compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { Cart } from "../entities/cart.entity";
 
 class UsersServices {
-  static async createUserService({ name, email, password }: IUserCreate) {
+  static async createUserService({ name, email, password }: IUserCreate): Promise<IUser> {
     const usersRepository = AppDataSource.getRepository(User);
-    const cartRepository = AppDataSource.getRepository(Cart);
-
     const users = await usersRepository.find();
-
     const emailExists = users.find((el) => el.email === email);
 
     if (emailExists) {
       throw new AppError(409, "E-mail already exists!");
     }
 
-    const cart = new Cart();
-    cart.subtotal = 0;
+    const user = usersRepository.create({
+      name,
+      email,
+      password: bcrypt.hashSync(password, 10),
+      active: true
+    });
 
-    cartRepository.create(cart);
-    await cartRepository.save(cart);
-
-    const newUser = new User();
-    newUser.name = name;
-    newUser.email = email;
-    newUser.password = bcrypt.hashSync(password, 10);
-    newUser.cart = cart;
-
-    const createdUser = usersRepository.create(newUser);
-    await usersRepository.save(createdUser);
-    return createdUser;
+    await usersRepository.save(user);
+    return user;
   }
 
-  static async loginUserService({ email, password }: IUserLogin) {
+  static async loginUserService({
+    email,
+    password,
+  }: IUserLogin): Promise<string> {
     const usersRepository = AppDataSource.getRepository(User);
 
     const user = await usersRepository.findOne({
@@ -51,7 +44,7 @@ class UsersServices {
     }
 
     if (!user.active) {
-      throw new AppError(401, "Inactive user");
+      throw new Error("Inactive user");
     }
 
     const passwordMatch = await compare(password, user.password);
@@ -59,20 +52,19 @@ class UsersServices {
     if (!passwordMatch) {
       throw new AppError(403, "Invalid credentials");
     }
-    console.log(user)
+
     const token = jwt.sign(
       {
         id: user.id,
-        email: user.email,
         isAdm: user.isAdm,
       },
-      String(process.env.SECRET_KEY),
+      process.env.SECRET_KEY as string,
       {
         expiresIn: "12h",
       }
     );
 
-    return { token };
+    return token;
   }
 
   static async retrieveUserService(id: string) {
@@ -117,8 +109,8 @@ class UsersServices {
       throw new Error("Inactivated user");
     }
 
-    userFound.active = false;
-    await usersRepository.save(userFound);
+    userFound.active = false
+    await usersRepository.save(userFound)
   }
 
   static async listUsersService(): Promise<User[]> {

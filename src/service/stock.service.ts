@@ -17,7 +17,14 @@ class StockService {
     );
 
     if (supplyAlreadyExist) {
-      throw new AppError(409, "This item already exist"); // Usar o atualizar
+      const actualQtd = supplyAlreadyExist.qtd;
+      const incomingQtd = qtd;
+
+      const newTotal = actualQtd + incomingQtd;
+
+      await this.update(supplyAlreadyExist.id, newTotal);
+
+      return;
     }
 
     if (supply) {

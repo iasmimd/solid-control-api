@@ -30,6 +30,7 @@ class OrdersController {
 
   static async update(req: Request, res: Response) {
     const { status } = req.body;
+    
     const { id } = req.params;
 
     await OrdersService.updateOrder(id, status);

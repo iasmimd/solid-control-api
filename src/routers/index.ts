@@ -9,6 +9,7 @@ import { addressRoutes } from './address.routes';
 import { cartRoutes } from './cart.routes';
 import { stockRoutes } from './stock.routes';
 import { supplyRoutes } from './supply.routes';
+import isAdmUserMiddleware from "../middleware/isAdmin.middleware";
 
 export const appRoutes = (app: Express) => {
   app.use('/admin', adminRoutes());

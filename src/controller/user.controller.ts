@@ -6,6 +6,7 @@ import 'express-async-errors';
 class UsersControllers {
   static async create(req: Request, res: Response) {
     const { name, email, password } = req.body;
+
     const newUser = await UsersServices.createUserService({
       name,
       email,
@@ -17,6 +18,7 @@ class UsersControllers {
 
   static async login(req: Request, res: Response) {
     const { email, password } = req.body;
+
     const token = await UsersServices.loginUserService({ email, password });
 
     return res.status(200).json(token);
@@ -24,6 +26,7 @@ class UsersControllers {
 
   static async retrieve(req: Request, res: Response) {
     const id = req.params.id;
+
     const user = await UsersServices.retrieveUserService(id);
 
     return res.status(200).json(user);
@@ -31,6 +34,7 @@ class UsersControllers {
 
   static async update(req: Request, res: Response) {
       const id = req.params.id;
+
       await UsersServices.updateUserService(id, req.body);
 
       return res.status(200).json({ message: "User updated!" });
@@ -38,6 +42,7 @@ class UsersControllers {
 
   static async delete(req: Request, res: Response) {
     const id = req.params.id;
+
     await UsersServices.deleteUserService(id);
 
     return res.status(200).send({ message: 'User deleted!' });
@@ -49,4 +54,5 @@ class UsersControllers {
     return res.status(200).json(users);
   }
 }
+
 export default UsersControllers;

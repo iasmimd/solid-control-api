@@ -50,11 +50,9 @@ class User {
   @JoinTable()
   address: Address[];
 
-
   @OneToOne(() => Cart, { eager: true })
   @JoinColumn()
   cart: Cart;
-
 
   @OneToMany(() => Ticket, (ticket) => ticket.user)
   tickets: Ticket[];

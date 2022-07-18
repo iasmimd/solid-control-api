@@ -46,9 +46,6 @@ class User {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @DeleteDateColumn()
-  deleted_at: Date;
-
   @ManyToMany(() => Address, { eager: true })
   @JoinTable()
   address: Address[];

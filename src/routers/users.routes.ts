@@ -13,7 +13,7 @@ export const userRoutes = () => {
   routes.get("/:id", authUser, isAdmUserMiddleware, UsersControllers.retrieve);
   routes.patch("/:id", authUser, UsersControllers.update);
   routes.delete("/:id", authUser, UsersControllers.delete);
-  routes.get("", authUser, UsersControllers.list);
+  routes.get("", authUser, isAdmUserMiddleware, UsersControllers.list);
 
   return routes
 };

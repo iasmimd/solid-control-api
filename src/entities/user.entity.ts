@@ -37,17 +37,17 @@ class User {
   @Exclude()
   active: boolean;
 
-  /* MUITOS User PODEM TER MUITOS Address*/
+
   @ManyToMany(() => Address, { eager: true })
   @JoinTable()
   address: Address[];
 
-  /* CADA User SÓ TEM UM Cart (1:1)*/
+
   @OneToOne(() => Cart, { eager: true })
   @JoinColumn()
   cart: Cart;
 
-  /* */
+
   @OneToMany(() => Ticket, (ticket) => ticket.user)
   tickets: Ticket[];
 }

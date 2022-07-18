@@ -41,7 +41,7 @@ class PaymentController {
 
     try {
       const preference = await mercadopago.preferences.create(purchaseOrder);
-      return res.redirect(`${preference.body.init_point}`);
+      return res.json({url:`${preference.body.init_point}`});
     } catch (err) {
       if (err instanceof AppError) {
         return res.send(err.message);

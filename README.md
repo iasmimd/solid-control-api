@@ -16,6 +16,7 @@
   - [5. Endpoints](#5-endpoints)
     - [Índice](#índice)
   - [5.1 Provider](#51-provider)
+  - [5.2 Supply](#52-supply)
 
 ---
 
@@ -246,3 +247,156 @@ Exemplo de corpo da requisicao.
 <span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/providers/:provider_id**
 
 Permite deletar um fornecedor do nosso banco de dados passando seu id na url.provider
+
+## 5.2 Supply
+
+A tabela Supply é responsável por armazenar todos os nossos suprimentos / ingredientes. Ela possui uma relação com os fornecedores que possuem estes materiais para compra.
+
+| Name      | Description                               | Type   |
+| --------- | ----------------------------------------- | ------ |
+| name      | Nome do suprimento / ingrediente          | string |
+| buy_price | Preço de compra                           | number |
+| provider  | Array das empresas que fornecem este item | array  |
+| id        | Identificador uuid                        | string |
+
+<br>
+
+<span style="background:orange; color: black; font-weight: bold; padding: 2px 5px;">POST</span> **/supply**
+
+Corpo da requisição para a criação do suprimento / ingrediente.
+
+```JSON
+{
+	"name": "Coca-Cola 3l",
+	"buy_price": 2.5,
+	"provider_id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f"
+}
+```
+
+Resposta da requisição.
+
+```JSON
+{
+	"name": "Coca-Cola 3l",
+	"buy_price": 2.5,
+	"provider": [
+		{
+			"id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
+			"fantasy_name": "Coca-Cola",
+			"name": "Coca Cola Inc",
+			"cnpj": "12345678901234",
+			"ie": "123456789",
+			"street": "Rua do Bairro",
+			"number": 234,
+			"complement": "Industria",
+			"district": "Bairro da Cidade",
+			"city": "Cidade do Estado",
+			"state": "SP",
+			"country": "Brasil",
+			"zip_code": "02758-090"
+		}
+	],
+	"id": "2aca79a2-0d68-4890-9228-24c17fa4fea7"
+}
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/supply**
+
+Lista todos os ingredientes / suprimentos cadastrados em nosso banco de dados.
+
+Corpo da resposta:
+
+```JSON
+[
+	{
+		"id": "d7fc0b05-05e0-471f-a675-acb51df99bc2",
+		"name": "Coca-Cola 2l",
+		"buy_price": "1.50",
+		"provider": [
+			{
+				"id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
+				"fantasy_name": "Coca-Cola",
+				"name": "Coca Cola Inc",
+				"cnpj": "12345678901234",
+				"ie": "123456789",
+				"street": "Rua do Bairro",
+				"number": 234,
+				"complement": "Industria",
+				"district": "Bairro da Cidade",
+				"city": "Cidade do Estado",
+				"state": "SP",
+				"country": "Brasil",
+				"zip_code": "02758-090"
+			}
+		]
+	},
+	{
+		"id": "2aca79a2-0d68-4890-9228-24c17fa4fea7",
+		"name": "Coca-Cola 3l",
+		"buy_price": "2.50",
+		"provider": [
+			{
+				"id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
+				"fantasy_name": "Coca-Cola",
+				"name": "Coca Cola Inc",
+				"cnpj": "12345678901234",
+				"ie": "123456789",
+				"street": "Rua do Bairro",
+				"number": 234,
+				"complement": "Industria",
+				"district": "Bairro da Cidade",
+				"city": "Cidade do Estado",
+				"state": "SP",
+				"country": "Brasil",
+				"zip_code": "02758-090"
+			}
+		]
+	}
+]
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/supply/:supply_id**
+
+Lê um ingrediente / suprimento específico informando o seu id na url.
+
+```JSON
+{
+	"id": "d7fc0b05-05e0-471f-a675-acb51df99bc2",
+	"name": "Coca-Cola 350ml",
+	"buy_price": "1.50",
+	"provider": [
+		{
+			"id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
+			"fantasy_name": "Coca-Cola",
+			"name": "Coca Cola Inc",
+			"cnpj": "12345678901234",
+			"ie": "123456789",
+			"street": "Rua do Bairro",
+			"number": 234,
+			"complement": "Industria",
+			"district": "Bairro da Cidade",
+			"city": "Cidade do Estado",
+			"state": "SP",
+			"country": "Brasil",
+			"zip_code": "02758-090"
+		}
+	]
+}
+
+
+```
+
+<span style="background:yellow; color: black; font-weight: bold; padding: 2px 5px;">PATCH</span> **/supply/:supply_id**
+
+Permite atualizar os dados cadastrais do suprimento / ingrediente.
+Corpo da requisicao.
+
+```JSON
+{
+	"name": "Coca-Cola 2l"
+}
+```
+
+<span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/supply/:supply_id**
+
+Permite deletar um suprimento / ingrediente do nosso banco de dados passando o id na url.

@@ -20,8 +20,6 @@ class UsersServices {
     password,
   }: IUserCreate) {
     const usersRepository = AppDataSource.getRepository(User);
-    const cartRepository = AppDataSource.getRepository(Cart);
-
     const users = await usersRepository.find();
 
     const emailExists = users.find((el) => el.email === email);
@@ -29,6 +27,8 @@ class UsersServices {
     if (emailExists) {
       throw new AppError(409, "E-mail already exists!");
     }
+
+    const cartRepository = AppDataSource.getRepository(User);
 
     const cart = new Cart();
     cart.subtotal = 0;
@@ -49,12 +49,14 @@ class UsersServices {
     newUser.password = bcrypt.hashSync(password, 10);
     newUser.cart = cart;
 
-    const createdUser = usersRepository.create(newUser);
-    await usersRepository.save(createdUser);
-    return createdUser;
+    await usersRepository.save(newUser);
+    return newUser;
   }
 
-  static async loginUserService({ email, password }: IUserLogin) {
+  static async loginUserService({
+    email,
+    password,
+  }: IUserLogin): Promise<string> {
     const usersRepository = AppDataSource.getRepository(User);
 
     const user = await usersRepository.findOne({
@@ -68,7 +70,7 @@ class UsersServices {
     }
 
     if (!user.active) {
-      throw new AppError(401, "Inactive user");
+      throw new Error("Inactive user");
     }
 
     const passwordMatch = await compare(password, user.password);
@@ -80,16 +82,15 @@ class UsersServices {
     const token = jwt.sign(
       {
         id: user.id,
-        email: user.email,
         isAdm: user.isAdm,
       },
-      String(process.env.SECRET_KEY),
+      process.env.SECRET_KEY as string,
       {
         expiresIn: "12h",
       }
     );
 
-    return { token };
+    return token;
   }
 
   static async retrieveUserService(id: string) {
@@ -128,14 +129,13 @@ class UsersServices {
     if (!userFound) {
       throw new AppError(404, "User not found");
     }
-    //await usersRepository.delete(userFound!.id);
 
     if (!userFound.active) {
       throw new Error("Inactivated user");
     }
 
-    userFound.active = false;
-    await usersRepository.save(userFound);
+    userFound.active = false
+    await usersRepository.save(userFound)
   }
 
   static async listUsersService(): Promise<User[]> {

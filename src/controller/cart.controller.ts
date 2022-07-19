@@ -11,6 +11,7 @@ export class CartController {
 
     return res.status(201).json(cart);
   }
+
   static async read(req: Request, res: Response) {
     const user_id = req.user.id;
     const response = await CartService.list(user_id);

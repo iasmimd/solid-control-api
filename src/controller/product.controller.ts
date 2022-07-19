@@ -7,17 +7,20 @@ class ProductController {
     const data = req.body;
   
     const response = await ProductService.productCreateService(data);
+
     return res.status(201).json(response);
   }
 
   static async update(req: Request, res: Response) {
     const { product_id } = req.params;
+
     const data = req.body;
 
     const response = await ProductService.updateProductsService(
       product_id,
       data
     );
+
     return res.status(200).json(response);
   }
 
@@ -31,6 +34,7 @@ class ProductController {
     const { product_id } = req.params;
 
     const response = await ProductService.deleteProductService(product_id);
+    
     return res.status(200).json(response);
   }
 }

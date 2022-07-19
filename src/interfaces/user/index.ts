@@ -1,7 +1,3 @@
-
-
-
-
 export interface IUserCreate {
   name: string;
   email: string;
@@ -11,7 +7,7 @@ export interface IUserCreate {
   complement?: string;
   state: string;
   zip_code: string;
-  country: string;
+  city: string;
 }
 
 export interface IUserLogin {

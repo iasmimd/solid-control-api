@@ -26,7 +26,7 @@ const isAdmUserMiddleware = (
         isAdm: decoded.isAdm,
       };
       if (!decoded.isAdm) {
-        throw new AppError(401, "Invalid Token");
+        throw new AppError(401, "Access denied");
       }
       next();
     }

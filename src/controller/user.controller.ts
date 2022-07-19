@@ -22,7 +22,7 @@ class UsersControllers {
     const id = req.params.id;
     const user = await UsersServices.retrieveUserService(id);
 
-    return res.status(200).json(user);
+    return res.status(200).json(instanceToPlain(user));
   }
 
   static async update(req: Request, res: Response) {
@@ -42,7 +42,7 @@ class UsersControllers {
   static async list(req: Request, res: Response) {
     const users = await UsersServices.listUsersService();
 
-    return res.status(200).json(users);
+    return res.status(200).json(instanceToPlain(users));
   }
 }
 export default UsersControllers;

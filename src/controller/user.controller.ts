@@ -13,7 +13,7 @@ class UsersControllers {
       complement,
       state,
       zip_code,
-      country,
+      city,
       password,
     } = req.body;
 
@@ -25,7 +25,7 @@ class UsersControllers {
       complement,
       state,
       zip_code,
-      country,
+      city,
       password,
     });
 

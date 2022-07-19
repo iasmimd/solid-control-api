@@ -23,7 +23,7 @@ class UsersServices {
     const cartRepository = AppDataSource.getRepository(Cart);
 
     const users = await usersRepository.find();
-
+  
     const emailExists = users.find((el) => el.email === email);
 
     if (emailExists) {
@@ -40,7 +40,6 @@ class UsersServices {
     newUser.name = name;
     newUser.email = email;
     newUser.number = number ;
-
     newUser.street = street;
     newUser.complement = complement || "";
     newUser.state = state;

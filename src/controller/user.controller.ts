@@ -5,8 +5,29 @@ import "express-async-errors";
 
 class UsersControllers {
   static async create(req: Request, res: Response) {
-    const data = req.body;
-    const newUser = await UsersServices.createUserService(data);
+    const {
+      name,
+      email,
+      street,
+      number,
+      complement,
+      state,
+      zip_code,
+      country,
+      password,
+    } = req.body;
+
+    const newUser = await UsersServices.createUserService({
+      name,
+      email,
+      street,
+      number,
+      complement,
+      state,
+      zip_code,
+      country,
+      password,
+    });
 
     return res.status(201).json(instanceToPlain(newUser));
   }

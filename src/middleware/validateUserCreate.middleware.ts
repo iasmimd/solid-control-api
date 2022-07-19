@@ -12,7 +12,7 @@ export const userCreateSchema: SchemaOf<IUserCreate> = yup.object().shape({
   complement: yup.string(),
   state: yup.string().required(),
   zip_code: yup.string().required(),
-  country: yup.string().required(),
+  city: yup.string().required(),
 });
 
 export const validateUserCreateMiddleware =

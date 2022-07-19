@@ -15,6 +15,7 @@
     - [3.3. Migrations](#33-migrations)
   - [5. Endpoints](#5-endpoints)
     - [Índice](#índice)
+  - [5.1 Provider](#51-provider)
 
 ---
 
@@ -131,3 +132,117 @@ yarn typeorm migration:run -d src/data-source.ts
   - [GET - /stock/:stock_id](#)
   - [PATCH - /stock/:stock_id](#)
   - [DELETE - /stock/:stock_id](#)
+
+---
+
+## 5.1 Provider
+
+Todas as rotas do workflow do produto são acessadas apenas por administradores.
+
+Provider é a tabela responsável por armazenar nossos fornecedores, o fornecedor é o primeiro cadastro obrigatório para o workflow do produto em nossa API, sem ele não será possível o relacionamento do Supply.
+
+| Name         | Description                          | Type    |
+| ------------ | ------------------------------------ | ------- |
+| fantasy_name | Nome fantasia                        | string  |
+| name         | Nome                                 | string  |
+| cnpj         | Cadastro Nacional de Pessoa Juridica | string  |
+| ie           | Inscricao estadual                   | string  |
+| street       | Rua / Avenida / Travessa ou Viela    | string  |
+| number       | Numero                               | nuimber |
+| complement   | Complemento                          | String  |
+| district     | Bairro / Distrito                    | string  |
+| city         | cidade                               | string  |
+| state        | Estado                               | string  |
+| country      | Pais                                 | string  |
+| zip_code     | Codigo postal                        | string  |
+| id           | Identificador uuid                   | string  |
+
+<br>
+
+<span style="background:orange; color: black; font-weight: bold; padding: 2px 5px;">POST</span> **/providers**
+
+Corpo da requisição, sendo o “complement” opcional.
+
+```JSON
+{
+	"fantasy_name": "Coca Cola",
+	"name": "Coca Cola Inc",
+	"cnpj": "12345678901234",
+	"ie": "123456789",
+	"street": "Rua do Bairro",
+	"number": 234,
+	"complement":"Industria",
+	"district": "Bairro da Cidade",
+	"city": "Cidade do Estado",
+	"state": "SP",
+	"country":"Brasil",
+	"zip_code": "02758-090"
+}
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/providers**
+
+Lista todos os fornecedores cadastrados.
+
+```JSON
+[
+  {
+    "id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
+    "fantasy_name": "Coca Cola",
+    "name": "Coca Cola Inc",
+    "cnpj": "12345678901234",
+    "ie": "123456789",
+    "street": "Rua do Bairro",
+    "number": 234,
+    "complement": "Industria",
+    "district": "Bairro da Cidade",
+    "city": "Cidade do Estado",
+    "state": "SP",
+    "country": "Brasil",
+    "zip_code": "02758-090"
+  }
+]
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/providers/:provider_id**
+
+Lê um fornecedor específico informando o seu id na url.
+
+```JSON
+
+  {
+    "id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
+    "fantasy_name": "Coca Cola",
+    "name": "Coca Cola Inc",
+    "cnpj": "12345678901234",
+    "ie": "123456789",
+    "street": "Rua do Bairro",
+    "number": 234,
+    "complement": "Industria",
+    "district": "Bairro da Cidade",
+    "city": "Cidade do Estado",
+    "state": "SP",
+    "country": "Brasil",
+    "zip_code": "02758-090"
+  }
+
+```
+
+<span style="background:yellow; color: black; font-weight: bold; padding: 2px 5px;">PATCH</span> **/providers/:provider_id**
+
+Permite atualizar os dados cadastrais do fornecedor.
+Exemplo de corpo da requisicao.
+
+```JSON
+
+  {
+
+    "name": "Coca Cola Inc"
+
+  }
+
+```
+
+<span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/providers/:provider_id**
+
+Permite deletar um fornecedor do nosso banco de dados passando seu id na url.provider

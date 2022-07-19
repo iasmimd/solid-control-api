@@ -19,13 +19,13 @@ class User {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column('varchar',{ length: 128, nullable: false, })
+  @Column('varchar', { length: 128, nullable: false, })
   name: string;
 
-  @Column('varchar',{ length: 256, nullable: false })
+  @Column('varchar', { length: 256, nullable: false })
   email: string;
 
-  @Column('varchar',{ length: 128, nullable: false })
+  @Column('varchar', { length: 128, nullable: false })
   @Exclude()
   password: string;
 
@@ -38,7 +38,7 @@ class User {
   @Column()
   number: string;
 
-  @Column('varchar',{ length: 256, nullable: false })
+  @Column('varchar', { length: 256, nullable: false })
   street: string;
 
   @Column('varchar', { length: 256 })
@@ -57,7 +57,7 @@ class User {
   zip_code: string;
 
   @Column( { length: 256, nullable: false })
-  country: string;
+  city: string;
 
   @OneToOne(() => Cart, { eager: true })
   @JoinColumn()

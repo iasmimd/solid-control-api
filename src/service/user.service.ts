@@ -16,7 +16,7 @@ class UsersServices {
     complement,
     state,
     zip_code,
-    country,
+    city,
     password,
   }: IUserCreate) {
     const usersRepository = AppDataSource.getRepository(User);
@@ -44,7 +44,7 @@ class UsersServices {
     newUser.complement = complement || "";
     newUser.state = state;
     newUser.zip_code = zip_code ;
-    newUser.country = country;
+    newUser.city = city;
     newUser.password = bcrypt.hashSync(password, 10);
     newUser.cart = cart;
 
@@ -100,9 +100,11 @@ class UsersServices {
       throw new AppError(404, "User not found");
     }
 
-    if (userFound.id !== id && !userFound.isAdm ) {
-      throw new AppError(401, "Access denied");
-    }
+    // FINALIZAR NO PROXIMO PR
+    
+    // if (userFound.id !== id && !userFound.isAdm) {
+    //   throw new AppError(401, "Access denied");
+    // }
 
     return userFound;
   }

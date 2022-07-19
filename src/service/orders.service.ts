@@ -4,6 +4,7 @@ import { Providers } from '../entities/providers.entity';
 import { Supply } from '../entities/supply.entity';
 import { AppError } from '../errors/AppError';
 import { IOrder } from '../interfaces/orders';
+import { fixedFloat } from '../utils';
 import StockService from './stock.service';
 
 class OrdersService {
@@ -42,7 +43,7 @@ class OrdersService {
 
     if (provider) {
       const order = new Orders();
-      order.total_price = total_price.toFixed(2);
+      order.total_price = fixedFloat(total_price);
       order.status = status;
       order.provider = provider;
       order.supplies = listSupplies;

@@ -5,18 +5,8 @@ import "express-async-errors";
 
 class UsersControllers {
   static async create(req: Request, res: Response) {
-<<<<<<< HEAD
     const data = req.body;
     const newUser = await UsersServices.createUserService(data);
-=======
-    const { name, email, password } = req.body;
-
-    const newUser = await UsersServices.createUserService({
-      name,
-      email,
-      password,
-    });
->>>>>>> refactor/adminLogic
 
     return res.status(201).json(instanceToPlain(newUser));
   }
@@ -38,14 +28,8 @@ class UsersControllers {
   }
 
   static async update(req: Request, res: Response) {
-<<<<<<< HEAD
     const id = req.params.id;
     await UsersServices.updateUserService(id, req.body);
-=======
-      const id = req.params.id;
-
-      await UsersServices.updateUserService(id, req.body);
->>>>>>> refactor/adminLogic
 
     return res.status(200).json({ message: "User updated!" });
   }

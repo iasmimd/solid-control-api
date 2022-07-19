@@ -21,7 +21,7 @@ class UsersServices {
   }: IUserCreate) {
     const usersRepository = AppDataSource.getRepository(User);
     const users = await usersRepository.find();
-
+  
     const emailExists = users.find((el) => el.email === email);
 
     if (emailExists) {
@@ -40,7 +40,6 @@ class UsersServices {
     newUser.name = name;
     newUser.email = email;
     newUser.number = number ;
-
     newUser.street = street;
     newUser.complement = complement || "";
     newUser.state = state;
@@ -48,7 +47,7 @@ class UsersServices {
     newUser.country = country;
     newUser.password = bcrypt.hashSync(password, 10);
     newUser.cart = cart;
-
+    
     await usersRepository.save(newUser);
     return newUser;
   }

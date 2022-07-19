@@ -12,8 +12,8 @@ export const userRoutes = () => {
   routes.post("/register", validateUserCreateMiddleware(userCreateSchema), UsersControllers.create);
   routes.post("/login", validateUserLoginMiddleware(userLoginSchema), UsersControllers.login);
   routes.get("/:id", authUser, UsersControllers.retrieve);
-  routes.patch("/:id", authUser, UsersControllers.update);
-  routes.delete("/:id", authUser, UsersControllers.delete);
+  routes.patch("", authUser, UsersControllers.update);
+  routes.delete("", authUser, UsersControllers.delete);
   routes.get("", authUser, isAdmUserMiddleware, UsersControllers.list);
 
   return routes

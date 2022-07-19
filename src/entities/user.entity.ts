@@ -20,13 +20,13 @@ class User {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ length: 128, nullable: false })
+  @Column('varchar',{ length: 128, nullable: false, })
   name: string;
 
-  @Column({ length: 256, nullable: false })
+  @Column('varchar',{ length: 256, nullable: false })
   email: string;
 
-  @Column({ length: 128, nullable: false })
+  @Column('varchar',{ length: 128, nullable: false })
   @Exclude()
   password: string;
 
@@ -40,11 +40,12 @@ class User {
   @Column()
   number: string;
 
-  @Column( { length: 256, nullable: false })
+  @Column( 'varchar',{ length: 256, nullable: false })
   street: string;
 
-  @Column( { length: 256 })
+  @Column('varchar', { length: 256 })
   complement: string;
+  
   @CreateDateColumn()
   created_at: Date;
 

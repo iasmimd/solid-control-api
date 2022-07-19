@@ -21,9 +21,9 @@ class UsersServices {
   }: IUserCreate) {
     const usersRepository = AppDataSource.getRepository(User);
     const cartRepository = AppDataSource.getRepository(Cart);
+   
+      const users = await usersRepository.find();
 
-    const users = await usersRepository.find();
-  
     const emailExists = users.find((el) => el.email === email);
 
     if (emailExists) {
@@ -39,10 +39,12 @@ class UsersServices {
     const newUser = new User();
     newUser.name = name;
     newUser.email = email;
-    newUser.number = number ;
+    newUser.number = number;
     newUser.street = street;
     newUser.complement = complement || "";
     newUser.state = state;
+    newUser.zip_code = zip_code;
+    newUser.country = country;
     newUser.zip_code = zip_code ;
     newUser.city = city;
     newUser.password = bcrypt.hashSync(password, 10);
@@ -126,7 +128,7 @@ class UsersServices {
     }
   }
 
-  static async deleteUserService(id: string): Promise<void> {
+  static async deleteUserService(id: string) {
     const usersRepository = AppDataSource.getRepository(User);
     const userFound = await usersRepository.findOneBy({ id: id });
 

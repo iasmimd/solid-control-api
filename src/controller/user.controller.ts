@@ -40,21 +40,21 @@ class UsersControllers {
   }
 
   static async retrieve(req: Request, res: Response) {
-    const id = req.params.id;
+    const id = req.user.id;
     const user = await UsersServices.retrieveUserService(id);
 
     return res.status(200).json(instanceToPlain(user));
   }
 
   static async update(req: Request, res: Response) {
-    const id = req.params.id;
+    const id = req.user.id;
     await UsersServices.updateUserService(id, req.body);
 
     return res.status(200).json({ message: "User updated!" });
   }
 
   static async delete(req: Request, res: Response) {
-    const id = req.params.id;
+    const id = req.user.id
     await UsersServices.deleteUserService(id);
 
     return res.status(200).send({ message: "User deleted!" });

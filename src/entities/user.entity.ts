@@ -8,7 +8,6 @@ import {
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Cart } from './cart.entity';
@@ -34,13 +33,12 @@ class User {
   isAdm?: boolean;
 
   @Column({ default: true })
-  @Exclude()
   active: boolean;
 
   @Column()
   number: string;
 
-  @Column( 'varchar',{ length: 256, nullable: false })
+  @Column('varchar',{ length: 256, nullable: false })
   street: string;
 
   @Column('varchar', { length: 256 })

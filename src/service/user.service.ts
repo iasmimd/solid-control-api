@@ -100,6 +100,10 @@ class UsersServices {
       throw new AppError(404, "User not found");
     }
 
+    if (userFound.id !== id && !userFound.isAdm ) {
+      throw new AppError(401, "Access denied");
+    }
+
     return userFound;
   }
 
@@ -127,7 +131,6 @@ class UsersServices {
     if (!userFound) {
       throw new AppError(404, "User not found");
     }
-    //await usersRepository.delete(userFound!.id);
 
     if (!userFound.active) {
       throw new Error("Inactivated user");

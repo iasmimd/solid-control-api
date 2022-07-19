@@ -11,5 +11,12 @@ declare global {
       
       newUser?: IUserCreate;
     }
+    interface Response {
+      user:{
+        email: string;
+        id: string;
+        isAdm: boolean
+      }
+    }
   }
 }

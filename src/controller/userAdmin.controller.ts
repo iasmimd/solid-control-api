@@ -36,17 +36,17 @@ class AdminController {
   static async update(req: Request, res: Response) {
     const { id } = req.params;
 
-    const updatedUser = await AdminService.updateUserService(id, req.body);
+    await AdminService.updateUserService(id, req.body);
 
-    return res.status(200).json({ message: 'User updated' });
+    return res.status(204).json({ message: 'User updated' });
   }
 
   static async delete(req: Request, res: Response) {
     const { id } = req.params;
 
-    const user = await AdminService.deleteUserService(id);
+    await AdminService.deleteUserService(id);
 
-    return res.status(200).json({ message: 'User deleted with success!' });
+    return res.status(204).json({ message: 'User deleted with success!' });
   }
 }
 

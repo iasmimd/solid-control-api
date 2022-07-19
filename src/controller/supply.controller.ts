@@ -5,6 +5,7 @@ import { SupplyService } from "../service/supply.service";
 class SupplyController {
   static async create(req: Request, res: Response) {
     const data = req.body;
+
     const response = await SupplyService.create(data);
 
     return res.status(201).json(instanceToPlain(response));
@@ -16,7 +17,6 @@ class SupplyController {
     return res.status(200).json(instanceToPlain(response));
   };
 
-
   static async readOne(req: Request, res: Response) {
     const { supply_id } = req.params;
 
@@ -25,10 +25,11 @@ class SupplyController {
     return res.status(200).json(instanceToPlain(response));
   };
 
-
   static async update(req: Request, res: Response) {
     const { supply_id } = req.params;
+
     const data = req.body;
+
     const response = await SupplyService.update(supply_id, data);
 
     return res.status(204).send();
@@ -42,4 +43,5 @@ class SupplyController {
     return res.status(204).send();
   }
 }
+
 export default SupplyController;

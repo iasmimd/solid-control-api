@@ -27,7 +27,7 @@ class ProviderController {
 
     const updatedProvider = await ProviderService.update(id, req.body);
 
-    return res.status(200).json({ message: 'Provider updated' });
+    return res.status(204).json({ message: 'Provider updated' });
   };
 
   static delete = async (req: Request, res: Response) => {
@@ -35,7 +35,7 @@ class ProviderController {
 
     const provider = await ProviderService.delete(id);
 
-    return res.status(200).json({ message: 'Provider deleted with success' });
+    return res.status(204).json({ message: 'Provider deleted with success' });
   };
 }
 

@@ -27,7 +27,7 @@ class ProviderService {
     );
 
     if (cnpjAlreadyExist) {
-      throw new AppError(422, "This CNPJ already exist");
+      throw new AppError(409, "This CNPJ already exist");
     }
 
     const provider = new Providers();

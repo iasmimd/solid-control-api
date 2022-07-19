@@ -25,6 +25,7 @@ export class Supply {
   @Column({ default: null })
   @Exclude()
   qtd?: number;
+  
   @ManyToMany(() => Providers, { eager: true })
   @JoinTable()
   provider: Providers[];

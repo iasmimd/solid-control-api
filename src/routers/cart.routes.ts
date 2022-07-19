@@ -6,8 +6,8 @@ const routes = Router();
 
 export const cartRoutes = () => {
   routes.post("/:product_id",authUser,  CartController.create);
-  routes.get("", authUser, CartController.list)
-  routes.delete("", authUser, CartController.delete);
-
+  routes.get("",authUser,CartController.read)
+  routes.delete("/:product_id", authUser, CartController.delete);
+  
   return routes;
 };

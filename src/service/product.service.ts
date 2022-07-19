@@ -22,10 +22,6 @@ class ProductService {
       throw new AppError(400, "Error in your request");
     }
 
-    if (products.length === 0) {
-      throw new AppError(400, "Product not found");
-    }
-
     const listSupplies: any = [];
 
     let allSupplies = supplies.map(async (elem: any) => {

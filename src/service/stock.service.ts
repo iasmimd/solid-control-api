@@ -1,8 +1,8 @@
-import { AppDataSource } from "../data-source";
-import { Stock } from "../entities/stock.entity";
-import { Supply } from "../entities/supply.entity";
-import { AppError } from "../errors/AppError";
-import { IStockCreate } from "../interfaces/stock";
+import { AppDataSource } from '../data-source';
+import { Stock } from '../entities/stock.entity';
+import { Supply } from '../entities/supply.entity';
+import { AppError } from '../errors/AppError';
+import { IStockCreate } from '../interfaces/stock';
 
 class StockService {
   static create = async ({ qtd, supply_id }: IStockCreate) => {
@@ -24,7 +24,7 @@ class StockService {
 
       await this.update(supplyAlreadyExist.id, newTotal);
 
-      return;
+      return { message: 'Stock updated' };
     }
 
     if (supply) {
@@ -36,11 +36,12 @@ class StockService {
       await userRepository.save(stock);
 
       return stock;
-    }
+    } 
   };
 
   static list = async () => {
     const userRepository = AppDataSource.getRepository(Stock);
+
     const stockList = await userRepository.find();
 
     return stockList;
@@ -48,29 +49,40 @@ class StockService {
 
   static readOne = async (id: string) => {
     const userRepository = AppDataSource.getRepository(Stock);
+
     const stockList = await userRepository.find();
 
     const stock = stockList.find((stock) => stock.id === id);
+
+    if(!stock){
+      throw new AppError(404, 'Stock not found')
+    }
 
     return stock;
   };
 
   static update = async (id: string, qtd: number) => {
     const userRepository = AppDataSource.getRepository(Stock);
-    const stockList = await userRepository.find();
 
-    const stock = stockList.find((stock) => stock.id === id);
+    const stock = await userRepository.findOne({ where: { id } });
 
+    if (!stock) {
+      throw new AppError(404, 'Stock not found');
+    }
     await userRepository.update(stock!.id, { qtd });
-
     return true;
   };
 
   static delete = async (id: string) => {
     const userRepository = AppDataSource.getRepository(Stock);
+
     const stockList = await userRepository.find();
 
     const stock = stockList.find((stock) => stock.id === id);
+
+    if(!stock){
+      throw new AppError(404, 'Stock not found' )
+    }
 
     await userRepository.delete(stock!.id);
 

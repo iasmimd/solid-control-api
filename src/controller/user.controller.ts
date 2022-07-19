@@ -34,7 +34,6 @@ class UsersControllers {
 
   static async login(req: Request, res: Response) {
     const { email, password } = req.body;
-
     const token = await UsersServices.loginUserService({ email, password });
 
     return res.status(200).json(token);
@@ -42,7 +41,6 @@ class UsersControllers {
 
   static async retrieve(req: Request, res: Response) {
     const id = req.params.id;
-
     const user = await UsersServices.retrieveUserService(id);
 
     return res.status(200).json(instanceToPlain(user));
@@ -57,7 +55,6 @@ class UsersControllers {
 
   static async delete(req: Request, res: Response) {
     const id = req.params.id;
-
     await UsersServices.deleteUserService(id);
 
     return res.status(200).send({ message: "User deleted!" });
@@ -69,5 +66,4 @@ class UsersControllers {
     return res.status(200).json(instanceToPlain(users));
   }
 }
-
 export default UsersControllers;

@@ -20,6 +20,8 @@ class UsersServices {
     password,
   }: IUserCreate) {
     const usersRepository = AppDataSource.getRepository(User);
+    const cartRepository = AppDataSource.getRepository(Cart);
+
     const users = await usersRepository.find();
   
     const emailExists = users.find((el) => el.email === email);
@@ -27,8 +29,6 @@ class UsersServices {
     if (emailExists) {
       throw new AppError(409, "E-mail already exists!");
     }
-
-    const cartRepository = AppDataSource.getRepository(User);
 
     const cart = new Cart();
     cart.subtotal = 0;
@@ -47,15 +47,13 @@ class UsersServices {
     newUser.country = country;
     newUser.password = bcrypt.hashSync(password, 10);
     newUser.cart = cart;
-    
-    await usersRepository.save(newUser);
-    return newUser;
+
+    const createdUser = usersRepository.create(newUser);
+    await usersRepository.save(createdUser);
+    return createdUser;
   }
 
-  static async loginUserService({
-    email,
-    password,
-  }: IUserLogin): Promise<string> {
+  static async loginUserService({ email, password }: IUserLogin) {
     const usersRepository = AppDataSource.getRepository(User);
 
     const user = await usersRepository.findOne({
@@ -69,7 +67,7 @@ class UsersServices {
     }
 
     if (!user.active) {
-      throw new Error("Inactive user");
+      throw new AppError(401, "Inactive user");
     }
 
     const passwordMatch = await compare(password, user.password);
@@ -77,19 +75,20 @@ class UsersServices {
     if (!passwordMatch) {
       throw new AppError(403, "Invalid credentials");
     }
-
+    console.log(user);
     const token = jwt.sign(
       {
         id: user.id,
+        email: user.email,
         isAdm: user.isAdm,
       },
-      process.env.SECRET_KEY as string,
+      String(process.env.SECRET_KEY),
       {
         expiresIn: "12h",
       }
     );
 
-    return token;
+    return { token };
   }
 
   static async retrieveUserService(id: string) {
@@ -128,13 +127,14 @@ class UsersServices {
     if (!userFound) {
       throw new AppError(404, "User not found");
     }
+    //await usersRepository.delete(userFound!.id);
 
     if (!userFound.active) {
       throw new Error("Inactivated user");
     }
 
-    userFound.active = false
-    await usersRepository.save(userFound)
+    userFound.active = false;
+    await usersRepository.save(userFound);
   }
 
   static async listUsersService(): Promise<User[]> {

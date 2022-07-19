@@ -91,6 +91,7 @@ yarn typeorm migration:run -d src/data-source.ts
 ### Índice
 
 - [Users](#1-users)
+
   - [POST - /users](#11-criação-de-usuário)
   - [POST - /users/login](#12-fazer-login)
   - [GET - /users](#13-listando-usuários)
@@ -99,3 +100,34 @@ yarn typeorm migration:run -d src/data-source.ts
   - [GET - /users/me/tickets](#16-listar-feed-de-usuário-logado)
   - [PATCH - /users/:id](#17-atualizar-usuário)
   - [DELETE - /users/:id](#18-excluir-usuário)
+
+- [Providers](#)
+
+  - [POST - /providers](#)
+  - [GET - /providers](#)
+  - [GET - /providers/:provider_id](#)
+  - [PATCH - /providers/:provider_id](#)
+  - [DELETE - /providers/:provider_id](#)
+
+- [Supply](#)
+
+  - [POST - /supply](#)
+  - [GET - /supply](#)
+  - [GET - /supply/:supply_id](#)
+  - [PATCH - /supply/:supply_id](#)
+  - [DELETE - /supply/:supply_id](#)
+
+- [Orders](#)
+
+  - [POST - /orders](#)
+  - [GET - /orders](#)
+  - [GET - /orders/:order_id](#)
+  - [PATCH - /orders/:order_id](#)
+  - [DELETE - /orders/:order_id](#)
+
+- [Stock](#)
+  - [POST - /stock](#)
+  - [GET - /stock](#)
+  - [GET - /stock/:stock_id](#)
+  - [PATCH - /stock/:stock_id](#)
+  - [DELETE - /stock/:stock_id](#)

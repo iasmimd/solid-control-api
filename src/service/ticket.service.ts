@@ -70,6 +70,8 @@ class TicketService {
     }
 
     await ticketRepository.update(ticket!.id, { status });
+
+    return true;
   }
 }
 

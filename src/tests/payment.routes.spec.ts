@@ -47,6 +47,7 @@ let testSupply: ISupply = {
 
 let testProduct: IProduct = {
   supplies: [],
+  description:"teste",
   name: "produto Teste",
   price: 1,
   img: "https://i.pinimg.com/564x/4a/77/57/4a77579ebb19a13c89e750ebf5bf7efe.jpg",

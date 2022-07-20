@@ -16,10 +16,13 @@
   - [5. Endpoints](#5-endpoints)
     - [Índice](#índice)
   - [5.1 Users](#51-users)
-  - [5.2 Provider](#52-provider)
-  - [5.3 Supply](#53-supply)
-  - [5.4 Orders](#54-orders)
-  - [5.5 Stock](#55-stock)
+  - [5.2 Cart](#52-cart)
+  - [5.3 Ticket](#53-ticket)
+  - [5.4 Provider](#54-provider)
+  - [5.5 Supply](#55-supply)
+  - [5.6 Orders](#56-orders)
+  - [5.7 Stock](#57-stock)
+  - [5.8 Products](#58-products)
 
 ---
 
@@ -104,6 +107,17 @@ yarn typeorm migration:run -d src/data-source.ts
   - [PATCH - /users/](#)
   - [DELETE - /users/](#)
 
+- [Cart](#)
+
+  - [POST - /cart](#)
+  - [GET - /cart](#)
+  - [DELETE - /cart](#)
+
+- [Ticket](#)
+
+  - [POST - /ticket](#)
+  - [GET - /ticket](#)
+
 - [Providers](#)
 
   - [POST - /providers](#)
@@ -176,6 +190,8 @@ Corpo da requisição.
 ```
 
 Resposta da requisição.
+
+**_Obs: O carrinho é criado automaticamente na criação do usuario._**
 
 ```JSON
 {
@@ -290,9 +306,260 @@ Exemplo de corpo da requisicao.
 
 Permite deletar o usuario. Não é necessário passar o id do usuario que será deletado, pois isto é feito através do token.
 
+## 5.2 Cart
+
+Cart é a tabela responsavel por armazenar os dados de todos os produtos no carrinho do usuario. Nao é necessario passar nada do corpo da requisição, bastando apenas enviar o id do produto na URL.
+
+<br>
+
+<span style="background:orange; color: black; font-weight: bold; padding: 2px 5px;">POST</span> **/cart/:product_id**
+
+Resposta da requisição.
+
+```JSON
+{
+	"id": "761e3d3a-ee9e-4b60-9eab-a8b108e88b9a",
+	"subtotal": 3,
+	"products": [
+		{
+			"id": "c3b47c1d-f48e-4f3d-be83-957f024ae86b",
+			"name": "Coca Cola 3 Litros",
+			"price": "3.00",
+			"img": "https://apoioentrega.vteximg.com.br/arquivos/ids/452238/88434.jpg?v=637105354224830000",
+			"supplies": [
+				{
+					"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+					"name": "Coca-Cola 3l",
+					"buy_price": "2.50",
+					"qtd": null,
+					"provider": [
+						{
+							"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+							"fantasy_name": "Coca Cola",
+							"name": "Coca Cola Inc",
+							"cnpj": "12345678901234",
+							"ie": "123456789",
+							"street": "Rua do Bairro",
+							"number": 234,
+							"complement": "Industria",
+							"district": "Bairro da Cidade",
+							"city": "Cidade do Estado",
+							"state": "SP",
+							"country": "Brasil",
+							"zip_code": "02758-090"
+						}
+					]
+				}
+			]
+		}
+	]
+}
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/cart**
+
+Lista todos os produtos no carrinho do usuario atraves do token.
+
+```JSON
+{
+	"id": "761e3d3a-ee9e-4b60-9eab-a8b108e88b9a",
+	"subtotal": 3,
+	"products": [
+		{
+			"id": "c3b47c1d-f48e-4f3d-be83-957f024ae86b",
+			"name": "Coca Cola 3 Litros",
+			"price": "3.00",
+			"img": "https://apoioentrega.vteximg.com.br/arquivos/ids/452238/88434.jpg?v=637105354224830000",
+			"supplies": [
+				{
+					"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+					"name": "Coca-Cola 3l",
+					"buy_price": "2.50",
+					"qtd": null,
+					"provider": [
+						{
+							"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+							"fantasy_name": "Coca Cola",
+							"name": "Coca Cola Inc",
+							"cnpj": "12345678901234",
+							"ie": "123456789",
+							"street": "Rua do Bairro",
+							"number": 234,
+							"complement": "Industria",
+							"district": "Bairro da Cidade",
+							"city": "Cidade do Estado",
+							"state": "SP",
+							"country": "Brasil",
+							"zip_code": "02758-090"
+						}
+					]
+				}
+			]
+		}
+	]
+}
+```
+
+<span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/cart/:product_id**
+
+Para remover um item do carrinho basta enviar o ID do produto na URL.
+
+<br>
+
+## 5.3 Ticket
+
+Ticket é a tabela responsavel por gerar o pedido do usuario com os itens cadastrados anteriormente no carrinho.
+
+<br>
+
+<span style="background:orange; color: black; font-weight: bold; padding: 2px 5px;">POST</span> **/ticket**
+
+Para criarmos um novo ticket basta realizar o post com o token do usuario que a API é a responsavel por localizar o carrinho e gerar o novo ticket.
+
+Resposta da requisição.
+
+```JSON
+{
+	"user": {
+		"id": "c6a96b4c-beaf-4304-aaa0-2f9c016eb213",
+		"name": "Rafhael dos Santos Mallorga",
+		"email": "rafhael@teste.com",
+		"password": "$2b$10$064vXthA.Ls1Y6K93X/10uvobpVP00MiRqlXTsZfDs7yIltyomdkm",
+		"isAdm": true,
+		"active": true,
+		"number": "1020",
+		"street": "São Lara",
+		"complement": "casa",
+		"created_at": "2022-07-20T15:39:16.568Z",
+		"updated_at": "2022-07-20T20:12:21.171Z",
+		"state": "SP",
+		"zip_code": "13245788",
+		"city": "Itapira",
+		"cart": {
+			"id": "761e3d3a-ee9e-4b60-9eab-a8b108e88b9a",
+			"subtotal": 3,
+			"products": [
+				{
+					"id": "c3b47c1d-f48e-4f3d-be83-957f024ae86b",
+					"name": "Coca Cola 3 Litros",
+					"price": "3.00",
+					"img": "https://apoioentrega.vteximg.com.br/arquivos/ids/452238/88434.jpg?v=637105354224830000",
+					"supplies": [
+						{
+							"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+							"name": "Coca-Cola 3l",
+							"buy_price": "2.50",
+							"qtd": null,
+							"provider": [
+								{
+									"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+									"fantasy_name": "Coca Cola",
+									"name": "Coca Cola Inc",
+									"cnpj": "12345678901234",
+									"ie": "123456789",
+									"street": "Rua do Bairro",
+									"number": 234,
+									"complement": "Industria",
+									"district": "Bairro da Cidade",
+									"city": "Cidade do Estado",
+									"state": "SP",
+									"country": "Brasil",
+									"zip_code": "02758-090"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	},
+	"products": [
+		{
+			"id": "c3b47c1d-f48e-4f3d-be83-957f024ae86b",
+			"name": "Coca Cola 3 Litros",
+			"price": "3.00",
+			"img": "https://apoioentrega.vteximg.com.br/arquivos/ids/452238/88434.jpg?v=637105354224830000",
+			"supplies": [
+				{
+					"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+					"name": "Coca-Cola 3l",
+					"buy_price": "2.50",
+					"qtd": null,
+					"provider": [
+						{
+							"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+							"fantasy_name": "Coca Cola",
+							"name": "Coca Cola Inc",
+							"cnpj": "12345678901234",
+							"ie": "123456789",
+							"street": "Rua do Bairro",
+							"number": 234,
+							"complement": "Industria",
+							"district": "Bairro da Cidade",
+							"city": "Cidade do Estado",
+							"state": "SP",
+							"country": "Brasil",
+							"zip_code": "02758-090"
+						}
+					]
+				}
+			]
+		}
+	],
+	"total": 3,
+	"id": "4ea799b1-ea09-43f7-9f60-20857435622f"
+}
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/ticket**
+
+Lista todos os pedidos cadastrados do usuario.
+
+```JSON
+[
+	{
+		"id": "4ea799b1-ea09-43f7-9f60-20857435622f",
+		"total": 3,
+		"products": [
+			{
+				"id": "c3b47c1d-f48e-4f3d-be83-957f024ae86b",
+				"name": "Coca Cola 3 Litros",
+				"price": "3.00",
+				"img": "https://apoioentrega.vteximg.com.br/arquivos/ids/452238/88434.jpg?v=637105354224830000",
+				"supplies": [
+					{
+						"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+						"name": "Coca-Cola 3l",
+						"buy_price": "2.50",
+						"qtd": null,
+						"provider": [
+							{
+								"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+								"fantasy_name": "Coca Cola",
+								"name": "Coca Cola Inc",
+								"cnpj": "12345678901234",
+								"ie": "123456789",
+								"street": "Rua do Bairro",
+								"number": 234,
+								"complement": "Industria",
+								"district": "Bairro da Cidade",
+								"city": "Cidade do Estado",
+								"state": "SP",
+								"country": "Brasil",
+								"zip_code": "02758-090"
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
+```
+
 ---
 
-## 5.2 Provider
+## 5.4 Provider
 
 Todas as rotas do workflow do produto são acessadas apenas por administradores.
 
@@ -471,7 +738,7 @@ Exemplo de corpo da requisicao.
 
 Permite deletar um fornecedor do nosso banco de dados passando seu id na url.provider
 
-## 5.3 Supply
+## 5.5 Supply
 
 A tabela Supply é responsável por armazenar todos os nossos suprimentos / ingredientes. Ela possui uma relação com os fornecedores que possuem estes materiais para compra.
 
@@ -626,7 +893,7 @@ Permite deletar um suprimento / ingrediente do nosso banco de dados passando o i
 
 <br>
 
-## 5.4 Orders
+## 5.6 Orders
 
 A tabela Orders é a responsável por armazenar todos os nossos pedidos de compra de ingredientes ou suprimentos junto aos nossos fornecedores.
 
@@ -897,7 +1164,7 @@ Corpo da requisicao.
 
 Permite deletar uma ordem de compra do nosso banco de dados passando o id na url.
 
-## 5.5 Stock
+## 5.7 Stock
 
 A tabela Orders é a responsável por armazenar todos os nossos pedidos de compra de ingredientes ou suprimentos junto aos nossos fornecedores.
 
@@ -1066,3 +1333,108 @@ Corpo da requisicao.
 <span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/stock/:stock_id**
 
 Permite deletar um item do estoque do nosso banco de dados passando o id na url.
+
+## 5.8 Products
+
+Products é a tabela responsavel por armazenar os dados de todos os produtos criados com a relação de supply.
+
+| Name     | Description                                        | Type   |
+| -------- | -------------------------------------------------- | ------ |
+| supplies | Array de objetos: {"id": "Id do supply", "qtd": 1} | Array  |
+| name     | Nome do produto                                    | string |
+| price    | Preço de venda                                     | number |
+| img      | URL da imagem                                      | string |
+
+<br>
+
+<span style="background:orange; color: black; font-weight: bold; padding: 2px 5px;">POST</span> **/products**
+
+Para criarmos um novo peoduto.
+
+Corpo da requisição.
+
+```JSON
+{
+	"supplies":  [
+		{"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb", "qtd": 1}
+	],
+	"name": "Coca Cola 3 Litros",
+	"price": 3,
+	"img": "https://apoioentrega.vteximg.com.br/arquivos/ids/452238/88434.jpg?v=637105354224830000"
+}
+```
+
+Resposta da requisição.
+
+```JSON
+{
+	"supplies": [
+		{
+			"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+			"name": "Coca-Cola 3l",
+			"buy_price": "2.50",
+			"qtd": 1,
+			"provider": [
+				{
+					"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+					"fantasy_name": "Coca Cola",
+					"name": "Coca Cola Inc",
+					"cnpj": "12345678901234",
+					"ie": "123456789",
+					"street": "Rua do Bairro",
+					"number": 234,
+					"complement": "Industria",
+					"district": "Bairro da Cidade",
+					"city": "Cidade do Estado",
+					"state": "SP",
+					"country": "Brasil",
+					"zip_code": "02758-090"
+				}
+			]
+		}
+	],
+	"img": "https://apoioentrega.vteximg.com.br/arquivos/ids/452238/88434.jpg?v=637105354224830000",
+	"name": "Coca Cola 3 Litros",
+	"price": 3,
+	"id": "c3b47c1d-f48e-4f3d-be83-957f024ae86b"
+}
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/products**
+
+Lista todos os produtos cadastrados.
+
+```JSON
+[
+	{
+		"id": "c3b47c1d-f48e-4f3d-be83-957f024ae86b",
+		"name": "Coca Cola 3 Litros",
+		"price": "3.00",
+		"img": "https://apoioentrega.vteximg.com.br/arquivos/ids/452238/88434.jpg?v=637105354224830000",
+		"supplies": [
+			{
+				"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+				"name": "Coca-Cola 3l",
+				"buy_price": "2.50",
+				"provider": [
+					{
+						"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+						"fantasy_name": "Coca Cola",
+						"name": "Coca Cola Inc",
+						"cnpj": "12345678901234",
+						"ie": "123456789",
+						"street": "Rua do Bairro",
+						"number": 234,
+						"complement": "Industria",
+						"district": "Bairro da Cidade",
+						"city": "Cidade do Estado",
+						"state": "SP",
+						"country": "Brasil",
+						"zip_code": "02758-090"
+					}
+				]
+			}
+		]
+	}
+]
+```

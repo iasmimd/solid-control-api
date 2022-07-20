@@ -2,7 +2,7 @@ import { DataSource } from 'typeorm';
 import { AppDataSource } from '../data-source';
 import { ISupply } from '../interfaces/supply';
 import { IProviderCreate } from '../interfaces/provider';
-import { IAdminUser, IUserLogin } from '../interfaces/user';
+import { IAdminUser } from '../interfaces/user';
 import app from '../app';
 import request from 'supertest';
 

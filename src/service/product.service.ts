@@ -5,7 +5,7 @@ import { AppError } from "../errors/AppError";
 import { IProduct } from "../interfaces/product";
 
 class ProductService {
-  static async productCreateService({ supplies, name, price, img }: IProduct) {
+  static async productCreateService({ supplies, name, price, description, img }: IProduct) {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const productRepository = AppDataSource.getRepository(Product);
 
@@ -18,7 +18,7 @@ class ProductService {
       throw new AppError(409, "Product already exists.");
     }
 
-    if (!supplies || !name || !price || !img) {
+    if (!supplies || !name || !price || !img || !description) {
       throw new AppError(400, "Error in your request");
     }
 
@@ -39,9 +39,10 @@ class ProductService {
 
     const newProduct = new Product();
     newProduct.supplies = listSupplies;
-    newProduct.img = img;
-    newProduct.name = name;
     newProduct.price = price;
+    newProduct.name = name;
+    newProduct.description = description;
+    newProduct.img = img;
 
     await productRepository.save(newProduct);
     return newProduct;

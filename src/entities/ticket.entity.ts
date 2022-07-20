@@ -9,7 +9,8 @@ export class Ticket {
 
   @Column("float")
   total: number
-
+  @Column()
+  status:string
   @ManyToOne(() => User, (user) => user.tickets)
   user: User;
 

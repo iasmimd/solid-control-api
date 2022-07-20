@@ -3,11 +3,12 @@ import { Cart } from "../entities/cart.entity";
 import { Ticket } from "../entities/ticket.entity";
 import { User } from "../entities/user.entity";
 import { AppError } from "../errors/AppError";
-import StockService from "./stock.service";
 import { ITicketUpdateStatus } from "../interfaces/ticket";
+import StockService from "./stock.service";
+
 
 class TicketService {
-  static async createTicket(user_id: string,status:string) {
+  static async createTicket(user_id: string) {
     const userRepository = AppDataSource.getRepository(User);
     const cartRepository = AppDataSource.getRepository(Cart);
     const ticketRepository = AppDataSource.getRepository(Ticket);

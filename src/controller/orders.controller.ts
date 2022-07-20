@@ -3,12 +3,11 @@ import OrdersService from "../service/orders.service";
 
 class OrdersController {
   static async create(req: Request, res: Response) {
-    const { supplies, provider_id, status } = req.body;
+    const { supplies, provider_id } = req.body;
 
     const order = await OrdersService.createNewOrder({
       provider_id,
       supplies,
-      status,
     });
 
     return res.status(201).json(order);
@@ -30,7 +29,7 @@ class OrdersController {
 
   static async update(req: Request, res: Response) {
     const { status } = req.body;
-    
+
     const { id } = req.params;
 
     await OrdersService.updateOrder(id, status);

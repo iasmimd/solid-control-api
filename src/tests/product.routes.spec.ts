@@ -113,12 +113,12 @@ describe('Testing route /products', () => {
       .post('/admin/login')
       .send(testLoginAdmin);
     const { token } = loginAdmin.body;
-    console.log(token)
+   
     const productList = await request(app)
       .get(`/products/`)
       .set('Authorization', `Bearer ${token}`)
       .send(testProduct);
-      console.log(productList.body)
+
     const newValue = {
       name: 'orange',
       price: 5,

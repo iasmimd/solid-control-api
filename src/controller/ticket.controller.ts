@@ -4,7 +4,6 @@ import TicketService from "../service/ticket.service";
 class TicketController {
   static async create(req: Request, res: Response) {
     const user_id = req.user.id;
-
     const ticket = await TicketService.createTicket(user_id);
 
     return res.status(201).json(ticket);

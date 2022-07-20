@@ -31,7 +31,6 @@ let testSupply: ISupply = {
 let testOrders: IOrder = {
   supplies: [],
   provider_id: "",
-  status: "comprado",
 };
 
 let testAdmin: IAdminUser = {
@@ -61,7 +60,7 @@ describe("Teste para os métodos POST, GET, UPDATE e DELETE em /orders", () => {
     await connection.destroy();
   });
 
-  it("Teste de criação do payment.", async () => {
+  it("Teste de criação do order.", async () => {
     const registerAdm = await request(app)
       .post("/admin/register")
       .send(testAdmin);
@@ -80,13 +79,13 @@ describe("Teste para os métodos POST, GET, UPDATE e DELETE em /orders", () => {
       .post("/supply")
       .set("Authorization", `Bearer ${tokenAdmin}`)
       .send(testSupply);
-    testOrders.supplies = [{ id: createSupply.body.id, qtd: 3 }];
+    testOrders.supplies = [{ id: createSupply.body.id, qtd: 1 }];
 
     const response = await request(app)
       .post("/orders")
       .set("Authorization", `Bearer ${tokenAdmin}`)
       .send(testOrders);
-
+    console.log(response.body)
     expect(response.status).toEqual(201);
     expect(response.body).toHaveProperty("total_price");
     expect(response.body).toHaveProperty("status");

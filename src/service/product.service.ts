@@ -15,8 +15,6 @@ class ProductService {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const productRepository = AppDataSource.getRepository(Product);
 
-    console.log("------------------------teste---------------");
-
     const productAvailability = await productRepository.findOne({
       where: { name, price, img },
     });
@@ -45,8 +43,6 @@ class ProductService {
         listSupplies.push(supply);
       }
     });
-
-    console.log(listSupplies);
 
     await Promise.all(allSupplies);
 

@@ -7,7 +7,6 @@ interface ISupplies {
 export interface IOrder {
   supplies?: ISupplies[];
   provider_id: string;
-  status: string;
 }
 
 export interface IOrderUpdate {

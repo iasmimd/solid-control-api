@@ -26,19 +26,19 @@ class TicketService {
 
     if (cart && user) {
       if (cart.products.length === 0) {
-        throw new AppError(400, "Cart is empty")
-    }
-
+        throw new AppError(400, "Cart is empty");
+      }
 
       const ticket = new Ticket();
-      ticket.user = user
-      ticket.products = cart.products
-      ticket.total = cart.subtotal
-    
-      cart.products = []
-      cart.subtotal = 0
-      await cartRepository.save(cart)
-      
+      ticket.user = user;
+      ticket.products = cart.products;
+      ticket.total = cart.subtotal;
+      ticket.status = "Pedido pendente";
+
+      cart.products = [];
+      cart.subtotal = 0;
+      await cartRepository.save(cart);
+
       ticketRepository.create(ticket);
       await ticketRepository.save(ticket);
 

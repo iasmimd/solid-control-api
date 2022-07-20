@@ -3,6 +3,7 @@ import { Cart } from "../entities/cart.entity";
 import { Ticket } from "../entities/ticket.entity";
 import { User } from "../entities/user.entity";
 import { AppError } from "../errors/AppError";
+import { ITicketUpdateStatus } from "../interfaces/ticket";
 
 class TicketService {
   static async createTicket(user_id: string) {
@@ -52,6 +53,23 @@ class TicketService {
     const ticketList = await ticketRepository.find();
 
     return ticketList;
+  }
+
+  static async updateStatus(
+    ticket_id: string,
+    { status }: ITicketUpdateStatus
+  ) {
+    const ticketRepository = AppDataSource.getRepository(Ticket);
+
+    const ticketList = await ticketRepository.find();
+
+    const ticket = ticketList.find((ticket) => ticket.id === ticket_id);
+
+    if (!ticket) {
+      throw new AppError(404, "Ticket not found");
+    }
+
+    await ticketRepository.update(ticket!.id, { status });
   }
 }
 

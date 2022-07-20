@@ -8,7 +8,7 @@ const routes = Router();
 export const productRouter = () => {
 
   routes.post('', isAdmUserMiddleware, ProductController.create);
-  routes.get('',authUser, isAdmUserMiddleware, ProductController.read);
+  routes.get('', ProductController.read);
   routes.patch('/:product_id', isAdmUserMiddleware, ProductController.update);
   routes.delete('/:product_id', isAdmUserMiddleware, ProductController.delete);
 

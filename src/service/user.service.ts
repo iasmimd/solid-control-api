@@ -44,7 +44,6 @@ class UsersServices {
     newUser.complement = complement || "";
     newUser.state = state;
     newUser.zip_code = zip_code;
-    newUser.country = country;
     newUser.zip_code = zip_code ;
     newUser.city = city;
     newUser.password = bcrypt.hashSync(password, 10);

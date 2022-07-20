@@ -39,7 +39,7 @@ let testLoginAdmin = {
   password: '12345',
 };
 
-describe('Teste para o método POST em /supply', () => {
+describe('Teste para a rota /supply', () => {
   let connection: DataSource;
 
   beforeAll(async () => {
@@ -64,12 +64,11 @@ describe('Teste para o método POST em /supply', () => {
       .send(testLoginAdmin);
     const { token } = loginAdmin.body;
 
-    const providerTeste = await request(app)
+    const providerTest = await request(app)
       .post('/providers')
       .set('Authorization', `Bearer ${token}`)
       .send(provider);
-    testSupply.provider_id = providerTeste.body.id;
-
+    testSupply.provider_id = providerTest.body.id;
 
     const response = await request(app)
       .post('/supply')
@@ -78,5 +77,75 @@ describe('Teste para o método POST em /supply', () => {
 
     expect(response.status).toEqual(201);
     expect(response.body.id.length).toEqual(36);
+  });
+
+  it('Testando listar todos os supplies', async () => {
+    const loginAdmin = await request(app)
+      .post('/admin/login')
+      .send(testLoginAdmin);
+    const { token } = loginAdmin.body;
+
+    const response = await request(app)
+      .get('/supply')
+      .set('Authorization', `Bearer ${token}`)
+      .send(testSupply);
+
+    expect(response.status).toEqual(200);
+  });
+
+  it('Testando listar um supplies', async () => {
+    const loginAdmin = await request(app)
+      .post('/admin/login')
+      .send(testLoginAdmin);
+    const { token } = loginAdmin.body;
+
+    const supplyList = await request(app)
+      .get(`/supply/`)
+      .set('Authorization', `Bearer ${token}`);
+
+    const response = await request(app)
+      .get(`/supply/${supplyList.body[0].id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toEqual(200);
+  });
+
+  it('Testando atualizar um supply', async () => {
+    const loginAdmin = await request(app)
+      .post('/admin/login')
+      .send(testLoginAdmin);
+    const { token } = loginAdmin.body;
+
+    const supplyList = await request(app)
+      .get(`/supply/`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(testSupply);
+
+    const newValue = { name: 'farinha', buy_price: 15 };
+
+    const response = await request(app)
+      .patch(`/supply/${supplyList.body[0].id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(newValue);
+
+    expect(response.status).toEqual(204);
+  });
+
+  it('Testando deleção de supply', async () => {
+    const loginAdmin = await request(app)
+      .post('/admin/login')
+      .send(testLoginAdmin);
+    const { token } = loginAdmin.body;
+
+    const supplyList = await request(app)
+    .get(`/supply/`)
+    .set('Authorization', `Bearer ${token}`)
+    .send(testSupply);
+
+    const response = await request(app)
+      .delete(`/supply/${supplyList.body[0].id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toEqual(204);
   });
 });

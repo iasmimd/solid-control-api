@@ -3,6 +3,7 @@ import { Cart } from "../entities/cart.entity";
 import { Ticket } from "../entities/ticket.entity";
 import { User } from "../entities/user.entity";
 import { AppError } from "../errors/AppError";
+import StockService from "./stock.service";
 
 class TicketService {
   static async createTicket(user_id: string) {
@@ -26,21 +27,29 @@ class TicketService {
 
     if (cart && user) {
       if (cart.products.length === 0) {
-        throw new AppError(400, "Cart is empty")
-    }
-
+        throw new AppError(400, "Cart is empty");
+      }
 
       const ticket = new Ticket();
-      ticket.user = user
-      ticket.products = cart.products
-      ticket.total = cart.subtotal
-    
-      cart.products = []
-      cart.subtotal = 0
-      await cartRepository.save(cart)
-      
+      ticket.user = user;
+      ticket.products = cart.products;
+      ticket.total = cart.subtotal;
+      ticket.status = "Finalizado";
+
+      cart.products = [];
+      cart.subtotal = 0;
+      await cartRepository.save(cart);
+
       ticketRepository.create(ticket);
       await ticketRepository.save(ticket);
+
+      if (ticket.status === "Finalizado") {
+        ticket.products.forEach((product) => {
+          product.supplies.forEach((supply) => {
+            StockService.create(true, { qtd: 1, supply_id: supply.id });
+          });
+        });
+      }
 
       return ticket;
     }

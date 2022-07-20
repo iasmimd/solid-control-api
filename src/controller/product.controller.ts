@@ -1,11 +1,11 @@
-import { instanceToPlain } from 'class-transformer';
-import { Request, Response } from 'express';
-import ProductService from '../service/product.service';
+import { instanceToPlain } from "class-transformer";
+import { Request, Response } from "express";
+import ProductService from "../service/product.service";
 
 class ProductController {
   static async create(req: Request, res: Response) {
     const data = req.body;
-  
+
     const response = await ProductService.productCreateService(data);
 
     return res.status(201).json(response);
@@ -25,7 +25,6 @@ class ProductController {
   }
 
   static async read(req: Request, res: Response) {
-    const id = req.user.id
     const response = await ProductService.listProductsService();
     return res.status(200).json(instanceToPlain(response));
   }
@@ -34,7 +33,7 @@ class ProductController {
     const { product_id } = req.params;
 
     const response = await ProductService.deleteProductService(product_id);
-    
+
     return res.status(204).json(response);
   }
 }

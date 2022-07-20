@@ -5,7 +5,10 @@ import { AppError } from "../errors/AppError";
 import { IStockCreate } from "../interfaces/stock";
 
 class StockService {
-  static create = async ({ qtd, supply_id }: IStockCreate) => {
+  static create = async (
+    decrease: boolean,
+    { qtd, supply_id }: IStockCreate
+  ) => {
     const userRepository = AppDataSource.getRepository(Stock);
     const supplyRepository = AppDataSource.getRepository(Supply);
 
@@ -19,6 +22,14 @@ class StockService {
     if (supplyAlreadyExist) {
       const actualQtd = supplyAlreadyExist.qtd;
       const incomingQtd = qtd;
+
+      if (decrease) {
+        const newTotal = actualQtd - incomingQtd;
+
+        await this.update(supplyAlreadyExist.id, newTotal);
+
+        return { message: "Stock updated" };
+      }
 
       const newTotal = actualQtd + incomingQtd;
 

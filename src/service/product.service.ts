@@ -5,7 +5,7 @@ import { AppError } from "../errors/AppError";
 import { IProduct } from "../interfaces/product";
 
 class ProductService {
-  static async productCreateService({ supplies, name, price, img }: IProduct) {
+  static async productCreateService({ supplies, name, price,description, img }: IProduct) {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const productRepository = AppDataSource.getRepository(Product);
 

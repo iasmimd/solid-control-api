@@ -9,6 +9,7 @@ import request from 'supertest';
 
 let testProduct: IProduct = {
   supplies: [],
+  description:"muito bom",
   name: 'pasta',
   price: 10,
   img: 'https://i.pinimg.com/564x/4a/77/57/4a77579ebb19a13c89e750ebf5bf7efe.jpg',

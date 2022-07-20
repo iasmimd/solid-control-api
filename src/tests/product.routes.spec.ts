@@ -9,6 +9,7 @@ import request from 'supertest';
 
 let testProduct: IProduct = {
   supplies: [],
+  description:"teste",
   name: 'pasta',
   price: 10,
   img: 'https://i.pinimg.com/564x/4a/77/57/4a77579ebb19a13c89e750ebf5bf7efe.jpg',
@@ -112,12 +113,12 @@ describe('Testing route /products', () => {
       .post('/admin/login')
       .send(testLoginAdmin);
     const { token } = loginAdmin.body;
-
+    console.log(token)
     const productList = await request(app)
       .get(`/products/`)
       .set('Authorization', `Bearer ${token}`)
       .send(testProduct);
-
+      console.log(productList.body)
     const newValue = {
       name: 'orange',
       price: 5,

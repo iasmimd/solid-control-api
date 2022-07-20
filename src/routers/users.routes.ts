@@ -18,11 +18,11 @@ export const userRoutes = () => {
 
   routes.post("/register", validateUserCreateMiddleware(userCreateSchema), UsersControllers.create);
   routes.post("/login", validateUserLoginMiddleware(userLoginSchema), UsersControllers.login);
-  routes.get("", authUser, UsersControllers.retrieve);
+  routes.get("/me", authUser, UsersControllers.retrieve);
   routes.patch("", authUser, UsersControllers.update);
   routes.delete("", authUser, UsersControllers.delete);
 
-  routes.get("", authUser, isAdmUserMiddleware, UsersControllers.list);
+  routes.get("", isAdmUserMiddleware, UsersControllers.list);
 
 
   return routes;

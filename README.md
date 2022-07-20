@@ -15,9 +15,11 @@
     - [3.3. Migrations](#33-migrations)
   - [5. Endpoints](#5-endpoints)
     - [Índice](#índice)
-  - [5.1 Provider](#51-provider)
-  - [5.3 Orders](#53-orders)
-  - [5.4 Stock](#54-stock)
+  - [5.1 Users](#51-users)
+  - [5.2 Provider](#52-provider)
+  - [5.3 Supply](#53-supply)
+  - [5.4 Orders](#54-orders)
+  - [5.5 Stock](#55-stock)
 
 ---
 
@@ -93,16 +95,14 @@ yarn typeorm migration:run -d src/data-source.ts
 
 ### Índice
 
-- [Users](#1-users)
+- [Users](#5.0-Users)
 
-  - [POST - /users](#11-criação-de-usuário)
-  - [POST - /users/login](#12-fazer-login)
-  - [GET - /users](#13-listando-usuários)
-  - [GET - /users/:user_id](#14-listar-usuário-por-id)
-  - [GET - /users/me/info](#15-listar-usuário-logado)
-  - [GET - /users/me/tickets](#16-listar-feed-de-usuário-logado)
-  - [PATCH - /users/:id](#17-atualizar-usuário)
-  - [DELETE - /users/:id](#18-excluir-usuário)
+  - [POST - /users/register](#)
+  - [POST - /users/login](#)
+  - [GET - /users](#)
+  - [GET - /users/:user_id](#)
+  - [PATCH - /users/](#)
+  - [DELETE - /users/](#)
 
 - [Providers](#)
 
@@ -137,7 +137,162 @@ yarn typeorm migration:run -d src/data-source.ts
 
 ---
 
-## 5.1 Provider
+## 5.1 Users
+
+Users é a tabela responsavel por armazenar os dados de todos os usuarios.
+
+| Name       | Description                       | Type    |
+| ---------- | --------------------------------- | ------- |
+| name       | Nome                              | string  |
+| email      | Email de cadastro                 | string  |
+| street     | Rua / Avenida / Travessa ou Viela | string  |
+| number     | Numero                            | nuimber |
+| complement | Complemento                       | String  |
+| state      | Estado                            | string  |
+| city       | cidade                            | string  |
+| zip_code   | Codigo postal                     | string  |
+| id         | Identificador uuid                | string  |
+
+<br>
+
+<span style="background:orange; color: black; font-weight: bold; padding: 2px 5px;">POST</span> **/users/register**
+
+Para criarmos um novo usuario.
+
+Corpo da requisição.
+
+```JSON
+{
+	"name": "Rafhael Mallorga",
+	"email": "rafhaelmallorga@email.com",
+	"street": "Rua rua",
+	"number": 123,
+	"complement": "casa",
+	"state": "SP",
+	"city": "Sao Paulo",
+	"zip_code": "12345678",
+	"password": "123456"
+}
+```
+
+Resposta da requisição.
+
+```JSON
+{
+	"name": "Rafhael",
+	"email": "rafhael@teste.com",
+	"number": 1020,
+	"street": "São Lara",
+	"complement": "casa",
+	"state": "SP",
+	"zip_code": "13245788",
+	"city": "Itapira",
+	"cart": {
+		"id": "761e3d3a-ee9e-4b60-9eab-a8b108e88b9a",
+		"subtotal": 0
+	},
+	"id": "c6a96b4c-beaf-4304-aaa0-2f9c016eb213",
+	"isAdm": false,
+	"active": true,
+	"created_at": "2022-07-20T15:39:16.568Z",
+	"updated_at": "2022-07-20T15:39:16.568Z"
+}
+```
+
+<span style="background:orange; color: black; font-weight: bold; padding: 2px 5px;">POST</span> **/users/login**
+
+Corpo da requisição para realiarmos o login.
+
+```JSON
+{
+	"email": "rafhaelmallorga@email.com",
+	"password": "123456"
+}
+```
+
+Resposta do login.
+
+```JSON
+{
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2YTk2YjRjLWJlYWYtNDMwNC1hYWEwLTJmOWMwMTZlYjIxMyIsImVtYWlsIjoicmFmaGFlbEB0ZXN0ZS5jb20iLCJpc0FkbSI6dHJ1ZSwiaWF0IjoxNjU4MzIwOTA4LCJleHAiOjE2NTgzNjQxMDh9.6siaAt0VyoOwvkXR2k5-A4Ux_9jx3YPyHQUdHFh2MG4"
+}
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/users**
+
+Lista todos os usuarios cadastrados.
+
+```JSON
+[
+	{
+		"id": "c6a96b4c-beaf-4304-aaa0-2f9c016eb213",
+		"name": "Rafhael",
+		"email": "rafhael@teste.com",
+		"isAdm": true,
+		"active": true,
+		"number": "1020",
+		"street": "São Lara",
+		"complement": "casa",
+		"created_at": "2022-07-20T15:39:16.568Z",
+		"updated_at": "2022-07-20T15:41:28.474Z",
+		"state": "SP",
+		"zip_code": "13245788",
+		"city": "Itapira",
+		"cart": {
+			"id": "761e3d3a-ee9e-4b60-9eab-a8b108e88b9a",
+			"subtotal": 0,
+			"products": []
+		}
+	}
+]
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/users/:user_id**
+
+Lê um usuario específico informando o seu id na url.
+
+```JSON
+{
+	"id": "c6a96b4c-beaf-4304-aaa0-2f9c016eb213",
+	"name": "Rafhael",
+	"email": "rafhael@teste.com",
+	"isAdm": true,
+	"active": true,
+	"number": "1020",
+	"street": "São Lara",
+	"complement": "casa",
+	"created_at": "2022-07-20T15:39:16.568Z",
+	"updated_at": "2022-07-20T15:41:28.474Z",
+	"state": "SP",
+	"zip_code": "13245788",
+	"city": "Itapira",
+	"cart": {
+		"id": "761e3d3a-ee9e-4b60-9eab-a8b108e88b9a",
+		"subtotal": 0,
+		"products": []
+	}
+}
+```
+
+<span style="background:yellow; color: black; font-weight: bold; padding: 2px 5px;">PATCH</span> **/users**
+
+Permite atualizar os dados cadastrais do usuario. Não é necessário passar o id do usuario que será atualizado, pois isto é feito através do token.
+
+Exemplo de corpo da requisicao.
+
+```JSON
+{
+	"name": "Joao dos Santos"
+}
+```
+
+<span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/providers/:provider_id**
+
+Permite deletar o usuario. Não é necessário passar o id do usuario que será deletado, pois isto é feito através do token.
+
+---
+
+## 5.2 Provider
 
 Todas as rotas do workflow do produto são acessadas apenas por administradores.
 
@@ -210,7 +365,7 @@ Lista todos os fornecedores cadastrados.
 
 Lê um fornecedor específico informando o seu id na url.
 
-````JSON
+```JSON
 
   {
     "id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
@@ -294,7 +449,10 @@ Lê um fornecedor específico informando o seu id na url.
 			"zip_code": "02758-090"
 		}
 	}
-]span> **/providers/:provider_id**
+]
+```
+
+<span style="background:yellow; color: black; font-weight: bold; padding: 2px 5px;">PATCH</span> **/providers/:provider_id**
 
 Permite atualizar os dados cadastrais do fornecedor.
 Exemplo de corpo da requisicao.
@@ -307,13 +465,13 @@ Exemplo de corpo da requisicao.
 
   }
 
-````
+```
 
 <span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/providers/:provider_id**
 
 Permite deletar um fornecedor do nosso banco de dados passando seu id na url.provider
 
-## 5.2 Supply
+## 5.3 Supply
 
 A tabela Supply é responsável por armazenar todos os nossos suprimentos / ingredientes. Ela possui uma relação com os fornecedores que possuem estes materiais para compra.
 
@@ -468,7 +626,7 @@ Permite deletar um suprimento / ingrediente do nosso banco de dados passando o i
 
 <br>
 
-## 5.3 Orders
+## 5.4 Orders
 
 A tabela Orders é a responsável por armazenar todos os nossos pedidos de compra de ingredientes ou suprimentos junto aos nossos fornecedores.
 
@@ -739,7 +897,7 @@ Corpo da requisicao.
 
 Permite deletar uma ordem de compra do nosso banco de dados passando o id na url.
 
-## 5.4 Stock
+## 5.5 Stock
 
 A tabela Orders é a responsável por armazenar todos os nossos pedidos de compra de ingredientes ou suprimentos junto aos nossos fornecedores.
 

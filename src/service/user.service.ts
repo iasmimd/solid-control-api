@@ -21,8 +21,8 @@ class UsersServices {
   }: IUserCreate) {
     const usersRepository = AppDataSource.getRepository(User);
     const cartRepository = AppDataSource.getRepository(Cart);
-   
-      const users = await usersRepository.find();
+
+    const users = await usersRepository.find();
 
     const emailExists = users.find((el) => el.email === email);
 
@@ -44,8 +44,6 @@ class UsersServices {
     newUser.complement = complement || "";
     newUser.state = state;
     newUser.zip_code = zip_code;
-    newUser.country = country;
-    newUser.zip_code = zip_code ;
     newUser.city = city;
     newUser.password = bcrypt.hashSync(password, 10);
     newUser.cart = cart;
@@ -103,7 +101,7 @@ class UsersServices {
     }
 
     // FINALIZAR NO PROXIMO PR
-    
+
     // if (userFound.id !== id && !userFound.isAdm) {
     //   throw new AppError(401, "Access denied");
     // }

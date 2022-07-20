@@ -16,8 +16,8 @@
   - [5. Endpoints](#5-endpoints)
     - [Índice](#índice)
   - [5.1 Provider](#51-provider)
-  - [5.2 Supply](#52-supply)
   - [5.3 Orders](#53-orders)
+  - [5.4 Stock](#54-stock)
 
 ---
 
@@ -210,7 +210,7 @@ Lista todos os fornecedores cadastrados.
 
 Lê um fornecedor específico informando o seu id na url.
 
-```JSON
+````JSON
 
   {
     "id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
@@ -225,12 +225,76 @@ Lê um fornecedor específico informando o seu id na url.
     "city": "Cidade do Estado",
     "state": "SP",
     "country": "Brasil",
-    "zip_code": "02758-090"
-  }
-
-```
-
-<span style="background:yellow; color: black; font-weight: bold; padding: 2px 5px;">PATCH</span> **/providers/:provider_id**
+    "zip_code": "02758-090"[
+	{
+		"id": "2df65ff8-171e-4c62-ac3f-37930bf24c81",
+		"total_price": "400.00",
+		"status": "Finalizado",
+		"supplies": [
+			{
+				"id": "e00d84f8-73ee-4c5f-bcde-cd328d224722",
+				"name": "Coca-Cola 2l",
+				"buy_price": "1.50",
+				"qtd": null,
+				"provider": [
+					{
+						"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+						"fantasy_name": "Coca Cola",
+						"name": "Coca Cola Inc",
+						"cnpj": "12345678901234",
+						"ie": "123456789",
+						"street": "Rua do Bairro",
+						"number": 234,
+						"complement": "Industria",
+						"district": "Bairro da Cidade",
+						"city": "Cidade do Estado",
+						"state": "SP",
+						"country": "Brasil",
+						"zip_code": "02758-090"
+					}
+				]
+			},
+			{
+				"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+				"name": "Coca-Cola 3l",
+				"buy_price": "2.50",
+				"qtd": null,
+				"provider": [
+					{
+						"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+						"fantasy_name": "Coca Cola",
+						"name": "Coca Cola Inc",
+						"cnpj": "12345678901234",
+						"ie": "123456789",
+						"street": "Rua do Bairro",
+						"number": 234,
+						"complement": "Industria",
+						"district": "Bairro da Cidade",
+						"city": "Cidade do Estado",
+						"state": "SP",
+						"country": "Brasil",
+						"zip_code": "02758-090"
+					}
+				]
+			}
+		],
+		"provider": {
+			"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+			"fantasy_name": "Coca Cola",
+			"name": "Coca Cola Inc",
+			"cnpj": "12345678901234",
+			"ie": "123456789",
+			"street": "Rua do Bairro",
+			"number": 234,
+			"complement": "Industria",
+			"district": "Bairro da Cidade",
+			"city": "Cidade do Estado",
+			"state": "SP",
+			"country": "Brasil",
+			"zip_code": "02758-090"
+		}
+	}
+]span> **/providers/:provider_id**
 
 Permite atualizar os dados cadastrais do fornecedor.
 Exemplo de corpo da requisicao.
@@ -243,7 +307,7 @@ Exemplo de corpo da requisicao.
 
   }
 
-```
+````
 
 <span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/providers/:provider_id**
 
@@ -420,6 +484,8 @@ A tabela Orders é a responsável por armazenar todos os nossos pedidos de compr
 
 Corpo da requisicao.
 
+**_Obs.: Caso algum dos suprimentos / ingredientes ja exista em nosso estoque e o status da ordem for igual a "Finalizado" a quantidade total será atualizada._**
+
 ```JSON
 {
 	"supplies": [
@@ -511,7 +577,76 @@ Lista todas as ordens de compra.
 Corpo da resposta:
 
 ```JSON
-
+[
+	{
+		"id": "2df65ff8-171e-4c62-ac3f-37930bf24c81",
+		"total_price": "400.00",
+		"status": "Finalizado",
+		"supplies": [
+			{
+				"id": "e00d84f8-73ee-4c5f-bcde-cd328d224722",
+				"name": "Coca-Cola 2l",
+				"buy_price": "1.50",
+				"qtd": null,
+				"provider": [
+					{
+						"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+						"fantasy_name": "Coca Cola",
+						"name": "Coca Cola Inc",
+						"cnpj": "12345678901234",
+						"ie": "123456789",
+						"street": "Rua do Bairro",
+						"number": 234,
+						"complement": "Industria",
+						"district": "Bairro da Cidade",
+						"city": "Cidade do Estado",
+						"state": "SP",
+						"country": "Brasil",
+						"zip_code": "02758-090"
+					}
+				]
+			},
+			{
+				"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+				"name": "Coca-Cola 3l",
+				"buy_price": "2.50",
+				"qtd": null,
+				"provider": [
+					{
+						"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+						"fantasy_name": "Coca Cola",
+						"name": "Coca Cola Inc",
+						"cnpj": "12345678901234",
+						"ie": "123456789",
+						"street": "Rua do Bairro",
+						"number": 234,
+						"complement": "Industria",
+						"district": "Bairro da Cidade",
+						"city": "Cidade do Estado",
+						"state": "SP",
+						"country": "Brasil",
+						"zip_code": "02758-090"
+					}
+				]
+			}
+		],
+		"provider": {
+			"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+			"fantasy_name": "Coca Cola",
+			"name": "Coca Cola Inc",
+			"cnpj": "12345678901234",
+			"ie": "123456789",
+			"street": "Rua do Bairro",
+			"number": 234,
+			"complement": "Industria",
+			"district": "Bairro da Cidade",
+			"city": "Cidade do Estado",
+			"state": "SP",
+			"country": "Brasil",
+			"zip_code": "02758-090"
+		}
+	}
+]
 ```
 
 <span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/orders/:orders_id**
@@ -519,8 +654,74 @@ Corpo da resposta:
 Lê uma ordem específica informando o seu id na url.
 
 ```JSON
-
-
+{
+		"id": "2df65ff8-171e-4c62-ac3f-37930bf24c81",
+		"total_price": "400.00",
+		"status": "Finalizado",
+		"supplies": [
+			{
+				"id": "e00d84f8-73ee-4c5f-bcde-cd328d224722",
+				"name": "Coca-Cola 2l",
+				"buy_price": "1.50",
+				"qtd": null,
+				"provider": [
+					{
+						"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+						"fantasy_name": "Coca Cola",
+						"name": "Coca Cola Inc",
+						"cnpj": "12345678901234",
+						"ie": "123456789",
+						"street": "Rua do Bairro",
+						"number": 234,
+						"complement": "Industria",
+						"district": "Bairro da Cidade",
+						"city": "Cidade do Estado",
+						"state": "SP",
+						"country": "Brasil",
+						"zip_code": "02758-090"
+					}
+				]
+			},
+			{
+				"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+				"name": "Coca-Cola 3l",
+				"buy_price": "2.50",
+				"qtd": null,
+				"provider": [
+					{
+						"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+						"fantasy_name": "Coca Cola",
+						"name": "Coca Cola Inc",
+						"cnpj": "12345678901234",
+						"ie": "123456789",
+						"street": "Rua do Bairro",
+						"number": 234,
+						"complement": "Industria",
+						"district": "Bairro da Cidade",
+						"city": "Cidade do Estado",
+						"state": "SP",
+						"country": "Brasil",
+						"zip_code": "02758-090"
+					}
+				]
+			}
+		],
+		"provider": {
+			"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+			"fantasy_name": "Coca Cola",
+			"name": "Coca Cola Inc",
+			"cnpj": "12345678901234",
+			"ie": "123456789",
+			"street": "Rua do Bairro",
+			"number": 234,
+			"complement": "Industria",
+			"district": "Bairro da Cidade",
+			"city": "Cidade do Estado",
+			"state": "SP",
+			"country": "Brasil",
+			"zip_code": "02758-090"
+		}
+	}
 ```
 
 <span style="background:yellow; color: black; font-weight: bold; padding: 2px 5px;">PATCH</span> **/orders/:orders_id**
@@ -529,9 +730,181 @@ Permite atualizar os dados da ordem de compra.
 Corpo da requisicao.
 
 ```JSON
-
+{
+	"status": "Finalizado"
+}
 ```
 
 <span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/orders/:orders_id**
 
 Permite deletar uma ordem de compra do nosso banco de dados passando o id na url.
+
+## 5.4 Stock
+
+A tabela Orders é a responsável por armazenar todos os nossos pedidos de compra de ingredientes ou suprimentos junto aos nossos fornecedores.
+
+| Name      | Description  | Type   |
+| --------- | ------------ | ------ |
+| supply_id | ID do supply | string |
+| qtd       | Quantidade   | number |
+
+<br>
+
+<span style="background:orange; color: black; font-weight: bold; padding: 2px 5px;">POST</span> **/stock**
+
+Corpo da requisicao.
+
+**_Obs.: Caso algum dos suprimentos / ingredientes ja exista em nosso estoque e o status da ordem for igual a "Finalizado" a quantidade total será atualizada._**
+
+```JSON
+{
+	"supply_id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+	"qtd": 200
+}
+```
+
+Resposta da requisição.
+
+```JSON
+{
+	"id": "26538565-be80-40fa-a10f-7daa9fd8edd5",
+	"qtd": 200,
+	"supply": {
+		"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+		"name": "Coca-Cola 3l",
+		"buy_price": "2.50",
+		"qtd": null,
+		"provider": [
+			{
+				"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+				"fantasy_name": "Coca Cola",
+				"name": "Coca Cola Inc",
+				"cnpj": "12345678901234",
+				"ie": "123456789",
+				"street": "Rua do Bairro",
+				"number": 234,
+				"complement": "Industria",
+				"district": "Bairro da Cidade",
+				"city": "Cidade do Estado",
+				"state": "SP",
+				"country": "Brasil",
+				"zip_code": "02758-090"
+			}
+		]
+	}
+}
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/stock**
+
+Lista todos os itens cadastrados em estoque.
+
+Corpo da resposta:
+
+```JSON
+[
+	{
+		"id": "946b9b1b-4efe-46bf-ad9a-6d0acf8bbe23",
+		"qtd": 100,
+		"supply": {
+			"id": "e00d84f8-73ee-4c5f-bcde-cd328d224722",
+			"name": "Coca-Cola 2l",
+			"buy_price": "1.50",
+			"qtd": null,
+			"provider": [
+				{
+					"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+					"fantasy_name": "Coca Cola",
+					"name": "Coca Cola Inc",
+					"cnpj": "12345678901234",
+					"ie": "123456789",
+					"street": "Rua do Bairro",
+					"number": 234,
+					"complement": "Industria",
+					"district": "Bairro da Cidade",
+					"city": "Cidade do Estado",
+					"state": "SP",
+					"country": "Brasil",
+					"zip_code": "02758-090"
+				}
+			]
+		}
+	},
+	{
+		"id": "517d9c16-8b7b-46dc-9c81-ec6b005d9ee3",
+		"qtd": 100,
+		"supply": {
+			"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+			"name": "Coca-Cola 3l",
+			"buy_price": "2.50",
+			"qtd": null,
+			"provider": [
+				{
+					"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+					"fantasy_name": "Coca Cola",
+					"name": "Coca Cola Inc",
+					"cnpj": "12345678901234",
+					"ie": "123456789",
+					"street": "Rua do Bairro",
+					"number": 234,
+					"complement": "Industria",
+					"district": "Bairro da Cidade",
+					"city": "Cidade do Estado",
+					"state": "SP",
+					"country": "Brasil",
+					"zip_code": "02758-090"
+				}
+			]
+		}
+	}
+]
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/stock/:stock_id**
+
+Lê um item do estoque informando o seu id na url.
+
+```JSON
+{
+	"id": "517d9c16-8b7b-46dc-9c81-ec6b005d9ee3",
+	"qtd": 100,
+	"supply": {
+		"id": "9e516248-54a9-4c65-b75f-46b6e6e8f3cb",
+		"name": "Coca-Cola 3l",
+		"buy_price": "2.50",
+		"qtd": null,
+		"provider": [
+			{
+				"id": "2c18c9c3-f98a-435c-8a41-8a1479193869",
+				"fantasy_name": "Coca Cola",
+				"name": "Coca Cola Inc",
+				"cnpj": "12345678901234",
+				"ie": "123456789",
+				"street": "Rua do Bairro",
+				"number": 234,
+				"complement": "Industria",
+				"district": "Bairro da Cidade",
+				"city": "Cidade do Estado",
+				"state": "SP",
+				"country": "Brasil",
+				"zip_code": "02758-090"
+			}
+		]
+	}
+}
+```
+
+<span style="background:yellow; color: black; font-weight: bold; padding: 2px 5px;">PATCH</span> **/stock/:stock_id**
+
+Permite atualizar os dados do item em estoque.
+Corpo da requisicao.
+
+```JSON
+{
+	"qtd": 200
+}
+```
+
+<span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/stock/:stock_id**
+
+Permite deletar um item do estoque do nosso banco de dados passando o id na url.

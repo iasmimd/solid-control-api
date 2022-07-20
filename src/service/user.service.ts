@@ -21,8 +21,8 @@ class UsersServices {
   }: IUserCreate) {
     const usersRepository = AppDataSource.getRepository(User);
     const cartRepository = AppDataSource.getRepository(Cart);
-   
-      const users = await usersRepository.find();
+
+    const users = await usersRepository.find();
 
     const emailExists = users.find((el) => el.email === email);
 

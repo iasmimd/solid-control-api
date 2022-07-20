@@ -77,6 +77,7 @@ class UsersServices {
     if (!passwordMatch) {
       throw new AppError(403, "Invalid credentials");
     }
+    
     const token = jwt.sign(
       {
         id: user.id,

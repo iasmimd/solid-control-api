@@ -97,7 +97,7 @@ describe("Teste para o método GET, PATCH e DELETE em /users", () => {
     const registerAdm = await request(app).post("/admin/register").send(testAdmin)
     const loginAdm = await request(app).post('/admin/login').send(loginAdmin);
     const { token } = loginAdm.body;
-    console.log(token)
+
     const response = await request(app)
       .get('/users')
       .set('Authorization', `Bearer ${token}`);

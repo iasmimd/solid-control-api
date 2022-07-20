@@ -4,7 +4,7 @@ import StockService from '../service/stock.service';
 class StockController {
   static create = async (req: Request, res: Response) => {
    
-      const newStock = await StockService.create(req.body);
+      const newStock = await StockService.create(false,{...req.body});
 
       return res.status(201).json(newStock);    
   };

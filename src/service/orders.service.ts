@@ -8,12 +8,12 @@ import { fixedFloat } from "../utils";
 import StockService from "./stock.service";
 
 class OrdersService {
-  static async createNewOrder({ supplies, provider_id, status }: IOrder) {
+  static async createNewOrder({ supplies, provider_id }: IOrder) {
     const ordersRepository = AppDataSource.getRepository(Orders);
     const supplyRepository = AppDataSource.getRepository(Supply);
     const providerRepository = AppDataSource.getRepository(Providers);
 
-    if (!supplies || !provider_id || !status) {
+    if (!supplies || !provider_id ) {
       throw new AppError(400, "Requisition body is incomplete or empty ");
     }
     const listSupplies: any = [];
@@ -44,13 +44,13 @@ class OrdersService {
     if (provider) {
       const order = new Orders();
       order.total_price = fixedFloat(total_price);
-      order.status = status;
+      order.status = 'Finalizado';
       order.provider = provider;
       order.supplies = listSupplies;
       const newOrder = ordersRepository.create(order);
       await ordersRepository.save(newOrder);
 
-      if (status === "Finalizado") {
+      if (order.status === "Finalizado") {
         listSupplies?.forEach((supply: any) =>
           StockService.create(false, { qtd: supply.qtd, supply_id: supply.id })
         );

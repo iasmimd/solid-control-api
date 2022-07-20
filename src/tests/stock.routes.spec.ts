@@ -31,7 +31,6 @@ let testSupply: ISupply = {
 let testOrders: IOrder = {
   supplies: [],
   provider_id: "",
-  status: "Finalizado",
 };
 
 let testAdmin: IAdminUser = {

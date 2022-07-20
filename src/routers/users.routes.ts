@@ -14,20 +14,16 @@ import isAdmUserMiddleware from "../middleware/isAdmin.middleware";
 const routes = Router();
 
 export const userRoutes = () => {
-  routes.post(
-    "/register",
-    validateUserCreateMiddleware(userCreateSchema),
-    UsersControllers.create
-  );
-  routes.post(
-    "/login",
-    validateUserLoginMiddleware(userLoginSchema),
-    UsersControllers.login
-  );
-  routes.get("", authUser, isAdmUserMiddleware, UsersControllers.list);
-  routes.get("/:id", authUser, isAdmUserMiddleware, UsersControllers.retrieve);
+
+
+  routes.post("/register", validateUserCreateMiddleware(userCreateSchema), UsersControllers.create);
+  routes.post("/login", validateUserLoginMiddleware(userLoginSchema), UsersControllers.login);
+  routes.get("", authUser, UsersControllers.retrieve);
   routes.patch("", authUser, UsersControllers.update);
   routes.delete("", authUser, UsersControllers.delete);
+
+  routes.get("", authUser, isAdmUserMiddleware, UsersControllers.list);
+
 
   return routes;
 };

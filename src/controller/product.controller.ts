@@ -21,7 +21,7 @@ class ProductController {
       data
     );
 
-    return res.status(200).json(response);
+    return res.status(204).json(response);
   }
 
   static async read(req: Request, res: Response) {
@@ -35,7 +35,7 @@ class ProductController {
 
     const response = await ProductService.deleteProductService(product_id);
     
-    return res.status(200).json(response);
+    return res.status(204).json(response);
   }
 }
 

@@ -1,11 +1,11 @@
-import { AppDataSource } from '../data-source';
-import { Orders } from '../entities/orders.entity';
-import { Providers } from '../entities/providers.entity';
-import { Supply } from '../entities/supply.entity';
-import { AppError } from '../errors/AppError';
-import { IOrder } from '../interfaces/orders';
-import { fixedFloat } from '../utils';
-import StockService from './stock.service';
+import { AppDataSource } from "../data-source";
+import { Orders } from "../entities/orders.entity";
+import { Providers } from "../entities/providers.entity";
+import { Supply } from "../entities/supply.entity";
+import { AppError } from "../errors/AppError";
+import { IOrder } from "../interfaces/orders";
+import { fixedFloat } from "../utils";
+import StockService from "./stock.service";
 
 class OrdersService {
   static async createNewOrder({ supplies, provider_id, status }: IOrder) {
@@ -14,7 +14,7 @@ class OrdersService {
     const providerRepository = AppDataSource.getRepository(Providers);
 
     if (!supplies || !provider_id || !status) {
-      throw new AppError(400, 'Requisition body is incomplete or empty ');
+      throw new AppError(400, "Requisition body is incomplete or empty ");
     }
     const listSupplies: any = [];
 
@@ -50,7 +50,7 @@ class OrdersService {
       const newOrder = ordersRepository.create(order);
       await ordersRepository.save(newOrder);
 
-      if (status === 'Finalizado') {
+      if (status === "Finalizado") {
         listSupplies?.forEach((supply: any) =>
           StockService.create({ qtd: supply.qtd, supply_id: supply.id })
         );
@@ -69,12 +69,14 @@ class OrdersService {
 
   static async readOne(order_id: string) {
     const orderRepository = AppDataSource.getRepository(Orders);
-    const orderList = await orderRepository.find();
+    const order = await orderRepository.findOne({ where: { id: order_id } });
     if (!order_id) {
-      throw new AppError(400, 'Error in your request.');
+      throw new AppError(400, "Error in your request.");
     }
 
-    const order = orderList.find((order) => order.id === order_id);
+    if (!order) {
+      throw new AppError(404, "Order not found.");
+    }
 
     return order;
   }
@@ -85,7 +87,7 @@ class OrdersService {
     const order = await ordersRepository.findOneBy({ id });
 
     if (!order) {
-      throw new AppError(404, 'Order not found');
+      throw new AppError(404, "Order not found");
     }
 
     await ordersRepository.update(id, {
@@ -101,7 +103,7 @@ class OrdersService {
     const order = await ordersRepository.findOneBy({ id });
 
     if (!order) {
-      throw new AppError(404, 'Order not found');
+      throw new AppError(404, "Order not found");
     }
 
     await ordersRepository.delete(order!.id);

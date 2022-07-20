@@ -8,9 +8,9 @@ export const orderRoutes = () => {
 
   routes.post('', isAdmUserMiddleware, OrdersController.create);
   routes.get('', isAdmUserMiddleware, OrdersController.read);
-  routes.get('', isAdmUserMiddleware, OrdersController.readOne);
-  routes.patch('', isAdmUserMiddleware, OrdersController.update);
-  routes.delete('', isAdmUserMiddleware, OrdersController.delete);
+  routes.get('/:id', isAdmUserMiddleware, OrdersController.readOne);
+  routes.patch('/:id', isAdmUserMiddleware, OrdersController.update);
+  routes.delete('/:id', isAdmUserMiddleware, OrdersController.delete);
 
   return routes
 };

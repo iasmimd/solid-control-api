@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import app from "../app";
 import { AppDataSource } from "../data-source";
 import request from "supertest";
-import { IUserCreate, IUserLogin } from "../interfaces/user";
+import { IAdminUser, IUserCreate, IUserLogin } from "../interfaces/user";
 
 let testUser: IUserCreate = {
   name: "gabriel",
@@ -17,6 +17,18 @@ let testUser: IUserCreate = {
 };
 
 let loginUser:IUserLogin = {
+  email: "gabriel@teste.com",
+  password: "12345",
+};
+
+let testAdmin: IAdminUser = {
+  name: "gabriel",
+  email: "gabriel@teste.com",
+  password: "12345",
+  isAdm: true,
+};
+
+let loginAdmin: IUserLogin = {
   email: "gabriel@teste.com",
   password: "12345",
 };
@@ -82,23 +94,26 @@ describe("Teste para o método GET, PATCH e DELETE em /users", () => {
   });
 
   it('Tentando listar todos usuários', async () => {
-    const login = await request(app).post('/users/login').send(loginUser);
-    const { token } = login.body;
+    const registerAdm = await request(app).post("/admin/register").send(testAdmin)
+    const loginAdm = await request(app).post('/admin/login').send(loginAdmin);
+    const { token } = loginAdm.body;
+    console.log(token)
     const response = await request(app)
       .get('/users')
       .set('Authorization', `Bearer ${token}`);
-    expect(response.status).toEqual(401);
-    expect(response.body).toHaveProperty('message');
+    expect(response.status).toEqual(200);
+    expect(Array.isArray(response.body)).toEqual(true)
   });
 
   it('Tentando listar o próprio usuário usuário', async () => {
     const login = await request(app).post('/users/login').send(loginUser);
     const { token } = login.body;
     const response = await request(app)
-      .get('/users')
+      .get('/users/me')
       .set('Authorization', `Bearer ${token}`);
-    expect(response.status).toEqual(401);
-    expect(response.body).toHaveProperty('message');
+  
+    expect(response.status).toEqual(200);
+    expect(response.body.id.length).toEqual(36);
   });
 
   it('Tentando deletar usuário', async () => {

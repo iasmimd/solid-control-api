@@ -93,20 +93,13 @@ class UsersServices {
 
   static async retrieveUserService(id: string) {
     const usersRepository = AppDataSource.getRepository(User);
-    const users = await usersRepository.find();
-    const userFound = users.find((el) => el.id === id);
+    const users = await usersRepository.findOne({where:{id}});
+   
 
-    if (!userFound) {
+    if (!users) {
       throw new AppError(404, "User not found");
     }
-
-    // FINALIZAR NO PROXIMO PR
-    
-    // if (userFound.id !== id && !userFound.isAdm) {
-    //   throw new AppError(401, "Access denied");
-    // }
-
-    return userFound;
+    return users;
   }
 
   static async updateUserService(id: string, data: IUserCreate) {
@@ -142,7 +135,7 @@ class UsersServices {
     await usersRepository.save(userFound);
   }
 
-  static async listUsersService(): Promise<User[]> {
+  static async listUsersService() {
     const usersRepository = AppDataSource.getRepository(User);
     const users = await usersRepository.find();
 

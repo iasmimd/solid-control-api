@@ -5,7 +5,7 @@ import { User } from "../entities/user.entity";
 import { AppError } from "../errors/AppError";
 
 class TicketService {
-  static async createTicket(user_id: string) {
+  static async createTicket(user_id: string,status:string) {
     const userRepository = AppDataSource.getRepository(User);
     const cartRepository = AppDataSource.getRepository(Cart);
     const ticketRepository = AppDataSource.getRepository(Ticket);
@@ -32,6 +32,7 @@ class TicketService {
 
       const ticket = new Ticket();
       ticket.user = user
+      ticket.status = status
       ticket.products = cart.products
       ticket.total = cart.subtotal
     

@@ -1,24 +1,24 @@
-import { DataSource } from 'typeorm';
-import app from '../app';
-import { AppDataSource } from '../data-source';
-import request from 'supertest';
-import { IUserCreate } from '../interfaces/user';
+import { DataSource } from "typeorm";
+import app from "../app";
+import { AppDataSource } from "../data-source";
+import request from "supertest";
+import { IUserCreate, IUserLogin } from "../interfaces/user";
 
 let testUser: IUserCreate = {
-  name: 'gabriel',
-  email: 'gabriel@teste.com',
-  street: 'São Lara',
-  number: '1020',
-  complement: 'casa',
-  state: 'SP',
-  city: 'BR',
-  zip_code: '13245788',
-  password: '12345',
+  name: "gabriel",
+  email: "gabriel@teste.com",
+  street: "São Lara",
+  number: "1020",
+  complement: "casa",
+  state: "SP",
+  city: "BR",
+  zip_code: "13245788",
+  password: "12345",
 };
 
-let loginUser = {
-  email: 'gabriel@teste.com',
-  password: '12345',
+let loginUser:IUserLogin = {
+  email: "gabriel@teste.com",
+  password: "12345",
 };
 
 describe('Teste para o método POST em /users', () => {
@@ -62,7 +62,7 @@ describe('Teste para o método POST em /users', () => {
   });
 });
 
-describe('Teste para o método GET e DELETE em /users', () => {
+describe("Teste para o método GET, PATCH e DELETE em /users", () => {
   let connection: DataSource;
 
   beforeAll(async () => {
@@ -112,3 +112,4 @@ describe('Teste para o método GET e DELETE em /users', () => {
     expect(response.body).toHaveProperty('message');
   });
 });
+

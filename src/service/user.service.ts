@@ -44,6 +44,7 @@ class UsersServices {
     newUser.complement = complement || "";
     newUser.state = state;
     newUser.zip_code = zip_code;
+    newUser.city = city;
     newUser.zip_code = zip_code ;
     newUser.city = city;
     newUser.password = bcrypt.hashSync(password, 10);
@@ -76,7 +77,7 @@ class UsersServices {
     if (!passwordMatch) {
       throw new AppError(403, "Invalid credentials");
     }
-   
+    
     const token = jwt.sign(
       {
         id: user.id,

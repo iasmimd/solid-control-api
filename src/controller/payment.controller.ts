@@ -1,21 +1,21 @@
 import { Request, Response } from 'express';
 import { AppError } from '../errors/AppError';
 import PaymentService from '../service/payment.service';
+
 const mercadopago = require('mercadopago');
 class PaymentController {
   static async create(req: Request, res: Response) {
-    const { id, email, description, amount } = req.params;
-
+    const user = req.user
     const getFullUrl = (req: Request) => {
       const url = req.protocol + '://' + req.get('host');
       return url;
     };
 
-    const item = PaymentService.createPaymentService(
-      id,
-      email,
-      description,
-      amount
+
+
+    const item = await PaymentService.createPaymentService(
+     user.id,
+     user.email,
     );
 
     mercadopago.configure({
@@ -26,22 +26,22 @@ class PaymentController {
     const purchaseOrder = {
       items: [item],
       payer: {
-        email: email,
+        email: user.email,
       },
       auto_return: 'all',
-      external_reference: id,
+      external_reference: user.id,
       payment_method: 'all',
       payment_type_id: 'all',
       back_urls: {
-        success: getFullUrl(req) + '/payments/success',
-        pending: getFullUrl(req) + '/payments/pending',
-        failure: getFullUrl(req) + '/payments/failure',
+        success: 'https://solid-control-api.herokuapp.com' + '/payments/success',
+        pending: 'https://solid-control-api.herokuapp.com' + '/payments/pending',
+        failure: 'https://solid-control-api.herokuapp.com' + '/payments/failure',
       },
     };
 
     try {
       const preference = await mercadopago.preferences.create(purchaseOrder);
-      return res.redirect(`${preference.body.init_point}`);
+      return res.json({payment_link:`${preference.body.init_point}`});
     } catch (err) {
       if (err instanceof AppError) {
         return res.send(err.message);

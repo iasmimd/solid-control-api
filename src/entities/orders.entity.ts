@@ -20,7 +20,7 @@ export class Orders {
   @JoinTable()
   supplies: Supply[]
 
-  @ManyToOne(() => Providers ,{ eager:true })
+  @ManyToOne(() => Providers, { eager:true })
   @JoinColumn()
   provider: Providers
 

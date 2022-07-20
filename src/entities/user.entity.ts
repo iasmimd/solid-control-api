@@ -4,29 +4,28 @@ import {
   PrimaryGeneratedColumn,
   Unique,
   OneToOne,
-  ManyToMany,
   JoinColumn,
   OneToMany,
-  JoinTable,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Address } from './address.entity';
 import { Cart } from './cart.entity';
 import { Ticket } from './ticket.entity';
 
 @Entity()
-@Unique(['email'])
+@Unique(["email"])
 class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ length: 128, nullable: false })
+  @Column('varchar', { length: 128, nullable: false, })
   name: string;
 
-  @Column({ length: 256, nullable: false })
+  @Column('varchar', { length: 256, nullable: false })
   email: string;
 
-  @Column({ length: 128, nullable: false })
+  @Column('varchar', { length: 128, nullable: false })
   @Exclude()
   password: string;
 
@@ -34,20 +33,36 @@ class User {
   isAdm?: boolean;
 
   @Column({ default: true })
-  @Exclude()
   active: boolean;
 
-  /* MUITOS User PODEM TER MUITOS Address*/
-  @ManyToMany(() => Address, { eager: true })
-  @JoinTable()
-  address: Address[];
+  @Column()
+  number: string;
 
-  /* CADA User SÓ TEM UM Cart (1:1)*/
+  @Column('varchar', { length: 256, nullable: false })
+  street: string;
+
+  @Column('varchar', { length: 256 })
+  complement: string;
+  
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @Column( { length: 2, nullable: false })
+  state: string;
+
+  @Column()
+  zip_code: string;
+
+  @Column( { length: 256, nullable: false })
+  city: string;
+
   @OneToOne(() => Cart, { eager: true })
   @JoinColumn()
   cart: Cart;
 
-  /* */
   @OneToMany(() => Ticket, (ticket) => ticket.user)
   tickets: Ticket[];
 }

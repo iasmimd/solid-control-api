@@ -1,29 +1,48 @@
 import { AppDataSource } from "../data-source";
 import { Product } from "../entities/products.entity";
+import { Supply } from "../entities/supply.entity";
 import { AppError } from "../errors/AppError";
 import { IProduct } from "../interfaces/product";
 
 class ProductService {
   static async productCreateService({ supplies, name, price, img }: IProduct) {
-    // const supplyRepository = AppDataSource.getRepository(Supply)
-    // const stockRepository = AppDataSource.getRepository(Stock)
+    const supplyRepository = AppDataSource.getRepository(Supply);
     const productRepository = AppDataSource.getRepository(Product);
 
     const products = await productRepository.find();
-    const productAvailability = products.find((product) => (product.name = name));
+    const productAvailability = await productRepository.findOne({
+      where: { name, price, img },
+    });
+
+    if (productAvailability) {
+      throw new AppError(409, "Product already exists.");
+    }
 
     if (!supplies || !name || !price || !img) {
       throw new AppError(400, "Error in your request");
     }
-    if (productAvailability) {
-      throw new AppError(409, "product already exists");
-    }
-    const newProduct = productRepository.create({
-      supplies,
-      name,
-      price,
-      img,
+
+    const listSupplies: any = [];
+
+    let allSupplies = supplies.map(async (elem: any) => {
+      const supply = await supplyRepository.findOne({
+        where: { id: elem.id },
+      });
+
+      if (supply) {
+        supply.qtd = elem.qtd;
+        listSupplies.push(supply);
+      }
     });
+
+    await Promise.all(allSupplies);
+
+    const newProduct = new Product();
+    newProduct.supplies = listSupplies;
+    newProduct.img = img;
+    newProduct.name = name;
+    newProduct.price = price;
+
     await productRepository.save(newProduct);
     return newProduct;
   }
@@ -40,11 +59,8 @@ class ProductService {
 
   static async updateProductsService(
     product_id: string,
-    { img, name, price, supplies }: IProduct
+    { img, name, price }: IProduct
   ) {
-    if (!supplies || !name || !price || !img) {
-      throw new AppError(400, "Error in your request");
-    }
     const productRepository = AppDataSource.getRepository(Product);
 
     const product = await productRepository.findOne({
@@ -54,7 +70,7 @@ class ProductService {
     if (!product) {
       throw new AppError(404, "products not found");
     }
-    await productRepository.update(product_id, { name, supplies, price, img });
+    await productRepository.update(product_id, { name, price, img })
 
     return { message: "Product updated." };
   }
@@ -69,7 +85,7 @@ class ProductService {
       throw new AppError(404, "products not found");
     }
     await productRepository.delete(product!.id);
-    return {message:"Product as deleted"}
+    return { message: "Product as deleted" };
   }
 }
 

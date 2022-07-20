@@ -110,12 +110,11 @@ describe("Teste para o método GET em /payment", () => {
       .post(`/cart/${createProduct.body.id}`)
       .set("Authorization", `Bearer ${token}`)
       .send(loginUser);
-        
+
     const response = await request(app)
       .get("/payment/checkout")
       .set("Authorization", `Bearer ${token}`);
 
-   
     expect(response.status).toEqual(200);
     expect(response.body).toHaveProperty("payment_link");
   });

@@ -1,14 +1,24 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Product } from './products.entity';
-import { User } from './user.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Product } from "./products.entity";
+import { User } from "./user.entity";
 
 @Entity()
 export class Ticket {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
   @Column("float")
-  total: number
+  total: number;
+
+  @Column()
+  status: string;
 
   @ManyToOne(() => User, (user) => user.tickets)
   user: User;
@@ -16,7 +26,6 @@ export class Ticket {
   @ManyToMany(() => Product, {
     eager: true,
   })
-  
   @JoinTable()
   products: Product[];
 }

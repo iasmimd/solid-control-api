@@ -47,6 +47,7 @@ let testSupply: ISupply = {
 
 let testProduct: IProduct = {
   supplies: [],
+  description:"teste",
   name: "produto Teste",
   price: 1,
   img: "https://i.pinimg.com/564x/4a/77/57/4a77579ebb19a13c89e750ebf5bf7efe.jpg",
@@ -103,14 +104,13 @@ describe("Teste nos métodos POST E GET  em /tickets ", () => {
       .post("/products")
       .set("Authorization", `Bearer ${tokeAdmin}`)
       .send(testProduct);
-      console.log(createProduct.body)
     const createCartUser = await request(app)
       .post(`/cart/${createProduct.body.id}`)
       .set("Authorization", `Bearer ${token}`);
     
     const response = await request(app)
       .post("/ticket")
-      .set("Authorization", `Bearer ${token}`);
+      .set("Authorization", `Bearer ${token}`).send({status:"Finalizado"});
    
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("user");

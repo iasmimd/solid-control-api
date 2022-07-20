@@ -40,6 +40,7 @@ class UsersControllers {
   }
 
   static async retrieve(req: Request, res: Response) {
+    
     const id = req.user.id;
     const user = await UsersServices.retrieveUserService(id);
 

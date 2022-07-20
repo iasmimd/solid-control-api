@@ -6,7 +6,7 @@ import { AppError } from "../errors/AppError";
 import { ITicketUpdateStatus } from "../interfaces/ticket";
 
 class TicketService {
-  static async createTicket(user_id: string) {
+  static async createTicket(user_id: string,status:string) {
     const userRepository = AppDataSource.getRepository(User);
     const cartRepository = AppDataSource.getRepository(Cart);
     const ticketRepository = AppDataSource.getRepository(Ticket);
@@ -39,7 +39,6 @@ class TicketService {
       cart.products = [];
       cart.subtotal = 0;
       await cartRepository.save(cart);
-
       ticketRepository.create(ticket);
       await ticketRepository.save(ticket);
 

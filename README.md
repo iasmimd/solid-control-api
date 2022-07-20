@@ -17,6 +17,7 @@
     - [Índice](#índice)
   - [5.1 Provider](#51-provider)
   - [5.2 Supply](#52-supply)
+  - [5.3 Orders](#53-orders)
 
 ---
 
@@ -400,3 +401,137 @@ Corpo da requisicao.
 <span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/supply/:supply_id**
 
 Permite deletar um suprimento / ingrediente do nosso banco de dados passando o id na url.
+
+<br>
+
+## 5.3 Orders
+
+A tabela Orders é a responsável por armazenar todos os nossos pedidos de compra de ingredientes ou suprimentos junto aos nossos fornecedores.
+
+| Name         | Description                                                | Type             |
+| ------------ | ---------------------------------------------------------- | ---------------- |
+| supplies [ ] | Lista de itens da O.C.: {"id":"id do supply", "qtd": 100 } | Array de objetos |
+| provider_id  | Id do fornecedor referente a O.C.                          | string           |
+| status       | Andamento da ordem de compra.                              | string           |
+
+<br>
+
+<span style="background:orange; color: black; font-weight: bold; padding: 2px 5px;">POST</span> **/orders**
+
+Corpo da requisicao.
+
+```JSON
+{
+	"supplies": [
+		{"id": "d7fc0b05-05e0-471f-a675-acb51df99bc2", "qtd": 100},
+		{"id": "2aca79a2-0d68-4890-9228-24c17fa4fea7", "qtd": 100}
+	],
+	"provider_id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
+	"status": "Finalizado"
+}
+```
+
+Resposta da requisição.
+
+```JSON
+{
+	"total_price": "400.00",
+	"status": "Finalizado",
+	"supplies": [
+		{
+			"id": "d7fc0b05-05e0-471f-a675-acb51df99bc2",
+			"name": "Coca-Cola 2l",
+			"buy_price": "1.50",
+			"qtd": 100,
+			"provider": [
+				{
+					"id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
+					"fantasy_name": "Coca-Cola",
+					"name": "Coca Cola Inc",
+					"cnpj": "12345678901234",
+					"ie": "123456789",
+					"street": "Rua do Bairro",
+					"number": 234,
+					"complement": "Industria",
+					"district": "Bairro da Cidade",
+					"city": "Cidade do Estado",
+					"state": "SP",
+					"country": "Brasil",
+					"zip_code": "02758-090"
+				}
+			]
+		},
+		{
+			"id": "2aca79a2-0d68-4890-9228-24c17fa4fea7",
+			"name": "Coca-Cola 3l",
+			"buy_price": "2.50",
+			"qtd": 100,
+			"provider": [
+				{
+					"id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
+					"fantasy_name": "Coca-Cola",
+					"name": "Coca Cola Inc",
+					"cnpj": "12345678901234",
+					"ie": "123456789",
+					"street": "Rua do Bairro",
+					"number": 234,
+					"complement": "Industria",
+					"district": "Bairro da Cidade",
+					"city": "Cidade do Estado",
+					"state": "SP",
+					"country": "Brasil",
+					"zip_code": "02758-090"
+				}
+			]
+		}
+	],
+	"provider": {
+		"id": "2a6a154c-a4c3-4248-bc6c-5d98e742f71f",
+		"fantasy_name": "Coca-Cola",
+		"name": "Coca Cola Inc",
+		"cnpj": "12345678901234",
+		"ie": "123456789",
+		"street": "Rua do Bairro",
+		"number": 234,
+		"complement": "Industria",
+		"district": "Bairro da Cidade",
+		"city": "Cidade do Estado",
+		"state": "SP",
+		"country": "Brasil",
+		"zip_code": "02758-090"
+	},
+	"id": "2d7abc79-e656-41a2-b4ad-8eb088ab465f"
+}
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/orders**
+
+Lista todas as ordens de compra.
+
+Corpo da resposta:
+
+```JSON
+
+```
+
+<span style="background:blue; color: black; font-weight: bold; padding: 2px 5px;">GET</span> **/orders/:orders_id**
+
+Lê uma ordem específica informando o seu id na url.
+
+```JSON
+
+
+```
+
+<span style="background:yellow; color: black; font-weight: bold; padding: 2px 5px;">PATCH</span> **/orders/:orders_id**
+
+Permite atualizar os dados da ordem de compra.
+Corpo da requisicao.
+
+```JSON
+
+```
+
+<span style="background:red; color: black; font-weight: bold; padding: 2px 5px;">DELETE</span> **/orders/:orders_id**
+
+Permite deletar uma ordem de compra do nosso banco de dados passando o id na url.

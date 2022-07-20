@@ -5,11 +5,18 @@ import { AppError } from "../errors/AppError";
 import { IProduct } from "../interfaces/product";
 
 class ProductService {
-  static async productCreateService({ supplies, name, price, description, img }: IProduct) {
+  static async productCreateService({
+    supplies,
+    name,
+    price,
+    description,
+    img,
+  }: IProduct) {
     const supplyRepository = AppDataSource.getRepository(Supply);
     const productRepository = AppDataSource.getRepository(Product);
 
-    const products = await productRepository.find();
+    console.log("------------------------teste---------------");
+
     const productAvailability = await productRepository.findOne({
       where: { name, price, img },
     });
@@ -29,11 +36,17 @@ class ProductService {
         where: { id: elem.id },
       });
 
+      if (!supply) {
+        throw new AppError(404, "At least one supply don't exist");
+      }
+
       if (supply) {
         supply.qtd = elem.qtd;
         listSupplies.push(supply);
       }
     });
+
+    console.log(listSupplies);
 
     await Promise.all(allSupplies);
 
@@ -71,7 +84,7 @@ class ProductService {
     if (!product) {
       throw new AppError(404, "products not found");
     }
-    await productRepository.update(product_id, { name, price, img })
+    await productRepository.update(product_id, { name, price, img });
 
     return { message: "Product updated." };
   }

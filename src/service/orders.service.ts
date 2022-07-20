@@ -52,7 +52,7 @@ class OrdersService {
 
       if (status === "Finalizado") {
         listSupplies?.forEach((supply: any) =>
-          StockService.create({ qtd: supply.qtd, supply_id: supply.id })
+          StockService.create(false, { qtd: supply.qtd, supply_id: supply.id })
         );
       }
 

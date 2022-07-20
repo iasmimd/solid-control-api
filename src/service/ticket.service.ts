@@ -3,6 +3,7 @@ import { Cart } from "../entities/cart.entity";
 import { Ticket } from "../entities/ticket.entity";
 import { User } from "../entities/user.entity";
 import { AppError } from "../errors/AppError";
+import StockService from "./stock.service";
 import { ITicketUpdateStatus } from "../interfaces/ticket";
 
 class TicketService {
@@ -34,13 +35,21 @@ class TicketService {
       ticket.user = user;
       ticket.products = cart.products;
       ticket.total = cart.subtotal;
-      ticket.status = "Pedido pendente";
+      ticket.status = "Finalizado";
 
       cart.products = [];
       cart.subtotal = 0;
       await cartRepository.save(cart);
       ticketRepository.create(ticket);
       await ticketRepository.save(ticket);
+
+      if (ticket.status === "Finalizado") {
+        ticket.products.forEach((product) => {
+          product.supplies.forEach((supply) => {
+            StockService.create(true, { qtd: 1, supply_id: supply.id });
+          });
+        });
+      }
 
       return ticket;
     }

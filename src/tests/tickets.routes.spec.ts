@@ -1,11 +1,11 @@
 import { DataSource } from "typeorm";
 import app from "../app";
 import { AppDataSource } from "../data-source";
-import request from "supertest";
-import { IAdminUser, IUserCreate, IUserLogin } from "../interfaces/user";
+import { IProduct } from "../interfaces/product";
 import { IProviderCreate } from "../interfaces/provider";
 import { ISupply } from "../interfaces/supply";
-import { IProduct } from "../interfaces/product";
+import { IAdminUser, IUserCreate, IUserLogin } from "../interfaces/user";
+import request from "supertest";
 
 let testUser: IUserCreate = {
   name: "gabriel",
@@ -59,12 +59,12 @@ let testAdmin: IAdminUser = {
   isAdm: true,
 };
 
-let loginAdmin = {
+let loginAdmin: IUserLogin = {
   email: "gabriel@teste.com",
   password: "12345",
 };
 
-describe("Teste para o método GET em /payment", () => {
+describe("Teste nos métodos POST E GET  em /tickets ", () => {
   let connection: DataSource;
 
   beforeAll(async () => {
@@ -74,12 +74,11 @@ describe("Teste para o método GET em /payment", () => {
         console.error("Error during Data Source initialization", err);
       });
   });
-
   afterAll(async () => {
     await connection.destroy();
   });
 
-  it("Teste de criação do payment.", async () => {
+  it("Teste de de um ticket", async () => {
     const register = await request(app).post("/users/register").send(testUser);
     const login = await request(app).post("/users/login").send(loginUser);
     const token = login.body.token;
@@ -90,12 +89,11 @@ describe("Teste para o método GET em /payment", () => {
     const loginAdm = await request(app).post("/admin/login").send(loginAdmin);
     const tokeAdmin = loginAdm.body.token;
 
-    const providerTest = await request(app)
+    const createProvider = await request(app)
       .post("/providers")
       .set("Authorization", `Bearer ${tokeAdmin}`)
       .send(testeProvider);
-
-    testSupply.provider_id = providerTest.body.id;
+    testSupply.provider_id = createProvider.body.id;
     const createSupply = await request(app)
       .post("/supply")
       .set("Authorization", `Bearer ${tokeAdmin}`)
@@ -105,18 +103,35 @@ describe("Teste para o método GET em /payment", () => {
       .post("/products")
       .set("Authorization", `Bearer ${tokeAdmin}`)
       .send(testProduct);
-
-    const addItemCart = await request(app)
+      console.log(createProduct.body)
+    const createCartUser = await request(app)
       .post(`/cart/${createProduct.body.id}`)
-      .set("Authorization", `Bearer ${token}`)
-      .send(loginUser);
-        
-    const response = await request(app)
-      .get("/payment/checkout")
       .set("Authorization", `Bearer ${token}`);
-
+    
+    const response = await request(app)
+      .post("/ticket")
+      .set("Authorization", `Bearer ${token}`);
    
-    expect(response.status).toEqual(200);
-    expect(response.body).toHaveProperty("payment_link");
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("user");
+    expect(response.body).toHaveProperty("products");
+    expect(response.body).toHaveProperty("total");
+    expect(response.body.id.length).toBe(36);
+  
+  });
+
+  it("Teste de listagem para o cart do usuário", async () => {
+    const login = await request(app).post("/users/login").send(loginUser);
+    const token = login.body.token;
+
+    const response = await request(app)
+      .get("/ticket")
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.status).toBe(200);
+    expect(response.body[0]).toHaveProperty("products");
+    expect(response.body[0]).toHaveProperty("total");
+    expect(response.body[0].id.length).toBe(36);
+    expect(Array.isArray(response.body)).toEqual(true)
+  
   });
 });

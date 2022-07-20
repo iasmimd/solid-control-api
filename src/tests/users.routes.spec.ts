@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import app from "../app";
 import { AppDataSource } from "../data-source";
 import request from "supertest";
-import { IUserCreate } from "../interfaces/user";
+import { IUserCreate, IUserLogin } from "../interfaces/user";
 
 let testUser: IUserCreate = {
   name: "gabriel",
@@ -11,12 +11,12 @@ let testUser: IUserCreate = {
   number: "1020",
   complement: "casa",
   state: "SP",
-  country: "BR",
+  city: "BR",
   zip_code: "13245788",
   password: "12345",
 };
 
-let loginUser = {
+let loginUser:IUserLogin = {
   email: "gabriel@teste.com",
   password: "12345",
 };
@@ -62,7 +62,7 @@ describe("Teste para o método POST em /users", () => {
   });
 });
 
-describe("Teste para o método GET e DELETE em /users", () => {
+describe("Teste para o método GET, PATCH e DELETE em /users", () => {
   let connection: DataSource;
 
   beforeAll(async () => {
@@ -117,19 +117,5 @@ describe("Teste para o método GET e DELETE em /users", () => {
     expect(response.body).toHaveProperty("message")
   });
 
-
-  // it("Tentando fazer update do usuário", async () => {
-  //   const response1 = await request(app).post("/users/register").send(testUser);
-  //   const login = await request(app)
-  //     .post("/users/login")
-  //     .send(loginUser);
-  //   const {token} = login.body
-  //   console.log(token)
-  //   const response = await request(app)
-  //     .patch(`/users`).send({name:"Cleber"})
-  //     .set("Authorization", `Bearer ${token}`);
-  //     console.log(response.body)
-  //   expect(response.status).toEqual(200);
-  //   expect(response.body).toHaveProperty("message")
-  // });
 });
+

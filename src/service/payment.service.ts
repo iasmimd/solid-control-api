@@ -5,11 +5,11 @@ import { AppError } from "../errors/AppError";
 class PaymentService {
   static async createPaymentService(user_id: string, email: string) {
     const userRepository = AppDataSource.getRepository(User);
-
+  
     const user = await userRepository.findOne({ where: { id: user_id } });
    
     if (!user) {
-      throw new AppError(404, "user notfound");
+      throw new AppError(404, "user not found");
     }
     if(user.cart.products.length === 0){
       throw new AppError (400,"Cart is empty.")

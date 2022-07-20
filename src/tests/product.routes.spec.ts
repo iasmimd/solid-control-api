@@ -9,7 +9,7 @@ import request from 'supertest';
 
 let testProduct: IProduct = {
   supplies: [],
-  name: 'macarrão',
+  name: 'pasta',
   price: 10,
   img: 'https://i.pinimg.com/564x/4a/77/57/4a77579ebb19a13c89e750ebf5bf7efe.jpg',
 };
@@ -27,7 +27,7 @@ let testLoginAdmin = {
 };
 
 let testSupply: ISupply = {
-  name: 'ovo',
+  name: 'egg',
   buy_price: 10,
   provider_id: '',
 };
@@ -47,7 +47,7 @@ let provider: IProviderCreate = {
   zip_code: '13245788',
 };
 
-describe('Teste para a rota /products', () => {
+describe('Testing route /products', () => {
   let connection: DataSource;
 
   beforeAll(async () => {
@@ -62,7 +62,7 @@ describe('Teste para a rota /products', () => {
     await connection.destroy();
   });
 
-  it('Testando criação de produto', async () => {
+  it('Creating a product', async () => {
     const registerAdmin = await request(app)
       .post('/admin/register')
       .send(testAdmin);
@@ -92,4 +92,63 @@ describe('Teste para a rota /products', () => {
     expect(response.status).toEqual(201);
     expect(response.body.id.length).toEqual(36);
   });
+
+  it('Listing all products', async () => {
+    const loginAdmin = await request(app)
+      .post('/admin/login')
+      .send(testLoginAdmin);
+    const { token } = loginAdmin.body;
+
+    const response = await request(app)
+      .get('/products')
+      .set('Authorization', `Bearer ${token}`)
+      .send(testProduct);
+
+    expect(response.status).toEqual(200);
+  });
+
+  it('Updating a product', async () => {
+    const loginAdmin = await request(app)
+      .post('/admin/login')
+      .send(testLoginAdmin);
+    const { token } = loginAdmin.body;
+
+    const productList = await request(app)
+      .get(`/products/`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(testProduct);
+
+    const newValue = {
+      name: 'orange',
+      price: 5,
+      img: 'https://png.pngtree.com/element_our/png_detail/20180903/orange-png-png_75700.jpg',
+    };
+
+    const response = await request(app)
+      .patch(`/products/${productList.body[0].id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(newValue);
+
+    expect(response.status).toEqual(204);
+  });
+
+  it('Deleting a product', async () => {
+    const loginAdmin = await request(app)
+      .post('/admin/login')
+      .send(testLoginAdmin);
+    const { token } = loginAdmin.body;
+
+    const productList = await request(app)
+    .get(`/products/`)
+    .set('Authorization', `Bearer ${token}`)
+    .send(testSupply);
+
+    const response = await request(app)
+      .delete(`/products/${productList.body[0].id}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toEqual(204);
+  });
+
+
 });

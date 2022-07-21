@@ -6,7 +6,6 @@ import isAdmUserMiddleware from '../middleware/isAdmin.middleware';
 const routes = Router();
 
 export const productRouter = () => {
-
   routes.post('', isAdmUserMiddleware, ProductController.create);
   routes.get('', ProductController.read);
   routes.patch('/:product_id', isAdmUserMiddleware, ProductController.update);

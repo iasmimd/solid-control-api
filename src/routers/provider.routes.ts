@@ -11,5 +11,5 @@ export const providerRoutes = () => {
   routes.patch('/:id', isAdmUserMiddleware, ProviderController.update);
   routes.delete('/:id', isAdmUserMiddleware, ProviderController.delete);
 
-  return routes
+  return routes;
 };

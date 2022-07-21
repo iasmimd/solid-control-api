@@ -1,8 +1,8 @@
-import { AppDataSource } from "../data-source";
-import { Product } from "../entities/products.entity";
-import { Supply } from "../entities/supply.entity";
-import { AppError } from "../errors/AppError";
-import { IProduct } from "../interfaces/product";
+import { AppDataSource } from '../data-source';
+import { Product } from '../entities/products.entity';
+import { Supply } from '../entities/supply.entity';
+import { AppError } from '../errors/AppError';
+import { IProduct } from '../interfaces/product';
 
 class ProductService {
   static async productCreateService({
@@ -20,11 +20,11 @@ class ProductService {
     });
 
     if (productAvailability) {
-      throw new AppError(409, "Product already exists.");
+      throw new AppError(409, 'Product already exists.');
     }
 
     if (!supplies || !name || !price || !img || !description) {
-      throw new AppError(400, "Error in your request");
+      throw new AppError(400, 'Error in your request');
     }
 
     const listSupplies: any = [];
@@ -62,7 +62,7 @@ class ProductService {
 
     const products = await productRepository.find();
     if (!products) {
-      throw new AppError(404, "products not found");
+      throw new AppError(404, 'products not found');
     }
     return products;
   }
@@ -78,11 +78,11 @@ class ProductService {
     });
 
     if (!product) {
-      throw new AppError(404, "products not found");
+      throw new AppError(404, 'products not found');
     }
     await productRepository.update(product_id, { name, price, img });
 
-    return { message: "Product updated." };
+    return { message: 'Product updated.' };
   }
 
   static async deleteProductService(product_id: string) {
@@ -92,10 +92,10 @@ class ProductService {
     });
 
     if (!product) {
-      throw new AppError(404, "products not found");
+      throw new AppError(404, 'products not found');
     }
     await productRepository.delete(product!.id);
-    return { message: "Product as deleted" };
+    return { message: 'Product as deleted' };
   }
 }
 

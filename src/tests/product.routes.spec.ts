@@ -9,7 +9,7 @@ import request from 'supertest';
 
 let testProduct: IProduct = {
   supplies: [],
-  description:"teste",
+  description: 'teste',
   name: 'pasta',
   price: 10,
   img: 'https://i.pinimg.com/564x/4a/77/57/4a77579ebb19a13c89e750ebf5bf7efe.jpg',
@@ -113,7 +113,7 @@ describe('Testing route /products', () => {
       .post('/admin/login')
       .send(testLoginAdmin);
     const { token } = loginAdmin.body;
-   
+
     const productList = await request(app)
       .get(`/products/`)
       .set('Authorization', `Bearer ${token}`)
@@ -140,9 +140,9 @@ describe('Testing route /products', () => {
     const { token } = loginAdmin.body;
 
     const productList = await request(app)
-    .get(`/products/`)
-    .set('Authorization', `Bearer ${token}`)
-    .send(testSupply);
+      .get(`/products/`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(testSupply);
 
     const response = await request(app)
       .delete(`/products/${productList.body[0].id}`)
@@ -150,6 +150,4 @@ describe('Testing route /products', () => {
 
     expect(response.status).toEqual(204);
   });
-
-
 });

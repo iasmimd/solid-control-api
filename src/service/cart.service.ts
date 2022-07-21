@@ -44,7 +44,7 @@ export class CartService {
       return cart;
     }
   }
-  
+
   static async list(user_id: string) {
     const userRepository = AppDataSource.getRepository(User);
 

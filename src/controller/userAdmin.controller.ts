@@ -11,9 +11,8 @@ class AdminController {
   }
 
   static async login(req: Request, res: Response) {
-
     const { email, password } = req.body;
-    
+
     const token = await AdminService.loginAdminService({ email, password });
 
     return res.status(200).json({ token });

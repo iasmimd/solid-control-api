@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import UsersServices from "../service/user.service";
-import { instanceToPlain } from "class-transformer";
-import "express-async-errors";
+import { Request, Response } from 'express';
+import UsersServices from '../service/user.service';
+import { instanceToPlain } from 'class-transformer';
+import 'express-async-errors';
 
 class UsersControllers {
   static async create(req: Request, res: Response) {
@@ -40,7 +40,6 @@ class UsersControllers {
   }
 
   static async retrieve(req: Request, res: Response) {
-    
     const id = req.user.id;
     const user = await UsersServices.retrieveUserService(id);
 
@@ -51,14 +50,14 @@ class UsersControllers {
     const id = req.user.id;
     await UsersServices.updateUserService(id, req.body);
 
-    return res.status(200).json({ message: "User updated!" });
+    return res.status(200).json({ message: 'User updated!' });
   }
 
   static async delete(req: Request, res: Response) {
-    const id = req.user.id
+    const id = req.user.id;
     await UsersServices.deleteUserService(id);
 
-    return res.status(200).send({ message: "User deleted!" });
+    return res.status(200).send({ message: 'User deleted!' });
   }
 
   static async list(req: Request, res: Response) {

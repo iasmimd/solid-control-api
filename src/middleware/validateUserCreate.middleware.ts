@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
-import * as yup from "yup";
-import { SchemaOf } from "yup";
-import { IUserCreate } from "../interfaces/user";
+import { Request, Response, NextFunction } from 'express';
+import * as yup from 'yup';
+import { SchemaOf } from 'yup';
+import { IUserCreate } from '../interfaces/user';
 
 export const userCreateSchema: SchemaOf<IUserCreate> = yup.object().shape({
   name: yup.string().required(),
@@ -32,7 +32,7 @@ export const validateUserCreateMiddleware =
         next();
       } catch (error: any) {
         return res.status(400).json({
-          error: error.errors?.join(", "),
+          error: error.errors?.join(', '),
         });
       }
     } catch (error) {

@@ -11,7 +11,5 @@ export const stockRoutes = () => {
   routes.patch('/:id', isAdmUserMiddleware, StockController.update);
   routes.delete('/:id', isAdmUserMiddleware, StockController.delete);
 
-  return routes
+  return routes;
 };
-
-

@@ -10,7 +10,6 @@ import { v4 as uuid } from 'uuid';
 
 @Entity('users')
 @Unique(['email'])
-
 export class AdminUser {
   @PrimaryGeneratedColumn('uuid')
   id: string;

@@ -138,9 +138,9 @@ describe('Teste para a rota /supply', () => {
     const { token } = loginAdmin.body;
 
     const supplyList = await request(app)
-    .get(`/supply/`)
-    .set('Authorization', `Bearer ${token}`)
-    .send(testSupply);
+      .get(`/supply/`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(testSupply);
 
     const response = await request(app)
       .delete(`/supply/${supplyList.body[0].id}`)

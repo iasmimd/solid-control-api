@@ -1,5 +1,3 @@
-import { Supply } from "../../entities/supply.entity";
-
 interface ISupplies {
   id: string;
   qtd: number;

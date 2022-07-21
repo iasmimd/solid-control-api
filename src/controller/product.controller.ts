@@ -1,6 +1,6 @@
-import { instanceToPlain } from "class-transformer";
-import { Request, Response } from "express";
-import ProductService from "../service/product.service";
+import { instanceToPlain } from 'class-transformer';
+import { Request, Response } from 'express';
+import ProductService from '../service/product.service';
 
 class ProductController {
   static async create(req: Request, res: Response) {

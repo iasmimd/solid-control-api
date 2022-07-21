@@ -1,6 +1,6 @@
-import { instanceToPlain } from "class-transformer";
-import { Request, Response } from "express";
-import { SupplyService } from "../service/supply.service";
+import { instanceToPlain } from 'class-transformer';
+import { Request, Response } from 'express';
+import { SupplyService } from '../service/supply.service';
 
 class SupplyController {
   static async create(req: Request, res: Response) {
@@ -15,7 +15,7 @@ class SupplyController {
     const response = await SupplyService.list();
 
     return res.status(200).json(instanceToPlain(response));
-  };
+  }
 
   static async readOne(req: Request, res: Response) {
     const { supply_id } = req.params;
@@ -23,7 +23,7 @@ class SupplyController {
     const response = await SupplyService.readOne(supply_id);
 
     return res.status(200).json(instanceToPlain(response));
-  };
+  }
 
   static async update(req: Request, res: Response) {
     const { supply_id } = req.params;

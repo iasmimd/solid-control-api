@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import OrdersService from "../service/orders.service";
+import { Request, Response } from 'express';
+import OrdersService from '../service/orders.service';
 
 class OrdersController {
   static async create(req: Request, res: Response) {
@@ -34,7 +34,7 @@ class OrdersController {
 
     await OrdersService.updateOrder(id, status);
 
-    return res.status(204).json({ message: "Order updated with success" });
+    return res.status(204).json({ message: 'Order updated with success' });
   }
 
   static async delete(req: Request, res: Response) {
@@ -42,7 +42,7 @@ class OrdersController {
 
     await OrdersService.deleteOrder(id);
 
-    return res.status(204).json({ message: "Order deleted with success" });
+    return res.status(204).json({ message: 'Order deleted with success' });
   }
 }
 

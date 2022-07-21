@@ -1,16 +1,16 @@
-import { Request, Response, NextFunction } from "express";
-import { AppError } from "../errors/AppError";
-import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from 'express';
+import { AppError } from '../errors/AppError';
+import jwt from 'jsonwebtoken';
 
 const isAdmUserMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) {
-    throw new AppError(400, "No token found");
+    throw new AppError(400, 'No token found');
   }
 
   jwt.verify(
@@ -18,7 +18,7 @@ const isAdmUserMiddleware = (
     String(process.env.SECRET_KEY),
     (err: any, decoded: any) => {
       if (err) {
-        throw new AppError(401, "Invalid Token");
+        throw new AppError(401, 'Invalid Token');
       }
       req.user = {
         id: decoded.id,
@@ -26,7 +26,7 @@ const isAdmUserMiddleware = (
         isAdm: decoded.isAdm,
       };
       if (!decoded.isAdm) {
-        throw new AppError(401, "Access denied");
+        throw new AppError(401, 'Access denied');
       }
       next();
     }

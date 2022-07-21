@@ -4,12 +4,12 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { Supply } from "./supply.entity";
+} from 'typeorm';
+import { Supply } from './supply.entity';
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ length: 256 })
@@ -18,7 +18,7 @@ export class Product {
   @Column({ length: 256 })
   description: string;
 
-  @Column({ type: "decimal", precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
   @Column()
   img: string;

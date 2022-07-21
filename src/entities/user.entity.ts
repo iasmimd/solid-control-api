@@ -14,12 +14,12 @@ import { Cart } from './cart.entity';
 import { Ticket } from './ticket.entity';
 
 @Entity()
-@Unique(["email"])
+@Unique(['email'])
 class User {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('varchar', { length: 128, nullable: false, })
+  @Column('varchar', { length: 128, nullable: false })
   name: string;
 
   @Column('varchar', { length: 256, nullable: false })
@@ -43,20 +43,20 @@ class User {
 
   @Column('varchar', { length: 256 })
   complement: string;
-  
+
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column( { length: 2, nullable: false })
+  @Column({ length: 2, nullable: false })
   state: string;
 
   @Column()
   zip_code: string;
 
-  @Column( { length: 256, nullable: false })
+  @Column({ length: 256, nullable: false })
   city: string;
 
   @OneToOne(() => Cart, { eager: true })

@@ -1,7 +1,7 @@
-import { AppDataSource } from "../data-source";
-import { Providers } from "../entities/providers.entity";
-import { AppError } from "../errors/AppError";
-import { IProviderCreate, IProviderUpdate } from "../interfaces/provider";
+import { AppDataSource } from '../data-source';
+import { Providers } from '../entities/providers.entity';
+import { AppError } from '../errors/AppError';
+import { IProviderCreate, IProviderUpdate } from '../interfaces/provider';
 
 class ProviderService {
   static create = async ({
@@ -27,7 +27,7 @@ class ProviderService {
     );
 
     if (cnpjAlreadyExist) {
-      throw new AppError(409, "This CNPJ already exist");
+      throw new AppError(409, 'This CNPJ already exist');
     }
 
     const provider = new Providers();
@@ -66,7 +66,7 @@ class ProviderService {
     const provider = providers.find((provider) => provider.id === id);
 
     if (!provider) {
-      throw new AppError(404, "Provider not found");
+      throw new AppError(404, 'Provider not found');
     }
 
     return provider;
@@ -96,7 +96,7 @@ class ProviderService {
     const provider = providers.find((provider) => provider.id === id);
 
     if (!provider) {
-      throw new AppError(404, "Provider not found");
+      throw new AppError(404, 'Provider not found');
     }
 
     await userRepository.update(provider!.id, {
@@ -125,7 +125,7 @@ class ProviderService {
     const provider = providers.find((provider) => provider.id === id);
 
     if (!provider) {
-      throw new AppError(404, "Provider not found");
+      throw new AppError(404, 'Provider not found');
     }
 
     await userRepository.delete(provider!.id);

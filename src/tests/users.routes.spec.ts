@@ -1,36 +1,36 @@
-import { DataSource } from "typeorm";
-import app from "../app";
-import { AppDataSource } from "../data-source";
-import request from "supertest";
-import { IAdminUser, IUserCreate, IUserLogin } from "../interfaces/user";
+import { DataSource } from 'typeorm';
+import app from '../app';
+import { AppDataSource } from '../data-source';
+import request from 'supertest';
+import { IAdminUser, IUserCreate, IUserLogin } from '../interfaces/user';
 
 let testUser: IUserCreate = {
-  name: "gabriel",
-  email: "gabriel@teste.com",
-  street: "São Lara",
-  number: "1020",
-  complement: "casa",
-  state: "SP",
-  city: "BR",
-  zip_code: "13245788",
-  password: "12345",
+  name: 'gabriel',
+  email: 'gabriel@teste.com',
+  street: 'São Lara',
+  number: '1020',
+  complement: 'casa',
+  state: 'SP',
+  city: 'BR',
+  zip_code: '13245788',
+  password: '12345',
 };
 
-let loginUser:IUserLogin = {
-  email: "gabriel@teste.com",
-  password: "12345",
+let loginUser: IUserLogin = {
+  email: 'gabriel@teste.com',
+  password: '12345',
 };
 
 let testAdmin: IAdminUser = {
-  name: "gabriel",
-  email: "gabriel@teste.com",
-  password: "12345",
+  name: 'gabriel',
+  email: 'gabriel@teste.com',
+  password: '12345',
   isAdm: true,
 };
 
 let loginAdmin: IUserLogin = {
-  email: "gabriel@teste.com",
-  password: "12345",
+  email: 'gabriel@teste.com',
+  password: '12345',
 };
 
 describe('Teste para o método POST em /users', () => {
@@ -74,7 +74,7 @@ describe('Teste para o método POST em /users', () => {
   });
 });
 
-describe("Teste para o método GET, PATCH e DELETE em /users", () => {
+describe('Teste para o método GET, PATCH e DELETE em /users', () => {
   let connection: DataSource;
 
   beforeAll(async () => {
@@ -94,7 +94,9 @@ describe("Teste para o método GET, PATCH e DELETE em /users", () => {
   });
 
   it('Tentando listar todos usuários', async () => {
-    const registerAdm = await request(app).post("/admin/register").send(testAdmin)
+    const registerAdm = await request(app)
+      .post('/admin/register')
+      .send(testAdmin);
     const loginAdm = await request(app).post('/admin/login').send(loginAdmin);
     const { token } = loginAdm.body;
 
@@ -102,7 +104,7 @@ describe("Teste para o método GET, PATCH e DELETE em /users", () => {
       .get('/users')
       .set('Authorization', `Bearer ${token}`);
     expect(response.status).toEqual(200);
-    expect(Array.isArray(response.body)).toEqual(true)
+    expect(Array.isArray(response.body)).toEqual(true);
   });
 
   it('Tentando listar o próprio usuário usuário', async () => {
@@ -111,7 +113,7 @@ describe("Teste para o método GET, PATCH e DELETE em /users", () => {
     const response = await request(app)
       .get('/users/me')
       .set('Authorization', `Bearer ${token}`);
-  
+
     expect(response.status).toEqual(200);
     expect(response.body.id.length).toEqual(36);
   });
@@ -127,4 +129,3 @@ describe("Teste para o método GET, PATCH e DELETE em /users", () => {
     expect(response.body).toHaveProperty('message');
   });
 });
-

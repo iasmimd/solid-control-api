@@ -1,11 +1,11 @@
-import { AppDataSource } from "../data-source";
-import { AppError } from "../errors/AppError";
-import { User } from "../entities/user.entity";
-import { IUserCreate, IUserLogin } from "../interfaces/user";
-import bcrypt, { compare } from "bcrypt";
-import jwt from "jsonwebtoken";
-import "dotenv/config";
-import { Cart } from "../entities/cart.entity";
+import { AppDataSource } from '../data-source';
+import { AppError } from '../errors/AppError';
+import { User } from '../entities/user.entity';
+import { IUserCreate, IUserLogin } from '../interfaces/user';
+import bcrypt, { compare } from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
+import { Cart } from '../entities/cart.entity';
 
 class UsersServices {
   static async createUserService({
@@ -27,7 +27,7 @@ class UsersServices {
     const emailExists = users.find((el) => el.email === email);
 
     if (emailExists) {
-      throw new AppError(409, "E-mail already exists!");
+      throw new AppError(409, 'E-mail already exists!');
     }
 
     const cart = new Cart();
@@ -41,10 +41,10 @@ class UsersServices {
     newUser.email = email;
     newUser.number = number;
     newUser.street = street;
-    newUser.complement = complement || "";
+    newUser.complement = complement || '';
     newUser.state = state;
     newUser.city = city;
-    newUser.zip_code = zip_code ;
+    newUser.zip_code = zip_code;
     newUser.password = bcrypt.hashSync(password, 10);
     newUser.cart = cart;
 
@@ -63,19 +63,19 @@ class UsersServices {
     });
 
     if (!user) {
-      throw new AppError(403, "Invalid credentials");
+      throw new AppError(403, 'Invalid credentials');
     }
 
     if (!user.active) {
-      throw new AppError(401, "Inactive user");
+      throw new AppError(401, 'Inactive user');
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new AppError(403, "Invalid credentials");
+      throw new AppError(403, 'Invalid credentials');
     }
-    
+
     const token = jwt.sign(
       {
         id: user.id,
@@ -84,7 +84,7 @@ class UsersServices {
       },
       String(process.env.SECRET_KEY),
       {
-        expiresIn: "12h",
+        expiresIn: '12h',
       }
     );
 
@@ -93,11 +93,10 @@ class UsersServices {
 
   static async retrieveUserService(id: string) {
     const usersRepository = AppDataSource.getRepository(User);
-    const users = await usersRepository.findOne({where:{id}});
-   
+    const users = await usersRepository.findOne({ where: { id } });
 
     if (!users) {
-      throw new AppError(404, "User not found");
+      throw new AppError(404, 'User not found');
     }
     return users;
   }
@@ -108,7 +107,7 @@ class UsersServices {
     const userFound = users.find((el) => el.id === id);
 
     if (!userFound) {
-      throw new AppError(404, "User not found");
+      throw new AppError(404, 'User not found');
     }
 
     const user = await usersRepository.update(userFound!.id, data);
@@ -124,11 +123,11 @@ class UsersServices {
     const userFound = await usersRepository.findOneBy({ id: id });
 
     if (!userFound) {
-      throw new AppError(404, "User not found");
+      throw new AppError(404, 'User not found');
     }
 
     if (!userFound.active) {
-      throw new Error("Inactivated user");
+      throw new Error('Inactivated user');
     }
 
     userFound.active = false;

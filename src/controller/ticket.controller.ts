@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import TicketService from "../service/ticket.service";
+import { Request, Response } from 'express';
+import TicketService from '../service/ticket.service';
 
 class TicketController {
   static async create(req: Request, res: Response) {
@@ -21,7 +21,7 @@ class TicketController {
 
     const ticketUpdate = await TicketService.updateStatus(ticket_id, status);
 
-    return res.status(204).json({ message: "Status updated" });
+    return res.status(204).json({ message: 'Status updated' });
   }
 }
 

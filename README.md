@@ -46,7 +46,7 @@ Tecnologias usadas:
 - [UUID-validate](https://www.npmjs.com/package/uuid-validate)
 
 A URL base da aplicação:
-https://localhost:3000/
+https://solid-control-api.herokuapp.com/
 
 ---
 
